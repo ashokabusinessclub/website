@@ -109,35 +109,20 @@ export function AbrCard({ item }: { item: ContentEntry<AbrItem> }) {
 
 export function SponsorCard({ item }: { item: ContentEntry<Sponsor> }) {
   const content = (
-    <>
-      <div className="flex h-24 items-center justify-center border-b border-border bg-background px-6">
-        {item.data.logo ? (
-          <img
-            src={item.data.logo}
-            alt={`${item.data.name} logo`}
-            loading="lazy"
-            className="max-h-12 w-auto object-contain"
-          />
-        ) : (
-          <span className="font-display text-xl text-muted-foreground">
-            {item.data.name}
-          </span>
-        )}
-      </div>
-      <div className="p-6">
-        <h3 className="font-display text-lg">{item.data.name}</h3>
-        {item.data.year && (
-          <p className="mt-1 text-xs uppercase tracking-[0.18em] text-muted-foreground">
-            {item.data.year}
-          </p>
-        )}
-        {item.data.description && (
-          <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-            {item.data.description}
-          </p>
-        )}
-      </div>
-    </>
+    <div className="flex h-32 items-center justify-center bg-background px-6">
+      {item.data.logo ? (
+        <img
+          src={item.data.logo}
+          alt={`${item.data.name} logo`}
+          loading="lazy"
+          className="max-h-20 max-w-full object-contain"
+        />
+      ) : (
+        <span className="font-display text-lg text-muted-foreground">
+          {item.data.name}
+        </span>
+      )}
+    </div>
   );
 
   const className =
