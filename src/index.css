@@ -1,0 +1,86 @@
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700;9..144,900&family=Work+Sans:wght@300;400;500;600;700&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Ashoka Business Club — ink, parchment, crimson & brass */
+  --background: 40 33% 96%;
+  --foreground: 24 14% 10%;
+
+  --card: 40 40% 99%;
+  --card-foreground: 24 14% 10%;
+
+  --popover: 40 40% 99%;
+  --popover-foreground: 24 14% 10%;
+
+  --primary: 352 62% 30%;
+  --primary-foreground: 40 40% 97%;
+
+  --secondary: 38 30% 90%;
+  --secondary-foreground: 24 14% 12%;
+
+  --muted: 38 25% 92%;
+  --muted-foreground: 26 8% 40%;
+
+  --accent: 38 45% 56%;
+  --accent-foreground: 24 20% 10%;
+
+  --destructive: 0 72% 42%;
+  --destructive-foreground: 40 40% 97%;
+
+  --border: 32 18% 84%;
+  --input: 32 18% 84%;
+  --ring: 352 62% 30%;
+
+  --ink: 24 16% 9%;
+  --brass: 38 45% 56%;
+  --crimson: 352 62% 30%;
+
+  --radius: 0.25rem;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Work Sans', system-ui, sans-serif;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: 'Fraunces', Georgia, serif;
+    @apply font-semibold tracking-tight text-foreground;
+  }
+}
+
+@layer components {
+  .container-abc {
+    @apply mx-auto w-full max-w-6xl px-6 lg:px-8;
+  }
+
+  .eyebrow {
+    @apply text-xs font-semibold uppercase tracking-[0.22em] text-primary;
+  }
+
+  .rule-brass {
+    @apply h-px w-full bg-gradient-to-r from-accent/70 via-border to-transparent;
+  }
+
+  .link-underline {
+    @apply relative inline-block after:absolute after:bottom-0 after:left-0 after:h-px after:w-0 after:bg-current after:transition-all hover:after:w-full;
+  }
+
+  .paper-grid {
+    background-image:
+      linear-gradient(to right, hsl(var(--border) / 0.5) 1px, transparent 1px),
+      linear-gradient(to bottom, hsl(var(--border) / 0.5) 1px, transparent 1px);
+    background-size: 64px 64px;
+  }
+}
