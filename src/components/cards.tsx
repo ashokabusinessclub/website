@@ -108,14 +108,16 @@ export function AbrCard({ item }: { item: ContentEntry<AbrItem> }) {
 }
 
 export function SponsorCard({ item }: { item: ContentEntry<Sponsor> }) {
+  const className = "group block transition-opacity hover:opacity-75";
+
   const content = (
-    <div className="flex h-32 items-center justify-center bg-background px-6">
+    <div className="flex h-32 items-center justify-center px-6">
       {item.data.logo ? (
         <img
           src={item.data.logo}
           alt={`${item.data.name} logo`}
           loading="lazy"
-          className="max-h-20 max-w-full object-contain"
+          className="max-h-24 max-w-full object-contain"
         />
       ) : (
         <span className="font-display text-lg text-muted-foreground">
@@ -124,9 +126,6 @@ export function SponsorCard({ item }: { item: ContentEntry<Sponsor> }) {
       )}
     </div>
   );
-
-  const className =
-    "block border border-border bg-card transition-colors hover:border-primary";
 
   return item.data.website ? (
     <a
