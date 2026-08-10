@@ -71,3 +71,11 @@ Yes, you can!
 To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
 
 Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+
+# Contributors
+
+<a href="https://github.com/ashokabusinessclub/website/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=ashokabusinessclub/website" />
+</a>
+
+Made with [contrib.rocks](https://contrib.rocks).
