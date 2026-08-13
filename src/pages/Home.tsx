@@ -32,11 +32,7 @@ export default function Home() {
           <div className="grid items-center gap-16 lg:grid-cols-[1.1fr_0.9fr] lg:gap-12">
             {/* Left: Copy */}
             <Reveal y={28}>
-              <div className="flex items-center gap-4">
-                <span className="rule-brass w-12" aria-hidden="true" />
-                <p className="eyebrow">Ashoka University · Student Body</p>
-              </div>
-              <h1 className="mt-7 text-balance font-display text-5xl leading-[1.02] md:text-6xl xl:text-7xl">
+              <h1 className="text-balance font-display text-5xl leading-[1.02] md:text-6xl xl:text-7xl">
                 Where business is{" "}
                 <em className="text-primary not-italic">studied, debated and built.</em>
               </h1>
