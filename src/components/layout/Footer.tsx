@@ -1,11 +1,36 @@
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { navLinks } from "./Navbar";
 
 export function Footer() {
+  const [isVisible, setIsVisible] = useState(false);
+  const ref = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsVisible(true);
+          }
+        });
+      },
+      { threshold: 0.1, rootMargin: "0px 0px -50px 0px" }
+    );
+
+    if (ref.current) observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <footer className="mt-24 border-t border-border bg-ink text-background">
+    <footer
+      ref={ref}
+      className="mt-24 border-t border-border bg-ink text-background"
+    >
       <div className="container-abc grid gap-12 py-16 md:grid-cols-3">
-        <div>
+        <div
+          className={`reveal-up transition-base ${isVisible ? "is-visible" : ""}`}
+        >
           <p className="font-display text-3xl font-black tracking-tight">ABC</p>
           <p className="mt-2 text-xs uppercase tracking-[0.28em] text-background/60">
             Ashoka Business Club
@@ -16,7 +41,10 @@ export function Footer() {
           </p>
         </div>
 
-        <div>
+        <div
+          className={`reveal-up transition-base ${isVisible ? "is-visible" : ""}`}
+          style={{ transitionDelay: "80ms" }}
+        >
           <p className="text-xs font-semibold uppercase tracking-[0.22em] text-brass">
             Explore
           </p>
@@ -25,7 +53,7 @@ export function Footer() {
               <li key={l.to}>
                 <Link
                   to={l.to}
-                  className="text-sm text-background/75 transition-colors hover:text-brass"
+                  className="text-sm text-background/75 transition-fast hover:text-brass"
                 >
                   {l.label}
                 </Link>
@@ -34,7 +62,10 @@ export function Footer() {
           </ul>
         </div>
 
-        <div>
+        <div
+          className={`reveal-up transition-base ${isVisible ? "is-visible" : ""}`}
+          style={{ transitionDelay: "160ms" }}
+        >
           <p className="text-xs font-semibold uppercase tracking-[0.22em] text-brass">
             Reach us
           </p>
@@ -46,7 +77,9 @@ export function Footer() {
         </div>
       </div>
 
-      <div className="border-t border-background/10 py-6">
+      <div
+        className={`border-t border-background/10 py-6 ${isVisible ? "animate-entry-fast" : ""}`}
+      >
         <div className="container-abc flex flex-col gap-2 text-xs text-background/50 sm:flex-row sm:items-center sm:justify-between">
           <span>© {new Date().getFullYear()} Ashoka Business Club</span>
           <span>Built by students, for students.</span>
