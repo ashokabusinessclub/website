@@ -18,55 +18,66 @@ export default function Home() {
 
   return (
     <>
-      {/* Hero — Asymmetric Split */}
-      <section className="relative overflow-hidden border-b border-border bg-ink text-background pt-20 pb-28 md:pt-24 md:pb-36">
-        <div className="absolute inset-0 opacity-[0.07] paper-grid" aria-hidden="true" />
+      {/* Hero — Editorial */}
+      <section className="relative overflow-hidden border-b border-border bg-background pt-24 pb-28 md:pt-28 md:pb-36">
+        <div className="absolute inset-0 paper-grid" aria-hidden="true" />
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute -top-8 right-0 select-none font-display text-[38vw] font-black leading-none tracking-tight text-ink/[0.04] lg:text-[26rem]"
+        >
+          ABC
+        </div>
+
         <div className="container-abc relative">
-          <div className="grid gap-16 lg:grid-cols-2 lg:gap-12 items-start">
+          <div className="grid items-center gap-16 lg:grid-cols-[1.1fr_0.9fr] lg:gap-12">
             {/* Left: Copy */}
-            <Reveal y={32}>
-              <p className="text-xs font-semibold uppercase tracking-[0.28em] text-brass">
-                Ashoka University · Student Body
-              </p>
-              <h1 className="mt-6 font-display text-5xl leading-[1.02] text-background md:text-7xl">
-                Where business is
-                <span className="block text-brass">studied, debated and built.</span>
+            <Reveal y={28}>
+              <div className="flex items-center gap-4">
+                <span className="rule-brass w-12" aria-hidden="true" />
+                <p className="eyebrow">Ashoka University · Student Body</p>
+              </div>
+              <h1 className="mt-7 text-balance font-display text-5xl leading-[1.02] md:text-6xl xl:text-7xl">
+                Where business is{" "}
+                <em className="text-primary not-italic">studied, debated and built.</em>
               </h1>
-              <p className="mt-8 max-w-xl text-lg leading-relaxed text-background/70">
+              <p className="mt-8 max-w-xl text-lg leading-relaxed text-muted-foreground">
                 The Ashoka Business Club is a student-run community bringing together
                 research, industry dialogue and hands-on experience — through our
                 departments, the Ashoka Business Review, and flagship campus events.
               </p>
               <div className="mt-10 flex flex-wrap gap-4">
-                <Button
-                  asChild
-                  iconRight={<ArrowRight className="h-4 w-4" />}
-                  size="lg"
-                >
-                  <Link to="/what-awaits-you">
-                    What awaits you
-                  </Link>
+                <Button asChild iconRight={<ArrowRight className="h-4 w-4" />} size="lg">
+                  <Link to="/what-awaits-you">What awaits you</Link>
+                </Button>
+                <Button variant="outline" asChild size="lg">
+                  <Link to="/departments">Explore departments</Link>
                 </Button>
               </div>
             </Reveal>
 
-            {/* Right: Visual / Stats Preview */}
-            <div className="hidden lg:block">
-              <StaggerGroup className="space-y-6">
-                {stats.map((s) => (
-                  <StaggerItem key={s.v}>
-                    <div className="bezel-outer p-6">
-                      <div className="bezel-inner p-6 text-center">
-                        <p className="font-display text-4xl text-primary">{s.k}</p>
-                        <p className="mt-2 text-xs uppercase tracking-[0.18em] text-muted-foreground">
+            {/* Right: At a glance */}
+            <Reveal y={28} delay={0.1}>
+              <div className="bezel-outer">
+                <div className="bezel-inner px-8 py-10 md:p-12">
+                  <div className="flex items-center gap-4">
+                    <span className="rule-brass w-10" aria-hidden="true" />
+                    <p className="eyebrow">The club in numbers</p>
+                  </div>
+                  <dl className="mt-10 grid grid-cols-3 gap-8">
+                    {stats.map((s) => (
+                      <div key={s.v} className="border-t border-border pt-5">
+                        <dd className="font-display text-5xl font-black tracking-tight text-ink">
+                          {s.k}
+                        </dd>
+                        <dt className="mt-2 text-[0.7rem] font-semibold uppercase tracking-[0.16em] text-muted-foreground">
                           {s.v}
-                        </p>
+                        </dt>
                       </div>
-                    </div>
-                  </StaggerItem>
-                ))}
-              </StaggerGroup>
-            </div>
+                    ))}
+                  </dl>
+                </div>
+              </div>
+            </Reveal>
           </div>
 
           {/* Scroll indicator */}
@@ -77,7 +88,7 @@ export default function Home() {
               animate={{ y: [0, 8, 0] }}
               transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
             >
-              <ChevronDown className="h-6 w-6 text-background/30" />
+              <ChevronDown className="h-6 w-6 text-foreground/30" />
             </motion.div>
           )}
         </div>
@@ -86,6 +97,7 @@ export default function Home() {
       {/* Departments */}
       <Section
         id="departments"
+        eyebrow="The teams"
         title="Six teams, one club"
         href="/departments"
         cta="All departments"
@@ -102,6 +114,7 @@ export default function Home() {
       {/* Events */}
       <Section
         id="events"
+        eyebrow="Flagships & sessions"
         title="What we put on campus"
         href="/events"
         cta="All events"
@@ -118,6 +131,7 @@ export default function Home() {
       {/* ABR */}
       <Section
         id="abr"
+        eyebrow="The writing desk"
         title="Publications & Monocles"
         href="/abr"
         cta="Read more"
@@ -163,12 +177,14 @@ export default function Home() {
 
 function Section({
   id,
+  eyebrow,
   title,
   href,
   cta,
   children,
 }: {
   id: string;
+  eyebrow?: string;
   title: string;
   href: string;
   cta: string;
@@ -178,7 +194,17 @@ function Section({
     <section id={id} className="container-abc py-24 md:py-32">
       <Reveal>
         <div className="mb-14 flex flex-wrap items-end justify-between gap-4">
-          <h2 className="font-display text-3xl md:text-4xl">{title}</h2>
+          <div>
+            {eyebrow && (
+              <div className="flex items-center gap-4">
+                <span className="rule-brass w-10" aria-hidden="true" />
+                <p className="eyebrow">{eyebrow}</p>
+              </div>
+            )}
+            <h2 className={`${eyebrow ? "mt-4" : ""} font-display text-3xl md:text-4xl`}>
+              {title}
+            </h2>
+          </div>
           <Link
             to={href}
             className="inline-flex items-center gap-2 text-sm font-medium text-primary link-underline transition-fast"

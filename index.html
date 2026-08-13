@@ -3,6 +3,21 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script>
+      (function () {
+        try {
+          var stored = localStorage.getItem("abc-theme");
+          var dark = stored
+            ? stored === "dark"
+            : window.matchMedia("(prefers-color-scheme: dark)").matches;
+          var root = document.documentElement;
+          root.classList.toggle("dark", dark);
+          root.style.colorScheme = dark ? "dark" : "light";
+        } catch (e) {}
+      })();
+    </script>
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f8f6f1" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#171310" />
     <title>Ashoka Business Club | Research, Events & the Business Review</title>
     <meta name="description" content="The Ashoka Business Club is a student-run body at Ashoka University — departments, the Ashoka Business Review, flagship events and industry partnerships." />
     <link rel="canonical" href="/" />

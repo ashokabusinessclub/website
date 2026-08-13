@@ -4,6 +4,8 @@
 @tailwind utilities;
 
 :root {
+  color-scheme: light;
+
   /* Ashoka Business Club — ink, parchment, crimson & brass */
   --background: 40 33% 96%;
   --foreground: 24 14% 10%;
@@ -63,6 +65,8 @@
 }
 
 .dark {
+  color-scheme: dark;
+
   --background: 24 14% 8%;
   --foreground: 40 33% 96%;
 
@@ -145,8 +149,8 @@
 
   .paper-grid {
     background-image:
-      linear-gradient(to right, hsl(var(--border) / 0.5) 1px, transparent 1px),
-      linear-gradient(to bottom, hsl(var(--border) / 0.5) 1px, transparent 1px);
+      linear-gradient(to right, hsl(var(--foreground) / 0.06) 1px, transparent 1px),
+      linear-gradient(to bottom, hsl(var(--foreground) / 0.06) 1px, transparent 1px);
     background-size: 64px 64px;
   }
 
@@ -298,6 +302,29 @@
 
   .btn-ghost .icon-wrapper {
     background: hsl(var(--foreground) / 0.05);
+  }
+
+  /* ============================================
+     THEME TRANSITION
+     ============================================ */
+
+  /* Fallback crossfade for engines without the View Transitions API:
+     added to <html> for ~420ms while the theme class flips. */
+  html.theme-anim,
+  html.theme-anim *,
+  html.theme-anim *::before,
+  html.theme-anim *::after {
+    transition-property: background-color, color, border-color, outline-color, fill, stroke, box-shadow !important;
+    transition-duration: 400ms !important;
+    transition-timing-function: var(--ease-out) !important;
+    transition-delay: 0ms !important;
+  }
+
+  /* Snappy, cohesive crossfade when Chromium's View Transitions API runs */
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: 300ms;
+    animation-timing-function: var(--ease-out);
   }
 
   /* ============================================

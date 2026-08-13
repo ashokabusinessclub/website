@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { NavLink, Link } from "react-router-dom";
+import { Moon, Sun } from "lucide-react";
 import { AnimatePresence, motion, useReducedMotion, type Variants } from "motion/react";
+import { useTheme } from "@/hooks/use-theme";
 
 export const navLinks = [
   { to: "/about", label: "About Us" },
@@ -15,6 +17,8 @@ export const navLinks = [
 export function Navbar() {
   const [open, setOpen] = useState(false);
   const reduceMotion = useReducedMotion();
+  const { theme, toggle } = useTheme();
+  const dark = theme === "dark";
 
   const linkClass = ({ isActive }: { isActive: boolean }) =>
     `whitespace-nowrap px-3 py-1.5 rounded-full transition-fast ${
@@ -97,6 +101,28 @@ export function Navbar() {
               <span className="hamburger-line" aria-hidden="true" />
               <span className="hamburger-line" aria-hidden="true" />
               <span className="hamburger-line" aria-hidden="true" />
+            </button>
+
+            {/* Theme Toggle */}
+            <button
+              type="button"
+              onClick={toggle}
+              aria-label={dark ? "Switch to light mode" : "Switch to dark mode"}
+              className="flex h-10 w-10 items-center justify-center rounded-full text-foreground/70 transition-fast hover:bg-foreground/[0.06] hover:text-foreground"
+            >
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.span
+                  key={theme}
+                  initial={reduceMotion ? false : { opacity: 0, rotate: -90, scale: 0.5 }}
+                  animate={{ opacity: 1, rotate: 0, scale: 1 }}
+                  exit={reduceMotion ? undefined : { opacity: 0, rotate: 90, scale: 0.5 }}
+                  transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+                  className="block"
+                  aria-hidden="true"
+                >
+                  {dark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+                </motion.span>
+              </AnimatePresence>
             </button>
           </div>
         </nav>
