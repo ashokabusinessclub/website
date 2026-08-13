@@ -29,7 +29,7 @@ export default function About() {
         intro="The Ashoka Business Club (ABC) is a student-run body at Ashoka University. We exist to make commercial thinking accessible, rigorous and genuinely interesting to students from every discipline."
       />
 
-      <section className="container-abc py-24 md:py-32 grid gap-14 md:grid-cols-2">
+      <section className="container-abc py-20 md:py-28 grid gap-14 md:grid-cols-2">
         <Reveal y={28}>
           <h2 className="font-display text-3xl md:text-4xl">
             A campus where every student can read the business world fluently.
@@ -46,17 +46,17 @@ export default function About() {
             Research, dialogue and experience — every semester.
           </h2>
           <ul className="mt-5 space-y-4 text-muted-foreground">
-            <li className="border-l-2 border-accent pl-4">
+            <li className="border-l border-accent/70 pl-4">
               Publish student research and commentary through the Ashoka Business
               Review.
             </li>
-            <li className="border-l-2 border-accent pl-4">
+            <li className="border-l border-accent/70 pl-4">
               Bring practitioners to campus through speaker sessions and panels.
             </li>
-            <li className="border-l-2 border-accent pl-4">
+            <li className="border-l border-accent/70 pl-4">
               Run competitions and flagship events that put theory under pressure.
             </li>
-            <li className="border-l-2 border-accent pl-4">
+            <li className="border-l border-accent/70 pl-4">
               Build a network between students, alumni and partner organisations.
             </li>
           </ul>
@@ -64,17 +64,21 @@ export default function About() {
       </section>
 
       <section className="border-y border-border bg-secondary/40">
-        <div className="container-abc py-24 md:py-32">
+        <div className="container-abc py-20 md:py-28">
           <StaggerGroup className="grid gap-6 sm:grid-cols-2">
-            {pillars.map((p) => (
+            {pillars.map((p, i) => (
               <StaggerItem key={p.title}>
-                <div className="bezel-outer p-8">
-                  <div className="bezel-inner p-8">
-                    <h3 className="font-display text-2xl">{p.title}</h3>
-                    <p className="mt-3 leading-relaxed text-muted-foreground">
-                      {p.body}
-                    </p>
+                <div className="card-lift h-full p-8">
+                  <div className="flex items-center gap-4">
+                    <span className="font-display text-sm italic text-brass">
+                      No. {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <span className="h-px flex-1 bg-gradient-to-r from-brass/60 to-transparent" />
                   </div>
+                  <h3 className="mt-4 font-display text-2xl">{p.title}</h3>
+                  <p className="mt-3 leading-relaxed text-muted-foreground">
+                    {p.body}
+                  </p>
                 </div>
               </StaggerItem>
             ))}
@@ -82,7 +86,7 @@ export default function About() {
         </div>
       </section>
 
-      <section className="container-abc py-24 md:py-32">
+      <section className="container-abc py-20 md:py-28">
         <Reveal y={28}>
           <div className="max-w-3xl">
             <h2 className="font-display text-3xl md:text-4xl">

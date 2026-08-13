@@ -8,9 +8,9 @@ const THEME_COLORS: Record<Theme, string> = {
   dark: "#171310",
 };
 
-interface TransitionableDocument extends Document {
+type ViewTransitionDocument = {
   startViewTransition?: (update: () => void) => unknown;
-}
+};
 
 function getInitialTheme(): Theme {
   if (typeof window === "undefined") return "light";
@@ -27,7 +27,7 @@ function applyTheme(theme: Theme, animate: boolean) {
   const root = document.documentElement;
   const dark = theme === "dark";
   const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const api = document as TransitionableDocument;
+  const api = document as unknown as ViewTransitionDocument;
 
   const update = () => {
     root.classList.toggle("dark", dark);

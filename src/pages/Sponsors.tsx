@@ -13,7 +13,7 @@ export default function Sponsors() {
         intro="Sponsors and partners who have supported ABC events, publications and competitions over the years."
       />
 
-      <section className="container-abc py-24 md:py-32">
+      <section className="container-abc py-20 md:py-28">
         {sponsors.length === 0 ? (
           <Reveal>
             <div className="mx-auto max-w-xl text-center">

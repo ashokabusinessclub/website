@@ -48,17 +48,15 @@ export default function DepartmentDetail() {
         <aside className="space-y-10">
           <Reveal y={20} delay={0.1}>
             {dept.data.responsibilities?.length ? (
-              <div className="bezel-outer p-7">
-                <div className="bezel-inner p-7">
-                  <p className="eyebrow">Responsibilities</p>
-                  <ul className="mt-4 space-y-3 text-sm leading-relaxed text-muted-foreground">
-                    {dept.data.responsibilities.map((r) => (
-                      <li key={r} className="border-l-2 border-accent pl-3">
-                        {r}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
+              <div className="card-lift p-7">
+                <p className="eyebrow">Responsibilities</p>
+                <ul className="mt-4 space-y-3 text-sm leading-relaxed text-muted-foreground">
+                  {dept.data.responsibilities.map((r) => (
+                    <li key={r} className="border-l border-accent/70 pl-3">
+                      {r}
+                    </li>
+                  ))}
+                </ul>
               </div>
             ) : null}
           </Reveal>

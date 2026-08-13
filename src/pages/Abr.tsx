@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { PageHeader } from "@/components/PageHeader";
 import { AbrCard } from "@/components/cards";
+import { FilterTabs } from "@/components/filter-tabs";
 import { abrItems, abrTypes } from "@/lib/content";
 import { Reveal, StaggerGroup, StaggerItem } from "@/components/reveal";
 
@@ -22,29 +23,18 @@ export default function Abr() {
         intro="Long-form publications, short-form Monocles and everything in between. Written, edited and illustrated entirely by students."
       />
 
-      <section className="container-abc pb-12">
+      <section className="container-abc pt-10">
         <Reveal y={16}>
-          <div className="flex flex-wrap gap-2" role="group" aria-label="ABR types">
-            {filters.map((t) => (
-              <button
-                key={t}
-                type="button"
-                aria-pressed={filter === t}
-                onClick={() => setFilter(t)}
-                className={`px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em] transition-base ${
-                  filter === t
-                    ? "rounded-full bg-primary text-primary-foreground"
-                    : "rounded-full border border-border text-muted-foreground hover:border-primary hover:text-primary"
-                }`}
-              >
-                {t}
-              </button>
-            ))}
-          </div>
+          <FilterTabs
+            options={filters}
+            value={filter}
+            onChange={setFilter}
+            ariaLabel="ABR types"
+          />
         </Reveal>
       </section>
 
-      <section className="container-abc py-24 md:py-32">
+      <section className="container-abc py-20 md:py-28">
         {visible.length === 0 ? (
           <Reveal>
             <p className="text-center text-muted-foreground">No ABR content published in this category yet.</p>

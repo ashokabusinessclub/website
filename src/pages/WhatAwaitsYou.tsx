@@ -68,18 +68,16 @@ export default function WhatAwaitsYou() {
         intro="Membership in ABC is an apprenticeship in how business actually gets discussed, written about and executed — alongside people who take it seriously."
       />
 
-      <section className="container-abc py-24 md:py-32">
+      <section className="container-abc py-20 md:py-28">
         <StaggerGroup className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {opportunities.map((o) => (
             <StaggerItem key={o.title}>
-              <div className="bezel-outer p-8">
-                <div className="bezel-inner p-8">
-                  <o.icon className="h-6 w-6 text-accent" />
-                  <h3 className="mt-5 font-display text-xl">{o.title}</h3>
-                  <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                    {o.body}
-                  </p>
-                </div>
+              <div className="card-lift h-full p-8">
+                <o.icon className="h-6 w-6 text-accent" />
+                <h3 className="mt-5 font-display text-xl">{o.title}</h3>
+                <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                  {o.body}
+                </p>
               </div>
             </StaggerItem>
           ))}
@@ -87,7 +85,7 @@ export default function WhatAwaitsYou() {
       </section>
 
       <section className="border-y border-border bg-secondary/40">
-        <div className="container-abc grid gap-14 py-24 md:py-32 md:grid-cols-2">
+        <div className="container-abc grid gap-14 py-20 md:py-28 md:grid-cols-2">
           <Reveal y={28}>
             <h2 className="font-display text-3xl md:text-4xl">
               Skills you'll actually use after graduation.
@@ -96,7 +94,7 @@ export default function WhatAwaitsYou() {
               {outcomes.map((o) => (
                 <li
                   key={o}
-                  className="border-l-2 border-accent pl-4 text-muted-foreground"
+                  className="border-l border-accent/70 pl-4 text-muted-foreground"
                 >
                   {o}
                 </li>
@@ -118,18 +116,16 @@ export default function WhatAwaitsYou() {
         </div>
       </section>
 
-      <section className="container-abc py-24 md:py-32">
+      <section className="container-abc py-20 md:py-28">
         <StaggerGroup className="grid gap-6 md:grid-cols-3">
           {steps.map(([n, t, b]) => (
             <StaggerItem key={n}>
-              <div className="bezel-outer p-8">
-                <div className="bezel-inner p-8">
-                  <span className="font-display text-4xl text-accent">{n}</span>
-                  <h3 className="mt-4 font-display text-xl">{t}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                    {b}
-                  </p>
-                </div>
+              <div className="card-lift h-full p-8">
+                <span className="font-display text-4xl italic text-accent">{n}</span>
+                <h3 className="mt-4 font-display text-xl">{t}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                  {b}
+                </p>
               </div>
             </StaggerItem>
           ))}

@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import { PageHeader } from "@/components/PageHeader";
 import { EventCard } from "@/components/cards";
+import { FilterTabs } from "@/components/filter-tabs";
 import { events, eventCategories } from "@/lib/content";
 import { Reveal, StaggerGroup, StaggerItem } from "@/components/reveal";
 
@@ -20,37 +21,22 @@ export default function Events() {
         intro="From House of Cards to speaker sessions and the ABR launch — a record of what the club has staged on campus."
       />
 
-      {/* Filter Pills */}
+      {/* Filter Tabs */}
       {filters.length > 1 && (
-        <section className="container-abc pb-12">
+        <section className="container-abc pt-10">
           <Reveal y={16}>
-            <div
-              className="flex flex-wrap gap-2"
-              role="group"
-              aria-label="Event categories"
-            >
-              {filters.map((c) => (
-                <button
-                  key={c}
-                  type="button"
-                  aria-pressed={filter === c}
-                  onClick={() => setFilter(c)}
-                  className={`px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em] transition-base ${
-                    filter === c
-                      ? "rounded-full bg-primary text-primary-foreground"
-                      : "rounded-full border border-border text-muted-foreground hover:border-primary hover:text-primary"
-                  }`}
-                >
-                  {c}
-                </button>
-              ))}
-            </div>
+            <FilterTabs
+              options={filters}
+              value={filter}
+              onChange={setFilter}
+              ariaLabel="Event categories"
+            />
           </Reveal>
         </section>
       )}
 
       {/* Events Grid */}
-      <section className="container-abc py-24 md:py-32">
+      <section className="container-abc py-20 md:py-28">
         {visible.length === 0 ? (
           <Reveal>
             <p className="text-center text-muted-foreground">No events published yet.</p>

@@ -53,11 +53,11 @@ export default function EventDetail() {
       {event.data.cover && (
         <div className="container-abc pt-12">
           <Reveal y={28}>
-            <div className="bezel-outer aspect-video max-h-[520px]">
+            <div className="card-lift aspect-video max-h-[520px] overflow-hidden">
               <img
                 src={event.data.cover}
                 alt={event.data.title}
-                className="bezel-inner aspect-video w-full object-cover"
+                className="aspect-video w-full object-cover"
               />
             </div>
           </Reveal>
@@ -67,7 +67,7 @@ export default function EventDetail() {
       <div className="container-abc max-w-3xl py-16">
         <Reveal y={20}>
           {event.data.description && (
-            <p className="mb-8 border-l-2 border-accent pl-5 text-lg leading-relaxed text-muted-foreground">
+            <p className="mb-8 border-l border-accent/70 pl-5 text-lg leading-relaxed text-muted-foreground">
               {event.data.description}
             </p>
           )}

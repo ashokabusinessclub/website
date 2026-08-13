@@ -39,11 +39,11 @@ export default function AbrDetail() {
       {item.data.cover && (
         <div className="container-abc pt-12">
           <Reveal y={28}>
-            <div className="bezel-outer aspect-video max-h-[480px]">
+            <div className="card-lift aspect-video max-h-[480px] overflow-hidden">
               <img
                 src={item.data.cover}
                 alt={item.data.title}
-                className="bezel-inner aspect-video w-full object-cover"
+                className="aspect-video w-full object-cover"
               />
             </div>
           </Reveal>

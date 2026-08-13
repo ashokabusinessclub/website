@@ -21,10 +21,10 @@ export function Navbar() {
   const dark = theme === "dark";
 
   const linkClass = ({ isActive }: { isActive: boolean }) =>
-    `whitespace-nowrap px-3 py-1.5 rounded-full transition-fast ${
+    `nav-tab relative whitespace-nowrap px-4 py-2 text-sm font-medium transition-fast ${
       isActive
-        ? "bg-primary text-primary-foreground font-semibold"
-        : "text-foreground/70 hover:text-foreground hover:bg-foreground/[0.06]"
+        ? "is-active text-foreground"
+        : "text-foreground/65 hover:text-foreground"
     }`;
 
   const menuVariants: Variants = {
@@ -85,7 +85,18 @@ export function Navbar() {
                   to={l.to}
                   className={({ isActive }) => linkClass({ isActive })}
                 >
-                  {l.label}
+                  {({ isActive }) => (
+                    <>
+                      {l.label}
+                      {isActive && (
+                        <motion.span
+                          layoutId="nav-underline"
+                          className="pointer-events-none absolute inset-x-4 bottom-1 h-[2px] rounded-full bg-primary"
+                          transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+                        />
+                      )}
+                    </>
+                  )}
                 </NavLink>
               ))}
             </div>

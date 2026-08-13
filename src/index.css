@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700;9..144,900&family=Work+Sans:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,400;1,9..144,600;1,9..144,700&family=Work+Sans:wght@300;400;500;600;700&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -249,6 +249,30 @@
   }
 
   /* ============================================
+     FLAT CARD UTILITY — the default card
+     ============================================
+     Single hairline border + ambient shadow. The double-bezel
+     above is reserved for focal panels only (hero, closing CTAs).
+     Hover lift applies to interactive cards (a / button) only,
+     so non-clickable panels sit still. */
+
+  .card-lift {
+    @apply relative rounded-2xl border border-border bg-card;
+    box-shadow: var(--shadow-ambient);
+    transition:
+      transform var(--dur-base) var(--ease-out),
+      border-color var(--dur-base) var(--ease-out),
+      box-shadow var(--dur-base) var(--ease-out);
+  }
+
+  a.card-lift:hover,
+  button.card-lift:hover {
+    transform: translateY(-4px);
+    border-color: hsl(var(--brass) / 0.6);
+    box-shadow: var(--shadow-elevated);
+  }
+
+  /* ============================================
      MAGNETIC BUTTON UTILITIES
      ============================================ */
 
@@ -325,6 +349,52 @@
   ::view-transition-new(root) {
     animation-duration: 300ms;
     animation-timing-function: var(--ease-out);
+  }
+
+  /* ============================================
+     TAB UNDERLINES — animated line under tabs
+     ============================================
+     Both show a line growing from center on hover; the
+     active tab gets a persistent line (rendered with a
+     Motion layoutId span so it slides between tabs). */
+
+  .nav-tab,
+  .tab-underline {
+    position: relative;
+  }
+
+  .nav-tab::after,
+  .tab-underline::after {
+    content: "";
+    position: absolute;
+    height: 2px;
+    border-radius: 9999px;
+    background: hsl(var(--brass) / 0.75);
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: transform var(--dur-base) var(--ease-out);
+  }
+
+  .nav-tab::after {
+    left: 1rem;
+    right: 1rem;
+    bottom: 4px;
+  }
+
+  .tab-underline::after {
+    left: 4px;
+    right: 4px;
+    bottom: 0;
+  }
+
+  .nav-tab:hover::after,
+  .tab-underline:hover::after {
+    transform: scaleX(1);
+  }
+
+  .nav-tab.is-active::after,
+  .tab-underline.is-active::after {
+    display: none;
   }
 
   /* ============================================

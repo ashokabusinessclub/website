@@ -11,7 +11,7 @@ export default function Departments() {
         intro="Each department owns a distinct mandate — from research and editorial to partnerships, events and design. Open one to see its responsibilities and the work it delivers each semester."
       />
 
-      <section className="container-abc py-24 md:py-32">
+      <section className="container-abc py-20 md:py-28">
         {departments.length === 0 ? (
           <Reveal>
             <p className="text-center text-muted-foreground">

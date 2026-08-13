@@ -31,47 +31,43 @@ export default function Contact() {
         intro="Questions about membership, sponsorship, speaking or the Business Review — here's where to reach us."
       />
 
-      <section className="container-abc grid gap-14 py-24 md:py-32 md:grid-cols-2">
+      <section className="container-abc grid gap-14 py-20 md:py-28 md:grid-cols-2">
         <Reveal y={28}>
           <StaggerGroup className="space-y-4">
             {channels.map((c) => (
               <StaggerItem key={c.label}>
-                <div className="bezel-outer">
-                  <a
-                    href={c.href}
-                    target={c.href.startsWith("http") ? "_blank" : undefined}
-                    rel="noreferrer noopener"
-                    className="bezel-inner flex items-center gap-4 p-6 transition-base hover:border-accent"
-                  >
-                    <c.icon className="h-5 w-5 text-accent shrink-0" />
-                    <span>
-                      <span className="block text-xs uppercase tracking-[0.18em] text-muted-foreground">
-                        {c.label}
-                      </span>
-                      <span className="mt-1 block font-medium">{c.value}</span>
+                <a
+                  href={c.href}
+                  target={c.href.startsWith("http") ? "_blank" : undefined}
+                  rel="noreferrer noopener"
+                  className="card-lift group flex items-center gap-4 p-6 transition-fast"
+                >
+                  <c.icon className="h-5 w-5 text-accent shrink-0 transition-transform duration-[var(--dur-base)] ease-[var(--ease-out)] group-hover:translate-x-0.5" />
+                  <span>
+                    <span className="block text-xs uppercase tracking-[0.18em] text-muted-foreground">
+                      {c.label}
                     </span>
-                  </a>
-                </div>
+                    <span className="mt-1 block font-medium">{c.value}</span>
+                  </span>
+                </a>
               </StaggerItem>
             ))}
           </StaggerGroup>
         </Reveal>
 
         <Reveal y={28} delay={0.1}>
-          <div className="bezel-outer h-full p-8">
-            <div className="bezel-inner h-full p-8">
-              <MapPin className="h-5 w-5 text-accent" />
-              <h2 className="mt-4 font-display text-2xl">Ashoka University</h2>
-              <p className="mt-3 leading-relaxed text-muted-foreground">
-                Plot No. 2, Rajiv Gandhi Education City,
-                <br />
-                Rai, Sonipat, Haryana 131029, India
-              </p>
-              <p className="mt-6 text-sm text-muted-foreground">
-                Our departments meet weekly during term. Drop us an email and we'll
-                point you to the right team.
-              </p>
-            </div>
+          <div className="card-lift h-full p-8">
+            <MapPin className="h-5 w-5 text-accent" />
+            <h2 className="mt-4 font-display text-2xl">Ashoka University</h2>
+            <p className="mt-3 leading-relaxed text-muted-foreground">
+              Plot No. 2, Rajiv Gandhi Education City,
+              <br />
+              Rai, Sonipat, Haryana 131029, India
+            </p>
+            <p className="mt-6 text-sm text-muted-foreground">
+              Our departments meet weekly during term. Drop us an email and we'll
+              point you to the right team.
+            </p>
           </div>
         </Reveal>
       </section>

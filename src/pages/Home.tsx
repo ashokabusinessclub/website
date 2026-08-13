@@ -191,9 +191,9 @@ function Section({
   children: ReactNode;
 }) {
   return (
-    <section id={id} className="container-abc py-24 md:py-32">
+    <section id={id} className="container-abc py-20 md:py-28">
       <Reveal>
-        <div className="mb-14 flex flex-wrap items-end justify-between gap-4">
+        <div className="mb-12 flex flex-wrap items-end justify-between gap-4">
           <div>
             {eyebrow && (
               <div className="flex items-center gap-4">
