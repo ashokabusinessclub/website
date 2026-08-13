@@ -1,39 +1,17 @@
-import { useState, useEffect, useRef, useMemo } from "react";
+import { useMemo, useState } from "react";
 import { PageHeader } from "@/components/PageHeader";
 import { EventCard } from "@/components/cards";
 import { events, eventCategories } from "@/lib/content";
-import { Button } from "@/components/ui/button";
+import { Reveal, StaggerGroup, StaggerItem } from "@/components/reveal";
 
 export default function Events() {
   const [filter, setFilter] = useState("All");
-  const [visibleSections, setVisibleSections] = useState<Set<string>>(new Set());
-  const sectionRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
   const filters = useMemo(() => ["All", ...eventCategories], [eventCategories]);
   const visible = useMemo(
     () => filter === "All" ? events : events.filter((e) => e.data.category === filter),
     [filter, events]
   );
-
-  // IntersectionObserver for scroll reveals
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setVisibleSections((prev) => new Set(prev).add(entry.target.id));
-          }
-        });
-      },
-      { threshold: 0.15, rootMargin: "0px 0px -100px 0px" }
-    );
-
-    Object.values(sectionRefs.current).forEach((el) => {
-      if (el) observer.observe(el);
-    });
-
-    return () => observer.disconnect();
-  }, [visibleSections]);
 
   return (
     <>
@@ -44,46 +22,49 @@ export default function Events() {
 
       {/* Filter Pills */}
       {filters.length > 1 && (
-        <section
-          id="event-filters"
-          className="container-abc pb-12"
-          ref={(el) => { if (el) sectionRefs.current["event-filters"] = el; }}
-        >
-          <div
-            className="flex flex-wrap gap-2 transition-base"
-            role="group"
-            aria-label="Event categories"
-          >
-            {filters.map((c) => (
-              <button
-                key={c}
-                onClick={() => setFilter(c)}
-                className={`px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em] transition-base btn-magnetic ${
-                  filter === c ? "bg-primary text-primary-foreground" : "border border-border text-muted-foreground hover:border-primary hover:text-primary"
-                }`}
-              >
-                {c}
-                {c !== "All" && <Button asChild iconRight={<ArrowRight className="h-3 w-3" />} size="icon" className="ml-2" />}
-              </button>
-            ))}
-          </div>
+        <section className="container-abc pb-12">
+          <Reveal y={16}>
+            <div
+              className="flex flex-wrap gap-2"
+              role="group"
+              aria-label="Event categories"
+            >
+              {filters.map((c) => (
+                <button
+                  key={c}
+                  onClick={() => setFilter(c)}
+                  className={`px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em] transition-base ${
+                    filter === c
+                      ? "rounded-full bg-primary text-primary-foreground"
+                      : "rounded-full border border-border text-muted-foreground hover:border-primary hover:text-primary"
+                  }`}
+                >
+                  {c}
+                </button>
+              ))}
+            </div>
+          </Reveal>
         </section>
       )}
 
       {/* Events Grid */}
-      <section
-        id="events-grid"
-        className={`container-abc py-24 md:py-32 ${visibleSections.has("events-grid") ? "animate-entry" : ""}`}
-        ref={(el) => { if (el) sectionRefs.current["events-grid"] = el; }}
-      >
+      <section className="container-abc py-24 md:py-32">
         {visible.length === 0 ? (
-          <p className="reveal-up text-muted-foreground text-center">No events published yet.</p>
+          <Reveal>
+            <p className="text-center text-muted-foreground">No events published yet.</p>
+          </Reveal>
         ) : (
-          <div className="reveal-stagger grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {visible.map((e, i) => (
-              <EventCard key={e.slug} item={e} style={{ transitionDelay: `${i * 60}ms` }} />
+          <StaggerGroup
+            key={filter}
+            className="grid gap-6 md:grid-cols-2 lg:grid-cols-3"
+            delayChildren={0.05}
+          >
+            {visible.map((e) => (
+              <StaggerItem key={e.slug}>
+                <EventCard item={e} />
+              </StaggerItem>
             ))}
-          </div>
+          </StaggerGroup>
         )}
       </section>
     </>

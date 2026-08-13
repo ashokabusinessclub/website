@@ -1,3 +1,4 @@
+import { CSSProperties } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { ContentEntry, EventItem, AbrItem, Department, Sponsor, formatDate } from "@/lib/content";
@@ -5,40 +6,40 @@ import { ContentEntry, EventItem, AbrItem, Department, Sponsor, formatDate } fro
 function Cover({ src, alt }: { src?: string; alt: string }) {
   if (!src) {
     return (
-      <div
-        className="bezel-outer aspect-[16/10] w-full bg-background/50 border border-border"
-        aria-hidden="true"
-      >
-        <div className="bezel-inner aspect-[16/10] bg-card" />
-      </div>
+      <div className="aspect-[16/10] w-full bg-card" aria-hidden="true" />
     );
   }
   return (
-    <div className="bezel-outer aspect-[16/10] w-full border border-border overflow-hidden">
-      <img
-        src={src}
-        alt={alt}
-        loading="lazy"
-        className="bezel-inner aspect-[16/10] w-full object-cover"
-      />
-    </div>
+    <img
+      src={src}
+      alt={alt}
+      loading="lazy"
+      className="aspect-[16/10] w-full object-cover"
+    />
   );
 }
 
-export function DepartmentCard({ item }: { item: ContentEntry<Department> }) {
+export function DepartmentCard({
+  item,
+  style,
+}: {
+  item: ContentEntry<Department>;
+  style?: CSSProperties;
+}) {
   return (
     <Link
       to={`/departments/${item.slug}`}
-      className="group bezel-card flex flex-col justify-between p-7 transition-base"
+      style={style}
+      className="group bezel-outer flex h-full flex-col justify-between transition-base"
     >
-      <div className="bezel-inner">
+      <div className="bezel-inner p-7">
         <h3 className="font-display text-2xl transition-fast">{item.data.name}</h3>
         <p className="mt-3 text-sm leading-relaxed text-muted-foreground transition-fast">
           {item.data.description}
         </p>
       </div>
 
-      <span className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-primary transition-fast btn-magnetic">
+      <span className="mt-6 flex items-center gap-2 p-7 pt-0 text-sm font-medium text-primary transition-fast">
         What we do
         <span className="icon-wrapper">
           <ArrowRight className="h-4 w-4 transition-fast" />
@@ -48,47 +49,59 @@ export function DepartmentCard({ item }: { item: ContentEntry<Department> }) {
   );
 }
 
-export function EventCard({ item }: { item: ContentEntry<EventItem> }) {
+export function EventCard({
+  item,
+  style,
+}: {
+  item: ContentEntry<EventItem>;
+  style?: CSSProperties;
+}) {
   return (
     <Link
       to={`/events/${item.slug}`}
-      className="group bezel-card overflow-hidden transition-base"
+      style={style}
+      className="group bezel-outer block overflow-hidden transition-base"
     >
-      <div className="bezel-outer aspect-[16/10] w-full overflow-hidden">
-        <Cover src={item.data.cover} alt={item.data.title} />
-      </div>
-
-      <div className="bezel-inner p-6">
-        <div className="flex items-center gap-3 text-xs uppercase tracking-[0.18em] text-muted-foreground">
-          {item.data.category && (
-            <span className="text-primary">{item.data.category}</span>
-          )}
-          <span>{formatDate(item.data.date)}</span>
+      <div className="bezel-inner overflow-hidden">
+        <div className="overflow-hidden">
+          <Cover src={item.data.cover} alt={item.data.title} />
         </div>
-        <h3 className="mt-3 font-display text-xl transition-fast group-hover:text-primary">
-          {item.data.title}
-        </h3>
-        {item.data.description && (
-          <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-muted-foreground transition-fast">
-            {item.data.description}
-          </p>
-        )}
+
+        <div className="p-6">
+          <div className="flex items-center gap-3 text-xs uppercase tracking-[0.18em] text-muted-foreground">
+            {item.data.category && (
+              <span className="text-primary">{item.data.category}</span>
+            )}
+            <span>{formatDate(item.data.date)}</span>
+          </div>
+          <h3 className="mt-3 font-display text-xl transition-fast group-hover:text-primary">
+            {item.data.title}
+          </h3>
+          {item.data.description && (
+            <p className="mt-2 line-clamp-3 text-sm leading-relaxed text-muted-foreground transition-fast">
+              {item.data.description}
+            </p>
+          )}
+        </div>
       </div>
     </Link>
   );
 }
 
-export function AbrCard({ item }: { item: ContentEntry<AbrItem> }) {
+export function AbrCard({
+  item,
+  style,
+}: {
+  item: ContentEntry<AbrItem>;
+  style?: CSSProperties;
+}) {
   return (
     <Link
       to={`/abr/${item.slug}`}
-      className="group bezel-card flex gap-6 transition-base"
+      style={style}
+      className="group bezel-outer flex flex-col gap-6 transition-base sm:flex-row"
     >
-      <div className="bezel-outer hidden w-40 shrink-0 sm:block">
-        <Cover src={item.data.cover} alt={item.data.title} />
-      </div>
-
-      <div className="bezel-inner">
+      <div className="bezel-inner flex-1 p-6">
         <div className="flex flex-wrap items-center gap-3 text-xs uppercase tracking-[0.18em] text-muted-foreground">
           <span className="border border-accent px-2 py-0.5 text-accent-foreground transition-fast">
             {item.data.type ?? "Publication"}
@@ -117,11 +130,21 @@ export function AbrCard({ item }: { item: ContentEntry<AbrItem> }) {
           </div>
         )}
       </div>
+
+      <div className="bezel-inner hidden w-full shrink-0 overflow-hidden sm:block sm:w-56">
+        <Cover src={item.data.cover} alt={item.data.title} />
+      </div>
     </Link>
   );
 }
 
-export function SponsorCard({ item }: { item: ContentEntry<Sponsor> }) {
+export function SponsorCard({
+  item,
+  style,
+}: {
+  item: ContentEntry<Sponsor>;
+  style?: CSSProperties;
+}) {
   const content = (
     <div className="flex h-32 items-center justify-center bg-background px-6">
       {item.data.logo ? (
@@ -139,19 +162,22 @@ export function SponsorCard({ item }: { item: ContentEntry<Sponsor> }) {
     </div>
   );
 
-  const cardClassName = "bezel-card transition-base";
+  const className = "bezel-outer block transition-base";
 
   return item.data.website ? (
     <a
       href={item.data.website}
       target="_blank"
       rel="noreferrer noopener"
-      className={cardClassName}
+      style={style}
+      className={className}
     >
-      {content}
+      <div className="bezel-inner">{content}</div>
     </a>
   ) : (
-    <div className={cardClassName}>{content}</div>
+    <div style={style} className={className}>
+      <div className="bezel-inner">{content}</div>
+    </div>
   );
 }
 
@@ -163,7 +189,7 @@ export function DoubleBezelCard({
   className = "",
   onClick,
 }: {
-  children: React.ReactNode;
+  children: import("react").ReactNode;
   className?: string;
   onClick?: () => void;
 }) {
@@ -172,9 +198,7 @@ export function DoubleBezelCard({
       className={`bezel-outer relative border border-border ${className}`}
       onClick={onClick}
     >
-      <div className="bezel-inner relative">
-        {children}
-      </div>
+      <div className="bezel-inner relative">{children}</div>
     </div>
   );
 }

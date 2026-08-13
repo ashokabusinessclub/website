@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { ChevronUp } from "lucide-react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { Button } from "@/components/ui/button";
 
 export function ScrollToTop() {
   const { pathname } = useLocation();
   const [isVisible, setIsVisible] = useState(false);
+  const reduceMotion = useReducedMotion();
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "instant" as ScrollBehavior });
@@ -18,18 +20,28 @@ export function ScrollToTop() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [pathname]);
 
-  if (!isVisible) return null;
-
   return (
-    <Button
-      variant="outline"
-      size="icon"
-      className="fixed bottom-8 right-8 z-40 transition-base opacity-0 pointer-events-none group-data-[visible=true]:opacity-100 group-data-[visible=true]:pointer-events-auto"
-      data-visible={isVisible}
-      onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-      aria-label="Scroll to top"
-    >
-      <ChevronUp className="h-5 w-5" />
-    </Button>
+    <AnimatePresence>
+      {isVisible && (
+        <motion.div
+          key="scroll-to-top"
+          className="fixed bottom-8 right-8 z-40"
+          initial={reduceMotion ? false : { opacity: 0, y: 16, scale: 0.9 }}
+          animate={{ opacity: 1, y: 0, scale: 1 }}
+          exit={reduceMotion ? undefined : { opacity: 0, y: 16, scale: 0.9 }}
+          transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+        >
+          <Button
+            variant="outline"
+            size="icon"
+            className="shadow-lg"
+            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            aria-label="Scroll to top"
+          >
+            <ChevronUp className="h-5 w-5" />
+          </Button>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 }

@@ -1,5 +1,6 @@
 import { Mail, MapPin, Instagram, Linkedin } from "lucide-react";
 import { PageHeader } from "@/components/PageHeader";
+import { Reveal, StaggerGroup, StaggerItem } from "@/components/reveal";
 
 const channels = [
   {
@@ -26,52 +27,53 @@ export default function Contact() {
   return (
     <>
       <PageHeader
-        eyebrow="Contact"
         title="Talk to the club."
         intro="Questions about membership, sponsorship, speaking or the Business Review — here's where to reach us."
       />
 
-      <section className="container-abc grid gap-14 py-20 md:grid-cols-2">
-        <div>
-          <p className="eyebrow">Channels</p>
-          <ul className="mt-8 space-y-px bg-border">
+      <section className="container-abc grid gap-14 py-24 md:py-32 md:grid-cols-2">
+        <Reveal y={28}>
+          <StaggerGroup className="space-y-4">
             {channels.map((c) => (
-              <li key={c.label} className="bg-background">
-                <a
-                  href={c.href}
-                  target={c.href.startsWith("http") ? "_blank" : undefined}
-                  rel="noreferrer noopener"
-                  className="flex items-center gap-4 p-6 transition-colors hover:bg-secondary/60"
-                >
-                  <c.icon className="h-5 w-5 text-accent" />
-                  <span>
-                    <span className="block text-xs uppercase tracking-[0.18em] text-muted-foreground">
-                      {c.label}
+              <StaggerItem key={c.label}>
+                <div className="bezel-outer">
+                  <a
+                    href={c.href}
+                    target={c.href.startsWith("http") ? "_blank" : undefined}
+                    rel="noreferrer noopener"
+                    className="bezel-inner flex items-center gap-4 p-6 transition-base hover:border-accent"
+                  >
+                    <c.icon className="h-5 w-5 text-accent shrink-0" />
+                    <span>
+                      <span className="block text-xs uppercase tracking-[0.18em] text-muted-foreground">
+                        {c.label}
+                      </span>
+                      <span className="mt-1 block font-medium">{c.value}</span>
                     </span>
-                    <span className="mt-1 block font-medium">{c.value}</span>
-                  </span>
-                </a>
-              </li>
+                  </a>
+                </div>
+              </StaggerItem>
             ))}
-          </ul>
-        </div>
+          </StaggerGroup>
+        </Reveal>
 
-        <div>
-          <p className="eyebrow">Find us</p>
-          <div className="mt-8 border border-border bg-card p-8">
-            <MapPin className="h-5 w-5 text-accent" />
-            <h2 className="mt-4 font-display text-2xl">Ashoka University</h2>
-            <p className="mt-3 leading-relaxed text-muted-foreground">
-              Plot No. 2, Rajiv Gandhi Education City,
-              <br />
-              Rai, Sonipat, Haryana 131029, India
-            </p>
-            <p className="mt-6 text-sm text-muted-foreground">
-              Our departments meet weekly during term. Drop us an email and we'll
-              point you to the right team.
-            </p>
+        <Reveal y={28} delay={0.1}>
+          <div className="bezel-outer h-full p-8">
+            <div className="bezel-inner h-full p-8">
+              <MapPin className="h-5 w-5 text-accent" />
+              <h2 className="mt-4 font-display text-2xl">Ashoka University</h2>
+              <p className="mt-3 leading-relaxed text-muted-foreground">
+                Plot No. 2, Rajiv Gandhi Education City,
+                <br />
+                Rai, Sonipat, Haryana 131029, India
+              </p>
+              <p className="mt-6 text-sm text-muted-foreground">
+                Our departments meet weekly during term. Drop us an email and we'll
+                point you to the right team.
+              </p>
+            </div>
           </div>
-        </div>
+        </Reveal>
       </section>
     </>
   );

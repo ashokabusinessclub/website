@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState } from "react";
 import { PageHeader } from "@/components/PageHeader";
+import { Reveal, StaggerGroup, StaggerItem } from "@/components/reveal";
 
 const pillars = [
   {
@@ -21,28 +21,6 @@ const pillars = [
 ];
 
 export default function About() {
-  const [visibleSections, setVisibleSections] = useState<Set<string>>(new Set());
-  const sectionRefs = useRef<Record<string, HTMLDivElement | null>>({});
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setVisibleSections((prev) => new Set(prev).add(entry.target.id));
-          }
-        });
-      },
-      { threshold: 0.15, rootMargin: "0px 0px -100px 0px" }
-    );
-
-    Object.values(sectionRefs.current).forEach((el) => {
-      if (el) observer.observe(el);
-    });
-
-    return () => observer.disconnect();
-  }, []);
-
   return (
     <>
       <PageHeader
@@ -51,12 +29,8 @@ export default function About() {
         intro="The Ashoka Business Club (ABC) is a student-run body at Ashoka University. We exist to make commercial thinking accessible, rigorous and genuinely interesting to students from every discipline."
       />
 
-      <section
-        id="vision"
-        className={`container-abc py-24 md:py-32 grid gap-14 md:grid-cols-2 ${visibleSections.has("vision") ? "animate-entry" : ""}`}
-        ref={(el) => { if (el) sectionRefs.current.vision = el; }}
-      >
-        <div className="reveal-up">
+      <section className="container-abc py-24 md:py-32 grid gap-14 md:grid-cols-2">
+        <Reveal y={28}>
           <h2 className="font-display text-3xl md:text-4xl">
             A campus where every student can read the business world fluently.
           </h2>
@@ -66,8 +40,8 @@ export default function About() {
             economics student can learn to write for a general audience. Business
             literacy should not be gate-kept by a major.
           </p>
-        </div>
-        <div className="reveal-up" style={{ transitionDelay: "80ms" }}>
+        </Reveal>
+        <Reveal y={28} delay={0.1}>
           <h2 className="font-display text-3xl md:text-4xl">
             Research, dialogue and experience — every semester.
           </h2>
@@ -86,50 +60,42 @@ export default function About() {
               Build a network between students, alumni and partner organisations.
             </li>
           </ul>
-        </div>
+        </Reveal>
       </section>
 
-      <section
-        id="pillars"
-        className={`border-y border-border bg-secondary/40 ${visibleSections.has("pillars") ? "animate-entry" : ""}`}
-        ref={(el) => { if (el) sectionRefs.current.pillars = el; }}
-      >
+      <section className="border-y border-border bg-secondary/40">
         <div className="container-abc py-24 md:py-32">
-          <div className="reveal-stagger grid gap-px bg-border sm:grid-cols-2">
-            {pillars.map((p, i) => (
-              <div
-                key={p.title}
-                className="bezel-outer p-8"
-                style={{ transitionDelay: `${i * 60}ms` }}
-              >
-                <div className="bezel-inner p-8">
-                  <h3 className="font-display text-2xl">{p.title}</h3>
-                  <p className="mt-3 leading-relaxed text-muted-foreground">
-                    {p.body}
-                  </p>
+          <StaggerGroup className="grid gap-6 sm:grid-cols-2">
+            {pillars.map((p) => (
+              <StaggerItem key={p.title}>
+                <div className="bezel-outer p-8">
+                  <div className="bezel-inner p-8">
+                    <h3 className="font-display text-2xl">{p.title}</h3>
+                    <p className="mt-3 leading-relaxed text-muted-foreground">
+                      {p.body}
+                    </p>
+                  </div>
                 </div>
-              </div>
+              </StaggerItem>
             ))}
-          </div>
+          </StaggerGroup>
         </div>
       </section>
 
-      <section
-        id="how-we-work"
-        className={`container-abc py-24 md:py-32 ${visibleSections.has("how-we-work") ? "animate-entry" : ""}`}
-        ref={(el) => { if (el) sectionRefs.current["how-we-work"] = el; }}
-      >
-        <div className="max-w-3xl reveal-up">
-          <h2 className="font-display text-3xl md:text-4xl">
-            Departments do the work; the club sets the standard.
-          </h2>
-          <p className="mt-5 leading-relaxed text-muted-foreground">
-            ABC is organised into specialised departments — each with its own
-            mandate, leadership and calendar. Members join a department, take
-            ownership of projects within it, and collaborate across teams on
-            flagship initiatives such as the ABR launch and House of Cards.
-          </p>
-        </div>
+      <section className="container-abc py-24 md:py-32">
+        <Reveal y={28}>
+          <div className="max-w-3xl">
+            <h2 className="font-display text-3xl md:text-4xl">
+              Departments do the work; the club sets the standard.
+            </h2>
+            <p className="mt-5 leading-relaxed text-muted-foreground">
+              ABC is organised into specialised departments — each with its own
+              mandate, leadership and calendar. Members join a department, take
+              ownership of projects within it, and collaborate across teams on
+              flagship initiatives such as the ABR launch and House of Cards.
+            </p>
+          </div>
+        </Reveal>
       </section>
     </>
   );

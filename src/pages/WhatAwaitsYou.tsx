@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom";
 import { PageHeader } from "@/components/PageHeader";
+import { Button } from "@/components/ui/button";
+import { Reveal, StaggerGroup, StaggerItem } from "@/components/reveal";
 import {
+  ArrowRight,
   BookOpen,
   Users,
   Mic,
@@ -51,35 +54,42 @@ const outcomes = [
   "Team leadership within a department",
 ];
 
+const steps = [
+  ["01", "Watch for recruitment", "Applications open at the start of each semester across departments."],
+  ["02", "Apply to a department", "Tell us where you want to work and why — no prior business background required."],
+  ["03", "Interview & onboard", "A short conversation, then straight into live projects with your team."],
+];
+
 export default function WhatAwaitsYou() {
   return (
     <>
       <PageHeader
-        eyebrow="What awaits you"
         title="Join a club that hands you the work, not a certificate."
         intro="Membership in ABC is an apprenticeship in how business actually gets discussed, written about and executed — alongside people who take it seriously."
       />
 
-      <section className="container-abc py-20">
-        <p className="eyebrow">Opportunities</p>
-        <div className="mt-10 grid gap-px bg-border sm:grid-cols-2 lg:grid-cols-3">
+      <section className="container-abc py-24 md:py-32">
+        <StaggerGroup className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {opportunities.map((o) => (
-            <div key={o.title} className="bg-background p-8">
-              <o.icon className="h-6 w-6 text-accent" />
-              <h3 className="mt-5 font-display text-xl">{o.title}</h3>
-              <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                {o.body}
-              </p>
-            </div>
+            <StaggerItem key={o.title}>
+              <div className="bezel-outer p-8">
+                <div className="bezel-inner p-8">
+                  <o.icon className="h-6 w-6 text-accent" />
+                  <h3 className="mt-5 font-display text-xl">{o.title}</h3>
+                  <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+                    {o.body}
+                  </p>
+                </div>
+              </div>
+            </StaggerItem>
           ))}
-        </div>
+        </StaggerGroup>
       </section>
 
       <section className="border-y border-border bg-secondary/40">
-        <div className="container-abc grid gap-14 py-20 md:grid-cols-2">
-          <div>
-            <p className="eyebrow">What you'll learn</p>
-            <h2 className="mt-3 font-display text-3xl">
+        <div className="container-abc grid gap-14 py-24 md:py-32 md:grid-cols-2">
+          <Reveal y={28}>
+            <h2 className="font-display text-3xl md:text-4xl">
               Skills you'll actually use after graduation.
             </h2>
             <ul className="mt-6 space-y-3">
@@ -92,10 +102,9 @@ export default function WhatAwaitsYou() {
                 </li>
               ))}
             </ul>
-          </div>
-          <div>
-            <p className="eyebrow">Exposure & networks</p>
-            <h2 className="mt-3 font-display text-3xl">
+          </Reveal>
+          <Reveal y={28} delay={0.1}>
+            <h2 className="font-display text-3xl md:text-4xl">
               Rooms you would not otherwise be in.
             </h2>
             <p className="mt-5 leading-relaxed text-muted-foreground">
@@ -105,42 +114,37 @@ export default function WhatAwaitsYou() {
               decision-making authority over budgets, calendars and editorial
               direction.
             </p>
-          </div>
+          </Reveal>
         </div>
       </section>
 
-      <section className="container-abc py-20">
-        <p className="eyebrow">How to join</p>
-        <div className="mt-10 grid gap-px bg-border md:grid-cols-3">
-          {[
-            ["01", "Watch for recruitment", "Applications open at the start of each semester across departments."],
-            ["02", "Apply to a department", "Tell us where you want to work and why — no prior business background required."],
-            ["03", "Interview & onboard", "A short conversation, then straight into live projects with your team."],
-          ].map(([n, t, b]) => (
-            <div key={n} className="bg-background p-8">
-              <span className="font-display text-4xl text-accent">{n}</span>
-              <h3 className="mt-4 font-display text-xl">{t}</h3>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                {b}
-              </p>
-            </div>
+      <section className="container-abc py-24 md:py-32">
+        <StaggerGroup className="grid gap-6 md:grid-cols-3">
+          {steps.map(([n, t, b]) => (
+            <StaggerItem key={n}>
+              <div className="bezel-outer p-8">
+                <div className="bezel-inner p-8">
+                  <span className="font-display text-4xl text-accent">{n}</span>
+                  <h3 className="mt-4 font-display text-xl">{t}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                    {b}
+                  </p>
+                </div>
+              </div>
+            </StaggerItem>
           ))}
-        </div>
+        </StaggerGroup>
 
-        <div className="mt-14 flex flex-wrap gap-4">
-          <Link
-            to="/departments"
-            className="bg-primary px-7 py-3.5 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90"
-          >
-            Explore departments
-          </Link>
-          <Link
-            to="/contact"
-            className="border border-border px-7 py-3.5 text-sm font-semibold transition-colors hover:border-primary hover:text-primary"
-          >
-            Get in touch
-          </Link>
-        </div>
+        <Reveal y={20}>
+          <div className="mt-14 flex flex-wrap gap-4">
+            <Button asChild iconRight={<ArrowRight className="h-4 w-4" />} size="lg">
+              <Link to="/departments">Explore departments</Link>
+            </Button>
+            <Button variant="outline" asChild size="lg">
+              <Link to="/contact">Get in touch</Link>
+            </Button>
+          </div>
+        </Reveal>
       </section>
     </>
   );

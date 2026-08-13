@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Slot } from "@radix-ui/react-slot";
+import { Children, cloneElement } from "react";
 import { cva, type VariantProps } from "class-variance-authority";
 
 import { cn } from "@/lib/utils";
@@ -39,20 +39,35 @@ export interface ButtonProps
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, asChild = false, iconRight, children, ...props }, ref) => {
-    const Comp = asChild ? Slot : "button";
+    const classes = cn(buttonVariants({ variant, size, className }));
+    const icon = iconRight ? (
+      <span className="icon-wrapper shrink-0" aria-hidden="true">
+        {iconRight}
+      </span>
+    ) : null;
+
+    // asChild: forward classes/props to the single child element, and inject
+    // the trailing icon INSIDE the child so Slot/Children.only never sees
+    // more than one element.
+    if (asChild) {
+      const child = Children.only(children) as React.ReactElement;
+      return cloneElement(
+        child,
+        {
+          ...props,
+          ref,
+          className: cn(classes, child.props.className),
+        },
+        child.props.children,
+        icon,
+      );
+    }
+
     return (
-      <Comp
-        className={cn(buttonVariants({ variant, size, className }))}
-        ref={ref}
-        {...props}
-      >
+      <button className={classes} ref={ref} {...props}>
         {children}
-        {iconRight && (
-          <span className="icon-wrapper shrink-0" aria-hidden="true">
-            {iconRight}
-          </span>
-        )}
-      </Comp>
+        {icon}
+      </button>
     );
   },
 );
