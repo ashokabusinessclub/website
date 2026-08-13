@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { NavLink, Link } from "react-router-dom";
 import { AnimatePresence, motion, useReducedMotion, type Variants } from "motion/react";
 
@@ -17,10 +17,10 @@ export function Navbar() {
   const reduceMotion = useReducedMotion();
 
   const linkClass = ({ isActive }: { isActive: boolean }) =>
-    `text-sm tracking-wide transition-fast ${
+    `whitespace-nowrap px-3 py-1.5 rounded-full transition-fast ${
       isActive
-        ? "text-primary font-semibold"
-        : "text-foreground/70 hover:text-foreground"
+        ? "bg-primary text-primary-foreground font-semibold"
+        : "text-foreground/70 hover:text-foreground hover:bg-foreground/[0.06]"
     }`;
 
   const menuVariants: Variants = {
@@ -38,6 +38,21 @@ export function Navbar() {
       transition: { duration: 0.55, ease: [0.16, 1, 0.3, 1] },
     },
   };
+
+  useEffect(() => {
+    if (!open) return;
+
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+    const prevOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.body.style.overflow = prevOverflow;
+      window.removeEventListener("keydown", onKeyDown);
+    };
+  }, [open]);
 
   return (
     <>
@@ -59,13 +74,12 @@ export function Navbar() {
             </Link>
 
             {/* Desktop Navigation */}
-            <div className="hidden items-center gap-1 lg:flex" role="menubar">
+            <div className="hidden items-center gap-1 xl:flex">
               {navLinks.map((l) => (
                 <NavLink
                   key={l.to}
                   to={l.to}
                   className={({ isActive }) => linkClass({ isActive })}
-                  role="menuitem"
                 >
                   {l.label}
                 </NavLink>
@@ -74,7 +88,7 @@ export function Navbar() {
 
             {/* Hamburger Button */}
             <button
-              className={`lg:hidden flex flex-col items-center justify-center gap-5 w-10 h-10 p-2 ${open ? "hamburger-open" : ""}`}
+              className={`xl:hidden flex flex-col items-center justify-center gap-[5px] w-10 h-10 p-2 ${open ? "hamburger-open" : ""}`}
               aria-label={open ? "Close navigation" : "Open navigation"}
               aria-expanded={open}
               aria-controls="mobile-menu"
@@ -108,7 +122,7 @@ export function Navbar() {
               variants={reduceMotion ? undefined : menuVariants}
               initial={reduceMotion ? false : "hidden"}
               animate={reduceMotion ? undefined : "show"}
-              role="menubar"
+              aria-label="Mobile navigation"
             >
               {navLinks.map((l) => (
                 <motion.div
@@ -124,7 +138,6 @@ export function Navbar() {
                         isActive ? "text-brass" : "text-background hover:text-brass"
                       }`
                     }
-                    role="menuitem"
                   >
                     {l.label}
                   </NavLink>

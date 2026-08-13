@@ -50,7 +50,7 @@
   --dur-base: 200ms;
   --dur-slow: 350ms;
   --dur-slower: 500ms;
-  --dur-entry: 700ms;
+  --dur-entry: 500ms;
 
   /* Radius System */
   --radius-outer: 2rem;
@@ -204,13 +204,13 @@
     }
   }
 
-  /* Stagger delays for cascading entrance */
-  .stagger-1 { animation-delay: 0ms; }
-  .stagger-2 { animation-delay: 60ms; }
-  .stagger-3 { animation-delay: 120ms; }
-  .stagger-4 { animation-delay: 180ms; }
-  .stagger-5 { animation-delay: 240ms; }
-  .stagger-6 { animation-delay: 300ms; }
+  /* Stagger delays for cascading entrance (transition-based) */
+  .stagger-1 { transition-delay: 0ms; }
+  .stagger-2 { transition-delay: 60ms; }
+  .stagger-3 { transition-delay: 120ms; }
+  .stagger-4 { transition-delay: 180ms; }
+  .stagger-5 { transition-delay: 240ms; }
+  .stagger-6 { transition-delay: 300ms; }
 
   /* ============================================
      DOUBLE-BEZEL CARD UTILITIES
@@ -222,7 +222,19 @@
     border-radius: var(--radius-outer);
     padding: 6px;
     box-shadow: var(--shadow-ambient);
-    transition: border-color var(--dur-base) var(--ease-out), box-shadow var(--dur-base) var(--ease-out);
+    transition:
+      transform var(--dur-base) var(--ease-out),
+      border-color var(--dur-base) var(--ease-out),
+      box-shadow var(--dur-base) var(--ease-out);
+  }
+
+  .bezel-outer:hover {
+    border-color: hsl(var(--brass) / 0.55);
+    box-shadow: var(--shadow-elevated);
+  }
+
+  a.bezel-outer:hover {
+    transform: translateY(-3px);
   }
 
   .bezel-inner {
@@ -240,7 +252,7 @@
     @apply relative inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full text-sm font-semibold transition-base active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2;
   }
 
-  .btn-magnetic .icon-wrapper {
+  .icon-wrapper {
     @apply relative inline-flex items-center justify-center shrink-0 w-8 h-8 rounded-full bg-foreground/5 transition-base;
   }
 
@@ -303,7 +315,7 @@
   }
 
   .navbar-inner {
-    @apply flex items-center gap-6 px-6 py-3;
+    @apply flex items-center gap-4 px-5 py-3;
   }
 
   .hamburger-line {
@@ -314,7 +326,7 @@
   }
 
   .hamburger-open .hamburger-line:nth-child(1) {
-    @apply rotate-45 translate-y-1.5;
+    @apply rotate-45 translate-y-[7px];
   }
 
   .hamburger-open .hamburger-line:nth-child(2) {
@@ -322,12 +334,12 @@
   }
 
   .hamburger-open .hamburger-line:nth-child(3) {
-    @apply -rotate-45 -translate-y-1.5;
+    @apply -rotate-45 -translate-y-[7px];
   }
 
   /* Mobile menu overlay */
   .mobile-menu-overlay {
-    @apply fixed inset-0 z-50;
+    @apply fixed inset-0 z-40;
     background: hsl(var(--ink) / 0.8);
     backdrop-filter: blur(40px);
   }

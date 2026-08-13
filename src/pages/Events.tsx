@@ -7,10 +7,10 @@ import { Reveal, StaggerGroup, StaggerItem } from "@/components/reveal";
 export default function Events() {
   const [filter, setFilter] = useState("All");
 
-  const filters = useMemo(() => ["All", ...eventCategories], [eventCategories]);
+  const filters = useMemo(() => ["All", ...eventCategories], []);
   const visible = useMemo(
-    () => filter === "All" ? events : events.filter((e) => e.data.category === filter),
-    [filter, events]
+    () => (filter === "All" ? events : events.filter((e) => e.data.category === filter)),
+    [filter]
   );
 
   return (
@@ -32,6 +32,8 @@ export default function Events() {
               {filters.map((c) => (
                 <button
                   key={c}
+                  type="button"
+                  aria-pressed={filter === c}
                   onClick={() => setFilter(c)}
                   className={`px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em] transition-base ${
                     filter === c

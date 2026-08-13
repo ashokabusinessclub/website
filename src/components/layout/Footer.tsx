@@ -4,9 +4,9 @@ import { Reveal, StaggerGroup, StaggerItem } from "@/components/reveal";
 
 export function Footer() {
   return (
-    <footer className="mt-24 border-t border-border bg-ink text-background">
+    <footer className="border-t border-border bg-ink text-background">
       <div className="container-abc py-16">
-        <StaggerGroup className="grid gap-12 md:grid-cols-3">
+        <StaggerGroup className="grid gap-12 sm:grid-cols-2 md:grid-cols-3">
           <StaggerItem>
             <p className="font-display text-3xl font-black tracking-tight">ABC</p>
             <p className="mt-2 text-xs uppercase tracking-[0.28em] text-background/60">
@@ -42,7 +42,14 @@ export function Footer() {
             </p>
             <ul className="mt-5 space-y-2.5 text-sm text-background/75">
               <li>Ashoka University, Rajiv Gandhi Education City, Sonipat</li>
-              <li>businessclub@ashoka.edu.in</li>
+              <li>
+                <a
+                  href="mailto:businessclub@ashoka.edu.in"
+                  className="transition-fast hover:text-brass"
+                >
+                  businessclub@ashoka.edu.in
+                </a>
+              </li>
               <li>Instagram · LinkedIn</li>
             </ul>
           </StaggerItem>

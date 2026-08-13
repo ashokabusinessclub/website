@@ -6,7 +6,14 @@ import { ContentEntry, EventItem, AbrItem, Department, Sponsor, formatDate } fro
 function Cover({ src, alt }: { src?: string; alt: string }) {
   if (!src) {
     return (
-      <div className="aspect-[16/10] w-full bg-card" aria-hidden="true" />
+      <div
+        className="relative flex aspect-[16/10] w-full items-center justify-center overflow-hidden bg-secondary/60"
+        aria-hidden="true"
+      >
+        <span className="font-display text-5xl font-black tracking-tight text-foreground/10">
+          ABC
+        </span>
+      </div>
     );
   }
   return (
@@ -30,21 +37,25 @@ export function DepartmentCard({
     <Link
       to={`/departments/${item.slug}`}
       style={style}
-      className="group bezel-outer flex h-full flex-col justify-between transition-base"
+      className="group bezel-outer block h-full transition-base"
     >
-      <div className="bezel-inner p-7">
-        <h3 className="font-display text-2xl transition-fast">{item.data.name}</h3>
-        <p className="mt-3 text-sm leading-relaxed text-muted-foreground transition-fast">
-          {item.data.description}
-        </p>
-      </div>
+      <div className="bezel-inner flex h-full flex-col justify-between p-7">
+        <div>
+          <h3 className="font-display text-2xl transition-fast group-hover:text-primary">
+            {item.data.name}
+          </h3>
+          <p className="mt-3 text-sm leading-relaxed text-muted-foreground transition-fast">
+            {item.data.description}
+          </p>
+        </div>
 
-      <span className="mt-6 flex items-center gap-2 p-7 pt-0 text-sm font-medium text-primary transition-fast">
-        What we do
-        <span className="icon-wrapper">
-          <ArrowRight className="h-4 w-4 transition-fast" />
+        <span className="mt-6 inline-flex w-max items-center gap-2 rounded-full border border-border px-4 py-2 text-sm font-medium text-primary transition-fast group-hover:border-primary">
+          What we do
+          <span className="icon-wrapper">
+            <ArrowRight className="h-4 w-4" />
+          </span>
         </span>
-      </span>
+      </div>
     </Link>
   );
 }
@@ -60,7 +71,7 @@ export function EventCard({
     <Link
       to={`/events/${item.slug}`}
       style={style}
-      className="group bezel-outer block overflow-hidden transition-base"
+      className="group bezel-outer block h-full overflow-hidden transition-base"
     >
       <div className="bezel-inner overflow-hidden">
         <div className="overflow-hidden">
@@ -99,40 +110,49 @@ export function AbrCard({
     <Link
       to={`/abr/${item.slug}`}
       style={style}
-      className="group bezel-outer flex flex-col gap-6 transition-base sm:flex-row"
+      className="group bezel-outer block transition-base"
     >
-      <div className="bezel-inner flex-1 p-6">
-        <div className="flex flex-wrap items-center gap-3 text-xs uppercase tracking-[0.18em] text-muted-foreground">
-          <span className="border border-accent px-2 py-0.5 text-accent-foreground transition-fast">
-            {item.data.type ?? "Publication"}
-          </span>
-          <span>{formatDate(item.data.date)}</span>
-          {item.data.author && <span>· {item.data.author}</span>}
+      <div className="bezel-inner flex items-stretch overflow-hidden">
+        <div className="flex-1 p-7">
+          <div className="flex flex-wrap items-center gap-3 text-xs uppercase tracking-[0.18em] text-muted-foreground">
+            <span className="border border-accent px-2 py-0.5 text-accent-foreground transition-fast">
+              {item.data.type ?? "Publication"}
+            </span>
+            <span>{formatDate(item.data.date)}</span>
+            {item.data.author && <span>· {item.data.author}</span>}
+          </div>
+          <h3 className="mt-3 font-display text-xl transition-fast group-hover:text-primary">
+            {item.data.title}
+          </h3>
+          {item.data.excerpt && (
+            <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-muted-foreground transition-fast">
+              {item.data.excerpt}
+            </p>
+          )}
+          {item.data.tags && (
+            <div className="mt-4 flex flex-wrap gap-2">
+              {item.data.tags.map((t) => (
+                <span
+                  key={t}
+                  className="bg-secondary px-2 py-0.5 text-xs text-secondary-foreground transition-fast"
+                >
+                  {t}
+                </span>
+              ))}
+            </div>
+          )}
         </div>
-        <h3 className="mt-3 font-display text-xl transition-fast group-hover:text-primary">
-          {item.data.title}
-        </h3>
-        {item.data.excerpt && (
-          <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-muted-foreground transition-fast">
-            {item.data.excerpt}
-          </p>
-        )}
-        {item.data.tags && (
-          <div className="mt-4 flex flex-wrap gap-2">
-            {item.data.tags.map((t) => (
-              <span
-                key={t}
-                className="bg-secondary px-2 py-0.5 text-xs text-secondary-foreground transition-fast"
-              >
-                {t}
-              </span>
-            ))}
+
+        {item.data.cover && (
+          <div className="hidden w-56 shrink-0 border-l border-border sm:block">
+            <img
+              src={item.data.cover}
+              alt={item.data.title}
+              loading="lazy"
+              className="h-full w-full object-cover"
+            />
           </div>
         )}
-      </div>
-
-      <div className="bezel-inner hidden w-full shrink-0 overflow-hidden sm:block sm:w-56">
-        <Cover src={item.data.cover} alt={item.data.title} />
       </div>
     </Link>
   );

@@ -16,7 +16,13 @@ export default function Sponsors() {
       <section className="container-abc py-24 md:py-32">
         {sponsors.length === 0 ? (
           <Reveal>
-            <p className="text-center text-muted-foreground">No sponsors listed yet.</p>
+            <div className="mx-auto max-w-xl text-center">
+              <p className="text-muted-foreground">
+                Sponsor logos and branding will appear here as partnerships are
+                confirmed. If your organisation would like to work with us, we'd
+                love to talk.
+              </p>
+            </div>
           </Reveal>
         ) : (
           <StaggerGroup className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">

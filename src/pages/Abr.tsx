@@ -7,12 +7,12 @@ import { Reveal, StaggerGroup, StaggerItem } from "@/components/reveal";
 export default function Abr() {
   const [filter, setFilter] = useState<string>("All");
 
-  const filters = useMemo(() => ["All", ...abrTypes], [abrTypes]);
+  const filters = useMemo(() => ["All", ...abrTypes], []);
   const visible = useMemo(
-    () => filter === "All"
+    () => (filter === "All"
       ? abrItems
-      : abrItems.filter((i) => (i.data.type ?? "Publication") === filter),
-    [filter, abrItems]
+      : abrItems.filter((i) => (i.data.type ?? "Publication") === filter)),
+    [filter]
   );
 
   return (
@@ -28,6 +28,8 @@ export default function Abr() {
             {filters.map((t) => (
               <button
                 key={t}
+                type="button"
+                aria-pressed={filter === t}
                 onClick={() => setFilter(t)}
                 className={`px-4 py-2 text-xs font-semibold uppercase tracking-[0.16em] transition-base ${
                   filter === t

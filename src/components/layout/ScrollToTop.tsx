@@ -35,7 +35,9 @@ export function ScrollToTop() {
             variant="outline"
             size="icon"
             className="shadow-lg"
-            onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+            onClick={() =>
+              window.scrollTo({ top: 0, behavior: reduceMotion ? "auto" : "smooth" })
+            }
             aria-label="Scroll to top"
           >
             <ChevronUp className="h-5 w-5" />

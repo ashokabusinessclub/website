@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import { Link } from "react-router-dom";
-import { motion } from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
 import { ArrowRight, ChevronDown } from "lucide-react";
 import { departments, events, abrItems, sponsors } from "@/lib/content";
 import { DepartmentCard, EventCard, AbrCard } from "@/components/cards";
@@ -13,7 +13,8 @@ export default function Home() {
     { k: events.length, v: "Flagship events" },
     { k: abrItems.length, v: "ABR pieces" },
     { k: sponsors.length, v: "Partner organisations" },
-  ];
+  ].filter((s) => s.k > 0);
+  const reduceMotion = useReducedMotion();
 
   return (
     <>
@@ -69,14 +70,16 @@ export default function Home() {
           </div>
 
           {/* Scroll indicator */}
-          <motion.div
-            className="absolute bottom-8 left-1/2 -translate-x-1/2"
-            aria-hidden="true"
-            animate={{ y: [0, 8, 0] }}
-            transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
-          >
-            <ChevronDown className="h-6 w-6 text-background/30" />
-          </motion.div>
+          {!reduceMotion && (
+            <motion.div
+              className="absolute bottom-8 left-1/2 -translate-x-1/2"
+              aria-hidden="true"
+              animate={{ y: [0, 8, 0] }}
+              transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
+            >
+              <ChevronDown className="h-6 w-6 text-background/30" />
+            </motion.div>
+          )}
         </div>
       </section>
 
