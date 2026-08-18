@@ -165,7 +165,7 @@
   }
 
   .transition-fast {
-    transition-property: transform, opacity, box-shadow, border-color, background-color, color;
+    transition-property: transform, opacity, box-shadow, border-color, background-color, color, filter;
     transition-timing-function: var(--ease-out);
     transition-duration: var(--dur-fast);
   }

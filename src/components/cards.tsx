@@ -178,23 +178,23 @@ export function SponsorCard({
   style?: CSSProperties;
 }) {
   const content = (
-    <div className="flex h-full w-full items-center justify-center px-6">
+    <div className="flex h-full w-full items-center justify-center px-4">
       {item.data.logo ? (
         <img
           src={item.data.logo}
           alt={`${item.data.name} logo`}
           loading="lazy"
-          className="max-h-20 max-w-full object-contain transition-fast"
+          className="max-h-14 max-w-[85%] object-contain opacity-80 grayscale-[35%] transition-fast group-hover:scale-[1.06] group-hover:opacity-100 group-hover:grayscale-0"
         />
       ) : (
-        <span className="font-display text-xl text-foreground/70 transition-fast group-hover:text-foreground">
+        <span className="font-display text-lg text-foreground/70 transition-fast group-hover:text-foreground">
           {item.data.name}
         </span>
       )}
     </div>
   );
 
-  const className = "card-lift group h-36 w-full";
+  const className = "group h-24 w-full";
 
   return item.data.website ? (
     <a

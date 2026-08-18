@@ -25,7 +25,7 @@ export default function Sponsors() {
             </div>
           </Reveal>
         ) : (
-          <StaggerGroup className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <StaggerGroup className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
             {sponsors.map((s) => (
               <StaggerItem key={s.slug}>
                 <div className="h-full">
