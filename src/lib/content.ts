@@ -91,6 +91,7 @@ export interface EventItem extends Frontmatter {
   description?: string;
   location?: string;
   featured?: boolean;
+  applyUrl?: string;
 }
 
 const eventFiles = import.meta.glob("/content/events/*.md", {

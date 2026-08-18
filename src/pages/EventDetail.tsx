@@ -1,7 +1,8 @@
 import { Link, useParams } from "react-router-dom";
-import { ArrowLeft, Calendar, MapPin, Tag } from "lucide-react";
+import { ArrowLeft, ArrowUpRight, Calendar, MapPin, Tag } from "lucide-react";
 import { getEvent, formatDate, events } from "@/lib/content";
 import { Markdown } from "@/components/Markdown";
+import { Button } from "@/components/ui/button";
 import { EventCard } from "@/components/cards";
 import { Reveal, StaggerGroup, StaggerItem } from "@/components/reveal";
 import NotFound from "./NotFound";
@@ -72,6 +73,26 @@ export default function EventDetail() {
             </p>
           )}
           <Markdown>{event.body}</Markdown>
+
+          {event.data.applyUrl && (
+            <Reveal y={24}>
+              <div className="mt-12 flex justify-center">
+                <Button
+                  asChild
+                  size="lg"
+                  iconRight={<ArrowUpRight className="h-4 w-4" />}
+                >
+                  <a
+                    href={event.data.applyUrl as string}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                  >
+                    Apply Here
+                  </a>
+                </Button>
+              </div>
+            </Reveal>
+          )}
         </Reveal>
 
         {related.length > 0 && (
