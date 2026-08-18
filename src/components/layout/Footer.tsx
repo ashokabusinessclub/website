@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { navLinks } from "./Navbar";
 import { Reveal, StaggerGroup, StaggerItem } from "@/components/reveal";
+import { InstagramIcon, LinkedInIcon } from "@/components/icons";
 
 export function Footer() {
   return (
@@ -50,7 +51,26 @@ export function Footer() {
                   businessclub@ashoka.edu.in
                 </a>
               </li>
-              <li>Instagram · LinkedIn</li>
+              <li className="flex items-center gap-5 pt-1">
+                <a
+                  href="https://www.instagram.com/ashokabusinessclub/"
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  aria-label="Instagram"
+                  className="text-background/75 transition-fast hover:text-brass"
+                >
+                  <InstagramIcon className="h-5 w-5" />
+                </a>
+                <a
+                  href="https://www.linkedin.com/company/ashoka-business-club/"
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  aria-label="LinkedIn"
+                  className="text-background/75 transition-fast hover:text-brass"
+                >
+                  <LinkedInIcon className="h-5 w-5" />
+                </a>
+              </li>
             </ul>
           </StaggerItem>
         </StaggerGroup>

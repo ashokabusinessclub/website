@@ -1,6 +1,7 @@
-import { Mail, MapPin, Instagram, Linkedin } from "lucide-react";
+import { Mail, MapPin } from "lucide-react";
 import { PageHeader } from "@/components/PageHeader";
 import { Reveal, StaggerGroup, StaggerItem } from "@/components/reveal";
+import { InstagramIcon, LinkedInIcon } from "@/components/icons";
 
 const channels = [
   {
@@ -10,16 +11,16 @@ const channels = [
     href: "mailto:businessclub@ashoka.edu.in",
   },
   {
-    icon: Instagram,
-    label: "Instagram",
+    icon: InstagramIcon,
+    label: null,
     value: "@ashokabusinessclub",
-    href: "https://instagram.com",
+    href: "https://www.instagram.com/ashokabusinessclub/",
   },
   {
-    icon: Linkedin,
-    label: "LinkedIn",
+    icon: LinkedInIcon,
+    label: null,
     value: "Ashoka Business Club",
-    href: "https://linkedin.com",
+    href: "https://www.linkedin.com/company/ashoka-business-club/",
   },
 ];
 
@@ -42,11 +43,13 @@ export default function Contact() {
                   rel="noreferrer noopener"
                   className="card-lift group flex items-center gap-4 p-6 transition-fast"
                 >
-                  <c.icon className="h-5 w-5 text-accent shrink-0 transition-transform duration-[var(--dur-base)] ease-[var(--ease-out)] group-hover:translate-x-0.5" />
+                  <c.icon className="h-6 w-6 text-accent shrink-0 transition-transform duration-[var(--dur-base)] ease-[var(--ease-out)] group-hover:translate-x-0.5" />
                   <span>
-                    <span className="block text-xs uppercase tracking-[0.18em] text-muted-foreground">
-                      {c.label}
-                    </span>
+                    {c.label && (
+                      <span className="block text-xs uppercase tracking-[0.18em] text-muted-foreground">
+                        {c.label}
+                      </span>
+                    )}
                     <span className="mt-1 block font-medium">{c.value}</span>
                   </span>
                 </a>
