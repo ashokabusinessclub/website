@@ -2,6 +2,7 @@ import { CSSProperties } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { ContentEntry, EventItem, AbrItem, Department, Sponsor, departments, formatDate } from "@/lib/content";
+import { DepartmentArt } from "@/components/department-art";
 
 function Cover({ src, alt }: { src?: string; alt: string }) {
   return (
@@ -42,27 +43,32 @@ export function DepartmentCard({
     <Link
       to={`/departments/${item.slug}`}
       style={style}
-      className="card-lift group block h-full p-7"
+      className="group relative block h-full overflow-hidden rounded-2xl border border-border bg-card shadow-[var(--shadow-ambient)] transition-base hover:-translate-y-1 hover:border-brass/60 hover:shadow-[var(--shadow-elevated)]"
+      aria-label={`${item.data.name} — ${item.data.description}`}
     >
-      <div className="flex h-full flex-col">
-        <div className="flex items-center gap-4">
-          <span className="font-display text-sm italic text-brass">
-            No. {String(index + 1).padStart(2, "0")}
-          </span>
-          <span className="h-px flex-1 bg-gradient-to-r from-brass/60 to-transparent" />
-        </div>
+      <div className="relative aspect-square">
+        <DepartmentArt
+          slug={item.slug}
+          className="absolute inset-0 transition-transform duration-[var(--dur-slower)] ease-[var(--ease-out)] group-hover:scale-[1.05]"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-ink/85 via-ink/15 to-ink/5" />
 
-        <h3 className="mt-4 font-display text-2xl transition-fast group-hover:text-primary">
-          {item.data.name}
-        </h3>
-        <p className="mt-3 flex-1 text-sm leading-relaxed text-muted-foreground transition-fast">
-          {item.data.description}
-        </p>
-
-        <span className="mt-6 inline-flex w-max items-center gap-2 text-sm font-medium text-primary">
-          What we do
-          <ArrowRight className="h-4 w-4 transition-transform duration-[var(--dur-base)] ease-[var(--ease-out)] group-hover:translate-x-1" />
+        <span className="absolute left-4 top-4 inline-flex items-center rounded-full border border-background/20 bg-background/10 px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-background backdrop-blur-sm">
+          No. {String(index + 1).padStart(2, "0")}
         </span>
+
+        <div className="absolute inset-x-0 bottom-0 p-6">
+          <h3 className="font-display text-2xl text-background transition-fast group-hover:text-brass">
+            {item.data.name}
+          </h3>
+          <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-background/75">
+            {item.data.description}
+          </p>
+          <span className="mt-4 inline-flex items-center gap-2 text-sm font-medium text-brass">
+            What we do
+            <ArrowRight className="h-4 w-4 transition-transform duration-[var(--dur-base)] ease-[var(--ease-out)] group-hover:translate-x-1" />
+          </span>
+        </div>
       </div>
     </Link>
   );

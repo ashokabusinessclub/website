@@ -7,8 +7,9 @@ export default function Departments() {
   return (
     <>
       <PageHeader
-        title="The teams that run the club."
-        intro="Each department owns a distinct mandate — from research and editorial to partnerships, events and design. Open one to see its responsibilities and the work it delivers each semester."
+        eyebrow="The Departments"
+        title="Six verticals, one club."
+        intro="Every initiative at ABC is owned by a vertical — pick one from the departments menu above, or jump straight to any team below."
       />
 
       <section className="container-abc py-20 md:py-28">
@@ -19,7 +20,7 @@ export default function Departments() {
             </p>
           </Reveal>
         ) : (
-          <StaggerGroup className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <StaggerGroup className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {departments.map((d) => (
               <StaggerItem key={d.slug}>
                 <DepartmentCard item={d} />

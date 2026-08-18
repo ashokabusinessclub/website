@@ -398,6 +398,21 @@
   }
 
   /* ============================================
+     EDITORIAL DROP CAP — for prose bodies
+     ============================================ */
+
+  .prose-dropcap > p:first-of-type::first-letter {
+    font-family: 'Fraunces', Georgia, serif;
+    font-weight: 700;
+    float: left;
+    font-size: 3.4em;
+    line-height: 0.82;
+    padding-right: 0.12em;
+    margin-top: 0.05em;
+    color: hsl(var(--crimson));
+  }
+
+  /* ============================================
      NAVBAR — FLOATING PILL + GLASS
      ============================================ */
 

@@ -1,7 +1,17 @@
-import { useEffect, useState } from "react";
-import { NavLink, Link } from "react-router-dom";
-import { Moon, Sun } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { NavLink, Link, useLocation } from "react-router-dom";
+import { ArrowRight, ChevronDown, Moon, Sun } from "lucide-react";
 import { AnimatePresence, motion, useReducedMotion, type Variants } from "motion/react";
+import { departments } from "@/lib/content";
+import { DepartmentArt } from "@/components/department-art";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { useTheme } from "@/hooks/use-theme";
 
 export const navLinks = [
@@ -16,9 +26,33 @@ export const navLinks = [
 
 export function Navbar() {
   const [open, setOpen] = useState(false);
+  const [departmentsOpen, setDepartmentsOpen] = useState(false);
+  const closeTimerRef = useRef<number | null>(null);
   const reduceMotion = useReducedMotion();
   const { theme, toggle } = useTheme();
   const dark = theme === "dark";
+  const { pathname } = useLocation();
+  const onDepartments = pathname.startsWith("/departments");
+
+  const openDepartments = () => {
+    if (closeTimerRef.current) window.clearTimeout(closeTimerRef.current);
+    closeTimerRef.current = null;
+    setDepartmentsOpen(true);
+  };
+
+  const closeDepartments = () => {
+    if (closeTimerRef.current) window.clearTimeout(closeTimerRef.current);
+    closeTimerRef.current = window.setTimeout(() => {
+      setDepartmentsOpen(false);
+      closeTimerRef.current = null;
+    }, 150);
+  };
+
+  useEffect(() => {
+    return () => {
+      if (closeTimerRef.current) window.clearTimeout(closeTimerRef.current);
+    };
+  }, []);
 
   const linkClass = ({ isActive }: { isActive: boolean }) =>
     `nav-tab relative whitespace-nowrap px-4 py-2 text-sm font-medium transition-fast ${
@@ -79,26 +113,103 @@ export function Navbar() {
 
             {/* Desktop Navigation */}
             <div className="hidden items-center gap-1 xl:flex">
-              {navLinks.map((l) => (
-                <NavLink
-                  key={l.to}
-                  to={l.to}
-                  className={({ isActive }) => linkClass({ isActive })}
-                >
-                  {({ isActive }) => (
-                    <>
-                      {l.label}
-                      {isActive && (
-                        <motion.span
-                          layoutId="nav-underline"
-                          className="pointer-events-none absolute inset-x-4 bottom-1 h-[2px] rounded-full bg-primary"
-                          transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
-                        />
-                      )}
-                    </>
-                  )}
-                </NavLink>
-              ))}
+              {navLinks.map((l) =>
+                l.to === "/departments" ? (
+                  <div
+                    key={l.to}
+                    className="relative"
+                    onMouseEnter={openDepartments}
+                    onMouseLeave={closeDepartments}
+                  >
+                    <DropdownMenu
+                      open={departmentsOpen}
+                      onOpenChange={(o) => (o ? openDepartments() : closeDepartments())}
+                    >
+                      <DropdownMenuTrigger asChild>
+                        <button
+                          type="button"
+                          className={`group nav-tab relative inline-flex items-center gap-1 whitespace-nowrap px-4 py-2 text-sm font-medium transition-fast ${
+                            onDepartments
+                              ? "is-active text-foreground"
+                              : "text-foreground/65 hover:text-foreground"
+                          }`}
+                        >
+                          {l.label}
+                          <ChevronDown className="h-3.5 w-3.5 opacity-60 transition-transform duration-[var(--dur-slow)] ease-[var(--ease-out)] group-data-[state=open]:rotate-180" />
+                          {onDepartments && (
+                            <motion.span
+                              layoutId="nav-underline"
+                              className="pointer-events-none absolute inset-x-4 bottom-1 h-[2px] rounded-full bg-primary"
+                              transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+                            />
+                          )}
+                        </button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent
+                        onMouseEnter={openDepartments}
+                        onMouseLeave={closeDepartments}
+                        align="start"
+                        sideOffset={10}
+                        className="w-80 max-h-[min(70vh,30rem)] overflow-y-auto rounded-2xl border-border bg-popover p-2.5 shadow-[var(--shadow-elevated)]"
+                      >
+                        <DropdownMenuLabel className="flex items-center gap-3 px-3 pb-3 pt-2 text-[0.65rem] font-semibold uppercase tracking-[0.22em] text-muted-foreground">
+                          <span className="rule-brass w-6" aria-hidden="true" />
+                          The Departments
+                        </DropdownMenuLabel>
+                        {departments.map((d, i) => (
+                          <DropdownMenuItem
+                            key={d.slug}
+                            asChild
+                            className="group/dept mb-1 flex cursor-pointer items-center gap-3 rounded-xl px-3 py-2.5 data-[highlighted]:bg-secondary data-[highlighted]:text-foreground"
+                          >
+                            <Link to={`/departments/${d.slug}`}>
+                              <span className="relative h-10 w-10 shrink-0 overflow-hidden rounded-lg border border-border transition-transform duration-[var(--dur-base)] ease-[var(--ease-out)] group-hover/dept:scale-[1.06]">
+                                <DepartmentArt slug={d.slug} className="absolute inset-0" />
+                              </span>
+                              <span className="min-w-0 flex-1">
+                                <span className="block truncate font-display text-[0.95rem] leading-tight">
+                                  {d.data.name}
+                                </span>
+                                <span className="mt-1 flex items-center gap-1.5 text-[0.6rem] font-medium uppercase tracking-[0.18em] text-muted-foreground">
+                                  <span className="inline-block h-1 w-1 rounded-full bg-brass" aria-hidden="true" />
+                                  Vertical {String(i + 1).padStart(2, "0")}
+                                </span>
+                              </span>
+                              <ArrowRight className="h-4 w-4 shrink-0 -translate-x-1 text-primary opacity-0 transition-all duration-[var(--dur-base)] ease-[var(--ease-out)] group-hover/dept:translate-x-0 group-hover/dept:opacity-100" />
+                            </Link>
+                          </DropdownMenuItem>
+                        ))}
+                        <DropdownMenuSeparator className="my-2 bg-border" />
+                        <DropdownMenuItem asChild className="group/dept cursor-pointer rounded-xl px-3 py-2.5 data-[highlighted]:bg-secondary data-[highlighted]:text-foreground">
+                          <Link to="/departments" className="flex items-center justify-between gap-3">
+                            <span className="font-display text-sm">All departments</span>
+                            <ArrowRight className="h-4 w-4 shrink-0 text-primary transition-transform duration-[var(--dur-base)] ease-[var(--ease-out)] group-hover/dept:translate-x-1" />
+                          </Link>
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </div>
+                ) : (
+                  <NavLink
+                    key={l.to}
+                    to={l.to}
+                    className={({ isActive }) => linkClass({ isActive })}
+                  >
+                    {({ isActive }) => (
+                      <>
+                        {l.label}
+                        {isActive && (
+                          <motion.span
+                            layoutId="nav-underline"
+                            className="pointer-events-none absolute inset-x-4 bottom-1 h-[2px] rounded-full bg-primary"
+                            transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+                          />
+                        )}
+                      </>
+                    )}
+                  </NavLink>
+                ),
+              )}
             </div>
 
             {/* Hamburger Button */}
@@ -165,7 +276,7 @@ export function Navbar() {
                 <motion.div
                   key={l.to}
                   variants={reduceMotion ? undefined : linkVariants}
-                  className="mobile-menu-link"
+                  className="mobile-menu-link flex flex-col items-center"
                 >
                   <NavLink
                     to={l.to}
@@ -178,6 +289,26 @@ export function Navbar() {
                   >
                     {l.label}
                   </NavLink>
+                  {l.to === "/departments" && (
+                    <div className="mt-4 flex flex-col items-center gap-1.5">
+                      {departments.map((d) => (
+                        <NavLink
+                          key={d.slug}
+                          to={`/departments/${d.slug}`}
+                          onClick={() => setOpen(false)}
+                          className={({ isActive }) =>
+                            `text-base transition-fast ${
+                              isActive
+                                ? "text-brass"
+                                : "text-background/70 hover:text-brass"
+                            }`
+                          }
+                        >
+                          {d.data.name}
+                        </NavLink>
+                      ))}
+                    </div>
+                  )}
                 </motion.div>
               ))}
             </motion.nav>
