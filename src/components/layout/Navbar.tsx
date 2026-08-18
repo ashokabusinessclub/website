@@ -55,7 +55,7 @@ export function Navbar() {
   }, []);
 
   const linkClass = ({ isActive }: { isActive: boolean }) =>
-    `nav-tab relative whitespace-nowrap px-4 py-2 text-sm font-medium transition-fast ${
+    `nav-tab relative whitespace-nowrap px-3 py-2 text-sm font-medium transition-fast ${
       isActive
         ? "is-active text-foreground"
         : "text-foreground/65 hover:text-foreground"
@@ -94,14 +94,13 @@ export function Navbar() {
 
   return (
     <>
-      {/* Floating Pill Navbar */}
-      <header className="pointer-events-none">
+      {/* Institutional header */}
+      <header className="navbar">
         <nav
-          className="navbar-pill pointer-events-auto"
+          className="navbar-inner"
           role="navigation"
           aria-label="Main navigation"
         >
-          <div className="navbar-inner">
             <Link to="/" className="flex items-baseline gap-3 transition-fast hover:opacity-80" aria-label="Ashoka Business Club Home">
               <span className="font-display text-2xl font-black tracking-tight text-ink">
                 ABC
@@ -112,7 +111,7 @@ export function Navbar() {
             </Link>
 
             {/* Desktop Navigation */}
-            <div className="hidden items-center gap-1 xl:flex">
+            <div className="ml-auto hidden items-center gap-1 xl:flex">
               {navLinks.map((l) =>
                 l.to === "/departments" ? (
                   <div
@@ -128,7 +127,7 @@ export function Navbar() {
                       <DropdownMenuTrigger asChild>
                         <button
                           type="button"
-                          className={`group nav-tab relative inline-flex items-center gap-1 whitespace-nowrap px-4 py-2 text-sm font-medium transition-fast ${
+                          className={`group nav-tab relative inline-flex items-center gap-1 whitespace-nowrap px-3 py-2 text-sm font-medium transition-fast ${
                             onDepartments
                               ? "is-active text-foreground"
                               : "text-foreground/65 hover:text-foreground"
@@ -139,7 +138,7 @@ export function Navbar() {
                           {onDepartments && (
                             <motion.span
                               layoutId="nav-underline"
-                              className="pointer-events-none absolute inset-x-4 bottom-1 h-[2px] rounded-full bg-primary"
+                              className="pointer-events-none absolute inset-x-3 bottom-1 h-[2px] rounded-full bg-accent"
                               transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
                             />
                           )}
@@ -201,7 +200,7 @@ export function Navbar() {
                         {isActive && (
                           <motion.span
                             layoutId="nav-underline"
-                            className="pointer-events-none absolute inset-x-4 bottom-1 h-[2px] rounded-full bg-primary"
+                            className="pointer-events-none absolute inset-x-3 bottom-1 h-[2px] rounded-full bg-accent"
                             transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
                           />
                         )}
@@ -212,42 +211,43 @@ export function Navbar() {
               )}
             </div>
 
-            {/* Hamburger Button */}
-            <button
-              className={`xl:hidden flex flex-col items-center justify-center gap-[5px] w-10 h-10 p-2 ${open ? "hamburger-open" : ""}`}
-              aria-label={open ? "Close navigation" : "Open navigation"}
-              aria-expanded={open}
-              aria-controls="mobile-menu"
-              onClick={() => setOpen((prev) => !prev)}
-            >
-              <span className="hamburger-line" aria-hidden="true" />
-              <span className="hamburger-line" aria-hidden="true" />
-              <span className="hamburger-line" aria-hidden="true" />
-            </button>
+            {/* Theme Toggle + Hamburger */}
+            <div className="ml-auto flex items-center gap-1 xl:ml-0">
+              <button
+                type="button"
+                onClick={toggle}
+                aria-label={dark ? "Switch to light mode" : "Switch to dark mode"}
+                className="flex h-10 w-10 items-center justify-center rounded-full text-foreground/70 transition-fast hover:bg-foreground/[0.06] hover:text-foreground"
+              >
+                <AnimatePresence mode="wait" initial={false}>
+                  <motion.span
+                    key={theme}
+                    initial={reduceMotion ? false : { opacity: 0, rotate: -90, scale: 0.5 }}
+                    animate={{ opacity: 1, rotate: 0, scale: 1 }}
+                    exit={reduceMotion ? undefined : { opacity: 0, rotate: 90, scale: 0.5 }}
+                    transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+                    className="block"
+                    aria-hidden="true"
+                  >
+                    {dark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+                  </motion.span>
+                </AnimatePresence>
+              </button>
 
-            {/* Theme Toggle */}
-            <button
-              type="button"
-              onClick={toggle}
-              aria-label={dark ? "Switch to light mode" : "Switch to dark mode"}
-              className="flex h-10 w-10 items-center justify-center rounded-full text-foreground/70 transition-fast hover:bg-foreground/[0.06] hover:text-foreground"
-            >
-              <AnimatePresence mode="wait" initial={false}>
-                <motion.span
-                  key={theme}
-                  initial={reduceMotion ? false : { opacity: 0, rotate: -90, scale: 0.5 }}
-                  animate={{ opacity: 1, rotate: 0, scale: 1 }}
-                  exit={reduceMotion ? undefined : { opacity: 0, rotate: 90, scale: 0.5 }}
-                  transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-                  className="block"
-                  aria-hidden="true"
-                >
-                  {dark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
-                </motion.span>
-              </AnimatePresence>
-            </button>
-          </div>
-        </nav>
+              {/* Hamburger Button */}
+              <button
+                className={`xl:hidden flex flex-col items-center justify-center gap-[5px] w-10 h-10 p-2 ${open ? "hamburger-open" : ""}`}
+                aria-label={open ? "Close navigation" : "Open navigation"}
+                aria-expanded={open}
+                aria-controls="mobile-menu"
+                onClick={() => setOpen((prev) => !prev)}
+              >
+                <span className="hamburger-line" aria-hidden="true" />
+                <span className="hamburger-line" aria-hidden="true" />
+                <span className="hamburger-line" aria-hidden="true" />
+              </button>
+            </div>
+          </nav>
       </header>
 
       {/* Mobile Menu Overlay */}

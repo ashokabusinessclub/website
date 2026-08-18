@@ -376,8 +376,8 @@
   }
 
   .nav-tab::after {
-    left: 1rem;
-    right: 1rem;
+    left: 0.75rem;
+    right: 0.75rem;
     bottom: 4px;
   }
 
@@ -413,21 +413,17 @@
   }
 
   /* ============================================
-     NAVBAR — FLOATING PILL + GLASS
+     NAVBAR — INSTITUTIONAL TOP BAR
      ============================================ */
 
-  .navbar-pill {
-    @apply fixed top-6 left-1/2 -translate-x-1/2 z-50 w-max max-w-[calc(100vw-2rem)];
-    background: hsl(var(--background) / 0.85);
-    backdrop-filter: blur(40px);
-    border: 1px solid hsl(var(--border));
-    border-radius: 9999px;
-    box-shadow: var(--shadow-elevated);
-    transition: transform var(--dur-base) var(--ease-out), opacity var(--dur-base) var(--ease-out);
+  .navbar {
+    @apply fixed inset-x-0 top-0 z-50;
+    background: hsl(var(--background));
+    border-bottom: 1px solid hsl(var(--border));
   }
 
   .navbar-inner {
-    @apply flex items-center gap-4 px-5 py-3;
+    @apply container-abc flex items-center gap-3 py-3;
   }
 
   .hamburger-line {
