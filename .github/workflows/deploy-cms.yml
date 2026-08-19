@@ -30,6 +30,8 @@ jobs:
             cd cms
             npm ci
             npm run build
+            cp -r .next/static .next/standalone/.next/
+            cp -r public .next/standalone/ 2>/dev/null || true
             sudo systemctl restart abc-cms
 
       - name: Verify CMS health
