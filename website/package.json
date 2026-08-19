@@ -9,11 +9,10 @@
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
     "preview": "vite preview",
-    "prebuild": "npm run cms:export",
-    "cms:seed": "npm --prefix cms run seed",
-    "cms:export": "npm --prefix cms run export",
-    "cms:dev": "npm --prefix cms run dev",
-    "cms:monitor": "npm --prefix cms run monitor"
+    "cms:seed": "npm --prefix ../cms run seed",
+    "cms:export": "npm --prefix ../cms run export",
+    "cms:dev": "npm --prefix ../cms run dev",
+    "cms:monitor": "npm --prefix ../cms run monitor"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",

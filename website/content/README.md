@@ -6,15 +6,13 @@ so a CMS such as Decap that writes markdown directly will work without code
 changes. The filename (minus `.md`) becomes the URL slug.
 
 These files are **also the backup data source for the CMS**: the Payload CMS in
-`cms/` mirrors this content, and a `prebuild` export pulls CMS state back into
-these files before every site build. If the CMS is unreachable during a build,
-the last committed markdown ships instead.
+`../cms/` mirrors this content. If the CMS is unreachable at runtime, this
+bundled markdown is what ships.
 
 - `npm run cms:seed`   — import these files into the CMS (upsert by slug)
-- `npm run cms:export` — export CMS state back into these files (runs
-  automatically before `npm run build`)
+- `npm run cms:export` — export CMS state back into these files
 - `npm run cms:dev`    — run the CMS locally (admin at http://localhost:3000/admin)
-- See `cms/README.md` for the full workflow.
+- See `../cms/README.md` for the full workflow.
 
 ## `content/departments/`
 ```yaml

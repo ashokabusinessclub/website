@@ -3,9 +3,9 @@
  *
  *   npm run export
  *
- * This keeps content/*.md in git as the backup data source: the website
+ * This keeps website/content/*.md in git as the backup data source: the website
  * builds from markdown, so the committed markdown is what ships if the CMS
- * is ever unreachable. Run this before builds (root `prebuild` does) so the
+ * is ever unreachable. Run this before shipping a content update so the
  * markdown tracks the latest CMS state.
  *
  * Uses the public REST API, so it can point at a deployed CMS:
@@ -21,7 +21,7 @@ import { fileURLToPath } from "node:url";
 import "dotenv/config";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const contentRoot = path.resolve(__dirname, "../../content");
+const contentRoot = path.resolve(__dirname, "../../website/content");
 
 const CMS_API_URL = (process.env.CMS_API_URL ?? "http://localhost:3000/api").replace(
   /\/$/,
@@ -137,7 +137,7 @@ function writeCollection(
     }
   }
 
-  console.log(`[export] ${collection}: wrote ${docs.length} files → content/${dir}/`);
+  console.log(`[export] ${collection}: wrote ${docs.length} files → website/content/${dir}/`);
 }
 
 async function main() {

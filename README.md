@@ -1,94 +1,52 @@
-# Welcome to your Lovable project
+# Ashoka Business Club — Website + CMS
 
-## Project info
+Monorepo with two deployable parts:
 
-**URL**: https://lovable.dev/projects/1169db3a-30f3-49bc-bd0b-9cda42ae0ebe
-
-## How can I edit this code?
-
-There are several ways of editing your application.
-
-**Use Lovable**
-
-Simply visit the [Lovable Project](https://lovable.dev/projects/1169db3a-30f3-49bc-bd0b-9cda42ae0ebe) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+```
+repo/
+├── cms/       Payload 3 CMS backend (Postgres) — deployed to the VPS
+├── website/   Vite + React static site — deployed to Vercel
+└── .github/   CI: pushes touching cms/** auto-deploy to the VPS
 ```
 
-**Edit a file directly in GitHub**
+## How deploys work
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+| Folder | Where it deploys | Trigger |
+| --- | --- | --- |
+| `website/**` | Vercel (Root Directory = `website`) | push to `main` |
+| `cms/**` | Hetzner VPS (`/opt/abc/repo`, systemd `abc-cms`) | push to `main` → GitHub Action SSHs in, `git pull`, `npm ci`, `npm run build`, restart |
 
-**Use GitHub Codespaces**
+The site is a static build that bundles `website/content/*.md`. At runtime it
+fetches the CMS API (`VITE_CMS_URL`); if the CMS is unreachable it renders the
+bundled markdown — the backup data source.
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+## Local dev
 
-## What technologies are used for this project?
+```bash
+# website (http://localhost:8080)
+cd website
+npm install
+npm run dev
 
-This project is built with:
+# CMS (admin at http://localhost:3000/admin)
+cd cms
+cp .env.example .env   # fill PAYLOAD_SECRET, DATABASE_URI, CMS_ADMIN_*
+npm install
+npm run dev
+npm run seed           # once: import website/content into Postgres
+```
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+## Content flow
 
-## How can I deploy this project?
+- `website/content/**` is the backup data source, bundled into the site build.
+- `cms` sync scripts (run from `website/`):
+  - `npm run cms:seed`   — import markdown into the CMS (upsert by slug)
+  - `npm run cms:export` — pull CMS state back into markdown files
 
-Simply open [Lovable](https://lovable.dev/projects/1169db3a-30f3-49bc-bd0b-9cda42ae0ebe) and click on Share -> Publish.
+See `cms/README.md` and `website/content/README.md` for details.
 
-## Can I connect a custom domain to my Lovable project?
+## VPS + Vercel setup
 
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
-
-## Content & CMS
-
-Site content lives in `content/*.md` (see `content/README.md`) and is bundled
-into the static build. A Payload CMS backend lives in `cms/` (see
-`cms/README.md`):
-
-- The site tries the CMS API at runtime (`VITE_CMS_URL`); if it's unreachable
-  it renders the bundled markdown — the backup data source.
-- `npm run cms:seed` imports markdown into the CMS; a pre-build export keeps
-  the markdown in sync with the CMS.
-- `npm run cms:monitor` pings UptimeRobot heartbeats for website + CMS uptime
-  (see `documentation/pages/cms-health-monitoring.md`).
-
-# Contributors
-
-<a href="https://github.com/ashokabusinessclub/website/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=ashokabusinessclub/website" />
-</a>
-
-Made with [contrib.rocks](https://contrib.rocks).
+See `docs` below / `cms/README.md`. The VPS runs Postgres + the CMS behind
+Caddy; Vercel hosts the static site and needs `VITE_CMS_URL` pointing at the
+CMS (e.g. `https://cms.yourdomain.com`).
