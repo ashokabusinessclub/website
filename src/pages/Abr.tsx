@@ -1,19 +1,20 @@
 import { useMemo, useState } from "react";
 import { PageHeader } from "@/components/PageHeader";
+import { useCmsContent } from "@/lib/cms";
 import { AbrCard } from "@/components/cards";
 import { FilterTabs } from "@/components/filter-tabs";
-import { abrItems, abrTypes } from "@/lib/content";
 import { Reveal, StaggerGroup, StaggerItem } from "@/components/reveal";
 
 export default function Abr() {
+  const { abrItems, abrTypes } = useCmsContent();
   const [filter, setFilter] = useState<string>("All");
 
-  const filters = useMemo(() => ["All", ...abrTypes], []);
+  const filters = useMemo(() => ["All", ...abrTypes], [abrTypes]);
   const visible = useMemo(
     () => (filter === "All"
       ? abrItems
       : abrItems.filter((i) => (i.data.type ?? "Publication") === filter)),
-    [filter]
+    [filter, abrItems]
   );
 
   return (

@@ -1,9 +1,10 @@
 import { PageHeader } from "@/components/PageHeader";
+import { useCmsContent } from "@/lib/cms";
 import { DepartmentCard } from "@/components/cards";
-import { departments } from "@/lib/content";
 import { Reveal, StaggerGroup, StaggerItem } from "@/components/reveal";
 
 export default function Departments() {
+  const { departments } = useCmsContent();
   return (
     <>
       <PageHeader

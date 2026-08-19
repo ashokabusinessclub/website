@@ -2,12 +2,13 @@ import { ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { motion, useReducedMotion } from "motion/react";
 import { ArrowRight, ChevronDown } from "lucide-react";
-import { departments, events, abrItems, sponsors } from "@/lib/content";
+import { useCmsContent } from "@/lib/cms";
 import { DepartmentCard, EventCard, AbrCard } from "@/components/cards";
 import { Button } from "@/components/ui/button";
 import { Reveal, StaggerGroup, StaggerItem } from "@/components/reveal";
 
 export default function Home() {
+  const { departments, events, abrItems, sponsors } = useCmsContent();
   const stats = [
     { k: departments.length, v: "Departments" },
     { k: events.length, v: "Flagship events" },

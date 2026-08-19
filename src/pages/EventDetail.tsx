@@ -1,6 +1,7 @@
 import { Link, useParams } from "react-router-dom";
 import { ArrowLeft, ArrowUpRight, Calendar, MapPin, Tag } from "lucide-react";
-import { getEvent, formatDate, events } from "@/lib/content";
+import { formatDate } from "@/lib/content";
+import { useCmsContent } from "@/lib/cms";
 import { Markdown } from "@/components/Markdown";
 import { Button } from "@/components/ui/button";
 import { EventCard } from "@/components/cards";
@@ -8,8 +9,9 @@ import { Reveal, StaggerGroup, StaggerItem } from "@/components/reveal";
 import NotFound from "./NotFound";
 
 export default function EventDetail() {
+  const { events } = useCmsContent();
   const { slug } = useParams();
-  const event = slug ? getEvent(slug) : undefined;
+  const event = slug ? events.find((e) => e.slug === slug) : undefined;
 
   if (!event) return <NotFound />;
 

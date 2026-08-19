@@ -1,13 +1,15 @@
 import { Link, useParams } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
-import { getAbrItem, formatDate } from "@/lib/content";
+import { formatDate } from "@/lib/content";
+import { useCmsContent } from "@/lib/cms";
 import { Markdown } from "@/components/Markdown";
 import { Reveal } from "@/components/reveal";
 import NotFound from "./NotFound";
 
 export default function AbrDetail() {
+  const { abrItems } = useCmsContent();
   const { slug } = useParams();
-  const item = slug ? getAbrItem(slug) : undefined;
+  const item = slug ? abrItems.find((i) => i.slug === slug) : undefined;
 
   if (!item) return <NotFound />;
 

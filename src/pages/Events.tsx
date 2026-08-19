@@ -2,16 +2,17 @@ import { useMemo, useState } from "react";
 import { PageHeader } from "@/components/PageHeader";
 import { EventCard } from "@/components/cards";
 import { FilterTabs } from "@/components/filter-tabs";
-import { events, eventCategories } from "@/lib/content";
+import { useCmsContent } from "@/lib/cms";
 import { Reveal, StaggerGroup, StaggerItem } from "@/components/reveal";
 
 export default function Events() {
+  const { events, eventCategories } = useCmsContent();
   const [filter, setFilter] = useState("All");
 
-  const filters = useMemo(() => ["All", ...eventCategories], []);
+  const filters = useMemo(() => ["All", ...eventCategories], [eventCategories]);
   const visible = useMemo(
     () => (filter === "All" ? events : events.filter((e) => e.data.category === filter)),
-    [filter]
+    [filter, events]
   );
 
   return (

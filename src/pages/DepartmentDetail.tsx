@@ -1,6 +1,6 @@
 import { Link, useParams } from "react-router-dom";
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import { getDepartment, departments } from "@/lib/content";
+import { useCmsContent } from "@/lib/cms";
 import { DepartmentCard } from "@/components/cards";
 import { DepartmentArt } from "@/components/department-art";
 import { Markdown } from "@/components/Markdown";
@@ -8,8 +8,9 @@ import { Reveal, StaggerGroup, StaggerItem } from "@/components/reveal";
 import NotFound from "./NotFound";
 
 export default function DepartmentDetail() {
+  const { departments } = useCmsContent();
   const { slug } = useParams();
-  const dept = slug ? getDepartment(slug) : undefined;
+  const dept = slug ? departments.find((d) => d.slug === slug) : undefined;
 
   if (!dept) return <NotFound />;
 

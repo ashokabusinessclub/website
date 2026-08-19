@@ -1,11 +1,12 @@
 import { PageHeader } from "@/components/PageHeader";
+import { useCmsContent } from "@/lib/cms";
 import { SponsorCard } from "@/components/cards";
-import { sponsors } from "@/lib/content";
 import { Button } from "@/components/ui/button";
 import { Reveal, StaggerGroup, StaggerItem } from "@/components/reveal";
 import { ArrowRight } from "lucide-react";
 
 export default function Sponsors() {
+  const { sponsors } = useCmsContent();
   return (
     <>
       <PageHeader

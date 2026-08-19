@@ -1,7 +1,8 @@
 import { CSSProperties } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
-import { ContentEntry, EventItem, AbrItem, Department, Sponsor, departments, formatDate } from "@/lib/content";
+import { ContentEntry, EventItem, AbrItem, Department, Sponsor, formatDate } from "@/lib/content";
+import { useCmsContent } from "@/lib/cms";
 import { DepartmentArt } from "@/components/department-art";
 
 function Cover({ src, alt }: { src?: string; alt: string }) {
@@ -37,6 +38,7 @@ export function DepartmentCard({
   item: ContentEntry<Department>;
   style?: CSSProperties;
 }) {
+  const { departments } = useCmsContent();
   const index = departments.findIndex((d) => d.slug === item.slug);
 
   return (

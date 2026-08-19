@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { NavLink, Link, useLocation } from "react-router-dom";
 import { ArrowRight, ChevronDown, Moon, Sun } from "lucide-react";
 import { AnimatePresence, motion, useReducedMotion, type Variants } from "motion/react";
-import { departments } from "@/lib/content";
+import { useCmsContent } from "@/lib/cms";
 import { DepartmentArt } from "@/components/department-art";
 import {
   DropdownMenu,
@@ -25,6 +25,7 @@ export const navLinks = [
 ];
 
 export function Navbar() {
+  const { departments } = useCmsContent();
   const [open, setOpen] = useState(false);
   const [departmentsOpen, setDepartmentsOpen] = useState(false);
   const closeTimerRef = useRef<number | null>(null);
