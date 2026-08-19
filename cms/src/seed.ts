@@ -113,9 +113,15 @@ function toPayloadDoc(collection: CollectionName, doc: SeedDoc) {
   }
 }
 
+type PayloadCollection =
+  | "departments"
+  | "events"
+  | "abr-items"
+  | "sponsors";
+
 async function upsertCollection(
   payload: Awaited<ReturnType<typeof getPayload>>,
-  collectionName: string,
+  collectionName: PayloadCollection,
   collectionDir: string,
 ) {
   const docs = loadMarkdown(collectionDir);
@@ -139,11 +145,11 @@ async function upsertCollection(
       await payload.update({
         collection: collectionName,
         id: existing.docs[0].id,
-        data,
+        data: data as never,
       });
       updated++;
     } else {
-      await payload.create({ collection: collectionName, data });
+      await payload.create({ collection: collectionName, data: data as never });
       created++;
     }
   }
