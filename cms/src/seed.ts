@@ -3,7 +3,7 @@
  *
  *   npm run seed
  *
- * Reads ../website/content/{departments,events,abr,sponsors}/*.md and upserts each
+ * Reads ../frontend/content/{departments,events,abr,sponsors}/*.md and upserts each
  * entry into Payload by slug (existing entries are updated, new ones created).
  * This is how the CMS gets bootstrapped from the existing content, and how a
  * markdown-first workflow (write md → run seed → CMS stays in sync) works.
@@ -18,7 +18,7 @@ import { getPayload } from "payload";
 import { config } from "./payload.config";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const contentRoot = path.resolve(__dirname, "../../website/content");
+const contentRoot = path.resolve(__dirname, "../../frontend/content");
 
 const COLLECTIONS = {
   departments: { slugField: "slug", sort: "order" },

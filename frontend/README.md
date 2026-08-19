@@ -1,7 +1,7 @@
 # ABC Website — Vite + React + shadcn/ui
 
 Static site for the Ashoka Business Club. Deployed to Vercel (Root Directory =
-`website`). The repo root holds this folder plus the `cms/` backend — see the
+`frontend`). The repo root holds this folder plus the `cms/` backend — see the
 [root README](../README.md) for the full picture.
 
 ## Stack

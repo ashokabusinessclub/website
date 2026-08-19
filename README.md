@@ -5,7 +5,7 @@ Monorepo with two deployable parts:
 ```
 repo/
 ├── cms/       Payload 3 CMS backend (Postgres) — deployed to the VPS
-├── website/   Vite + React static site — deployed to Vercel
+├── frontend/   Vite + React static site — deployed to Vercel
 └── .github/   CI: pushes touching cms/** auto-deploy to the VPS
 ```
 
@@ -13,18 +13,18 @@ repo/
 
 | Folder | Where it deploys | Trigger |
 | --- | --- | --- |
-| `website/**` | Vercel (Root Directory = `website`) | push to `main` |
+| `frontend/**` | Vercel (Root Directory = `frontend`) | push to `main` |
 | `cms/**` | Hetzner VPS (`/opt/abc/repo`, systemd `abc-cms`) | push to `main` → GitHub Action SSHs in, `git pull`, `npm ci`, `npm run build`, restart |
 
-The site is a static build that bundles `website/content/*.md`. At runtime it
+The site is a static build that bundles `frontend/content/*.md`. At runtime it
 fetches the CMS API (`VITE_CMS_URL`); if the CMS is unreachable it renders the
 bundled markdown — the backup data source.
 
 ## Local dev
 
 ```bash
-# website (http://localhost:8080)
-cd website
+# frontend (http://localhost:8080)
+cd frontend
 npm install
 npm run dev
 
@@ -33,17 +33,17 @@ cd cms
 cp .env.example .env   # fill PAYLOAD_SECRET, DATABASE_URI, CMS_ADMIN_*
 npm install
 npm run dev
-npm run seed           # once: import website/content into Postgres
+npm run seed           # once: import frontend/content into Postgres
 ```
 
 ## Content flow
 
-- `website/content/**` is the backup data source, bundled into the site build.
-- `cms` sync scripts (run from `website/`):
+- `frontend/content/**` is the backup data source, bundled into the site build.
+- `cms` sync scripts (run from `frontend/`):
   - `npm run cms:seed`   — import markdown into the CMS (upsert by slug)
   - `npm run cms:export` — pull CMS state back into markdown files
 
-See `cms/README.md` and `website/content/README.md` for details.
+See `cms/README.md` and `frontend/content/README.md` for details.
 
 ## VPS + Vercel setup
 

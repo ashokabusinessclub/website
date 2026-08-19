@@ -4,9 +4,9 @@
 *.tsbuildinfo
 /.opencode/plans
 
-# website
-/website/node_modules
-/website/dist
+# frontend
+/frontend/node_modules
+/frontend/dist
 
 # cms
 /cms/node_modules

@@ -9,7 +9,7 @@ Payload CMS for the Ashoka Business Club website. Serves:
 ## Architecture
 
 ```
-markdown (website/content/ in git)  ──seed──▶  Payload CMS (Postgres)
+markdown (frontend/content/ in git)  ──seed──▶  Payload CMS (Postgres)
       ▲                                  │
       └────────export───────────prebuild│ (cms → markdown before site build)
                                         │
@@ -18,7 +18,7 @@ markdown (website/content/ in git)  ──seed──▶  Payload CMS (Postgres)
 ```
 
 - **Markdown is the backup data source.** The site is a static build that bundles
-  `../website/content/*.md`. A `prebuild` export pulls the latest CMS state into markdown,
+  `../frontend/content/*.md`. A `prebuild` export pulls the latest CMS state into markdown,
   so the committed markdown always tracks the CMS — and if the CMS is ever
   unreachable during a build, the last committed markdown ships anyway.
 - **Seed** (`npm run seed`) imports markdown into the CMS (upsert by slug).
@@ -26,7 +26,7 @@ markdown (website/content/ in git)  ──seed──▶  Payload CMS (Postgres)
 ## Collections
 
 `departments`, `events`, `abr-items`, `sponsors` mirror the frontmatter of the
-markdown files in `../website/content/`. Plus `users` for admin login.
+markdown files in `../frontend/content/`. Plus `users` for admin login.
 
 ## Local setup
 
@@ -54,8 +54,8 @@ The first run also creates the Postgres schema automatically (push mode in dev).
 | --- | --- |
 | `npm run dev` | Next dev server |
 | `npm run build` / `npm start` | Production build / serve (standalone output) |
-| `npm run seed` | Import `../website/content/*.md` into the CMS (upsert by slug); creates the admin user from `CMS_ADMIN_EMAIL`/`CMS_ADMIN_PASSWORD` |
-| `npm run export` | Pull CMS REST API → write `../website/content/*.md` (the backup). Uses `CMS_API_URL` env (defaults to localhost:3000/api). Exits 0 if CMS is unreachable so builds never break |
+| `npm run seed` | Import `../frontend/content/*.md` into the CMS (upsert by slug); creates the admin user from `CMS_ADMIN_EMAIL`/`CMS_ADMIN_PASSWORD` |
+| `npm run export` | Pull CMS REST API → write `../frontend/content/*.md` (the backup). Uses `CMS_API_URL` env (defaults to localhost:3000/api). Exits 0 if CMS is unreachable so builds never break |
 | `npm run monitor` | UptimeRobot heartbeat cron (see below) |
 | `npm run generate:types` | Regenerate Payload TS types |
 | `npm run migrate` | Run Payload migrations |
