@@ -1,6 +1,6 @@
 ---
-name: Externals & Collaborations
-description: Designing and executing our most impactful initiatives — Monopoly, Samay-sya and HOC — alongside inter-college collaborations.
+name: "Externals & Collaborations"
+description: "Designing and executing our most impactful initiatives — Monopoly, Samay-sya and HOC — alongside inter-college collaborations."
 order: 2
 ---
 

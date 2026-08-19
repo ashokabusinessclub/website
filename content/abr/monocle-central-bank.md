@@ -1,12 +1,12 @@
 ---
 title: "Monocle: Reading the Latest Rate Decision"
-date: 2025-11-20
-author: Editorial Desk
+date: "2025-11-20"
+author: "Editorial Desk"
 type: Monocle
 tags:
   - Macro
   - Policy
-excerpt: A short read of what the central bank's language — not its number — signalled this quarter.
+excerpt: "A short read of what the central bank's language — not its number — signalled this quarter."
 ---
 
 The rate itself was the least interesting part of the announcement. The

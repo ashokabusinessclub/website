@@ -1,9 +1,9 @@
 ---
-title: ABR Launch
-date: 2025-09-05
+title: "ABR Launch"
+date: "2025-09-05"
 category: Publication
-location: Sports Block Auditorium
-description: The evening we put the first print issue of the Ashoka Business Review into readers' hands.
+location: "Sports Block Auditorium"
+description: "The evening we put the first print issue of the Ashoka Business Review into readers' hands."
 featured: true
 ---
 

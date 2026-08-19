@@ -1,9 +1,10 @@
 ---
-title: Speaker Sessions
-date: 2025-11-12
-category: Speaker Series
-location: Ashoka University, Sonipat
-description: Closed-door, speaker-led sessions where members learn a real skill directly from people doing the work — not from textbooks or case studies.
+title: "Speaker Sessions"
+date: "2025-11-12"
+category: "Speaker Series"
+location: "Ashoka University, Sonipat"
+description: "Closed-door, speaker-led sessions where members learn a real skill directly from people doing the work — not from textbooks or case studies."
+featured: false
 ---
 
 ## What they are

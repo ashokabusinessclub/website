@@ -1,6 +1,6 @@
 ---
 name: Marketing
-description: The creative and communicative backbone of the club — amplifying its visibility and impact across campus and beyond.
+description: "The creative and communicative backbone of the club — amplifying its visibility and impact across campus and beyond."
 order: 5
 ---
 

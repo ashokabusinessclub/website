@@ -1,13 +1,13 @@
 ---
-title: The State of Indian Quick Commerce
-date: 2025-10-02
-author: ABR Research Desk
+title: "The State of Indian Quick Commerce"
+date: "2025-10-02"
+author: "ABR Research Desk"
 type: Publication
 tags:
   - Retail
   - India
-  - Unit economics
-excerpt: Ten-minute delivery changed consumer expectations faster than it changed the underlying economics. We look at where the margin actually sits.
+  - "Unit economics"
+excerpt: "Ten-minute delivery changed consumer expectations faster than it changed the underlying economics. We look at where the margin actually sits."
 ---
 
 Quick commerce arrived in Indian cities with a promise that was easy to

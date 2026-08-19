@@ -1,9 +1,9 @@
 ---
-title: House of Cards
-date: 2025-10-18
+title: "House of Cards"
+date: "2025-10-18"
 category: Flagship
-location: BMW Infinity Showroom, Delhi
-description: High-intensity corporate crisis simulation hosted by Ashoka Business Club, in partnership with the InfoEdge Centre for Entrepreneurship.
+location: "BMW Infinity Showroom, Delhi"
+description: "High-intensity corporate crisis simulation hosted by Ashoka Business Club, in partnership with the InfoEdge Centre for Entrepreneurship."
 featured: true
 ---
 

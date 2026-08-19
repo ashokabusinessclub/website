@@ -1,6 +1,6 @@
 ---
-name: Learning & Development
-description: Learning opportunities that bridge curiosity with practical exposure across business, consulting, finance and product.
+name: "Learning & Development"
+description: "Learning opportunities that bridge curiosity with practical exposure across business, consulting, finance and product."
 order: 4
 ---
 

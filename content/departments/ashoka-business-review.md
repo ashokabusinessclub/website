@@ -1,6 +1,6 @@
 ---
-name: Ashoka Business Review
-description: The publishing wing of the club — the Monocle newsletter, the semester-ly magazine and the club's public voice.
+name: "Ashoka Business Review"
+description: "The publishing wing of the club — the Monocle newsletter, the semester-ly magazine and the club's public voice."
 order: 6
 ---
 

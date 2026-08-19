@@ -1,6 +1,6 @@
 ---
-name: Industry Collaborations
-description: Bridging students and industry — internships, business trips, field visits and hands-on live projects.
+name: "Industry Collaborations"
+description: "Bridging students and industry — internships, business trips, field visits and hands-on live projects."
 order: 3
 ---
 

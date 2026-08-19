@@ -1,12 +1,12 @@
 ---
 title: "Monocle: The Case Against Equal Founder Splits"
-date: 2025-09-28
-author: ABR Editorial
+date: "2025-09-28"
+author: "ABR Editorial"
 type: Monocle
 tags:
   - Startups
   - Governance
-excerpt: Equal splits feel fair on day one and stop feeling fair by month eighteen. A short argument for vesting design over symmetry.
+excerpt: "Equal splits feel fair on day one and stop feeling fair by month eighteen. A short argument for vesting design over symmetry."
 ---
 
 Equal founder splits are popular because they are easy to agree to and hard to

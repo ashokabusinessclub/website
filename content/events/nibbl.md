@@ -1,11 +1,13 @@
 ---
 title: nibbl.
-date: 2026-02-21
+date: "2026-02-21"
 category: Flagship
-location: Ashoka University, Sonipat
-description: Ashoka's homemade dessert brand, bringing comfort to campus life.
-applyUrl: https://forms.gle/ArExSJ6APP6by79AA
+location: "Ashoka University, Sonipat"
+description: "Ashoka's homemade dessert brand, bringing comfort to campus life."
+featured: false
+applyUrl: "https://forms.gle/ArExSJ6APP6by79AA"
 ---
+
 ## The idea
 
 Between classes, club meetings, submissions, and late-night study sessions, we wanted to make it easier for Ashokans to treat themselves to something comforting without having to look far. Every dessert is made with our in-house recipe - fresh, in small batches, with the warmth and familiarity of something homemade. From nostalgic classics to playful new favourites, nibbl. is about bringing people together over good dessert and making campus life just a little sweeter, one bite at a time.

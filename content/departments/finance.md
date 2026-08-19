@@ -1,6 +1,6 @@
 ---
 name: Finance
-description: The engine of the club — raising funds, managing the annual budget and keeping clean accounts for every initiative.
+description: "The engine of the club — raising funds, managing the annual budget and keeping clean accounts for every initiative."
 order: 1
 ---
 
