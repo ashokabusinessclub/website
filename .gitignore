@@ -3,3 +3,9 @@
 /dist
 *.tsbuildinfo
 /.opencode/plans
+/cms/node_modules
+/cms/.next
+/cms/dist
+/cms/.env
+.env
+.env.local

@@ -72,6 +72,19 @@ To connect a domain, navigate to Project > Settings > Domains and click Connect 
 
 Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
 
+## Content & CMS
+
+Site content lives in `content/*.md` (see `content/README.md`) and is bundled
+into the static build. A Payload CMS backend lives in `cms/` (see
+`cms/README.md`):
+
+- The site tries the CMS API at runtime (`VITE_CMS_URL`); if it's unreachable
+  it renders the bundled markdown — the backup data source.
+- `npm run cms:seed` imports markdown into the CMS; a pre-build export keeps
+  the markdown in sync with the CMS.
+- `npm run cms:monitor` pings UptimeRobot heartbeats for website + CMS uptime
+  (see `documentation/pages/cms-health-monitoring.md`).
+
 # Contributors
 
 <a href="https://github.com/ashokabusinessclub/website/graphs/contributors">
