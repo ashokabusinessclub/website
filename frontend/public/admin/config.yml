@@ -1,0 +1,73 @@
+backend:
+  name: git-gateway
+  branch: main
+  repo: ashokabusinessclub/website
+
+media_folder: "frontend/public/uploads"
+public_folder: "/uploads"
+
+site_url: https://ashokabusinessclub.com
+display_url: https://ashokabusinessclub.com
+
+slug:
+  encoding: "ascii"
+  sanitize_replacement: "-"
+
+collections:
+  - name: "departments"
+    label: "Departments"
+    folder: "frontend/content/departments"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - {label: "Name", name: "name", widget: "string"}
+      - {label: "Description", name: "description", widget: "markdown"}
+      - {label: "Order", name: "order", widget: "number", default: 99, required: false}
+      - {label: "Icon", name: "icon", widget: "string", required: false}
+      - {label: "Responsibilities", name: "responsibilities", widget: "list", required: false}
+      - {label: "Body", name: "body", widget: "markdown"}
+
+  - name: "events"
+    label: "Events"
+    folder: "frontend/content/events"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Date", name: "date", widget: "datetime", format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false}
+      - {label: "Category", name: "category", widget: "string", required: false}
+      - {label: "Cover Image", name: "cover", widget: "image", required: false}
+      - {label: "Location", name: "location", widget: "string", required: false}
+      - {label: "Description", name: "description", widget: "markdown", required: false}
+      - {label: "Featured", name: "featured", widget: "boolean", default: false}
+      - {label: "Apply URL", name: "applyUrl", widget: "string", required: false}
+      - {label: "Body", name: "body", widget: "markdown"}
+
+  - name: "abr"
+    label: "ABR Items"
+    folder: "frontend/content/abr"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - {label: "Title", name: "title", widget: "string"}
+      - {label: "Date", name: "date", widget: "datetime", format: "YYYY-MM-DD", date_format: "YYYY-MM-DD", time_format: false}
+      - {label: "Author", name: "author", widget: "string", required: false}
+      - {label: "Type", name: "type", widget: "select", options: ["Publication", "Monocle"], default: "Publication"}
+      - {label: "Cover Image", name: "cover", widget: "image", required: false}
+      - {label: "Tags", name: "tags", widget: "list", required: false}
+      - {label: "Excerpt", name: "excerpt", widget: "text", required: false}
+      - {label: "Body", name: "body", widget: "markdown"}
+
+  - name: "sponsors"
+    label: "Sponsors"
+    folder: "frontend/content/sponsors"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - {label: "Name", name: "name", widget: "string"}
+      - {label: "Logo", name: "logo", widget: "image", required: false}
+      - {label: "Description", name: "description", widget: "markdown", required: false}
+      - {label: "Website", name: "website", widget: "string", required: false}
+      - {label: "Year", name: "year", widget: "string", required: false}
+      - {label: "Order", name: "order", widget: "number", default: 99, required: false}
+      - {label: "Body", name: "body", widget: "markdown"}
