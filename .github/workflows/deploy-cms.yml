@@ -32,6 +32,27 @@ jobs:
             npm run build
             cp -r .next/static .next/standalone/.next/
             cp -r public .next/standalone/ 2>/dev/null || true
+            # Ensure systemd service exists
+            if [ ! -f /etc/systemd/system/abc-cms.service ]; then
+              cat > /etc/systemd/system/abc-cms.service <<'EOF'
+[Unit]
+Description=ABC CMS (Payload/Next standalone)
+After=network.target postgresql.service
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/abc/repo/cms/.next/standalone
+EnvironmentFile=/opt/abc/repo/cms/.env
+ExecStart=/usr/bin/node server.js
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
+EOF
+              systemctl daemon-reload
+              systemctl enable --now abc-cms
+            fi
             sudo systemctl restart abc-cms
 
       - name: Verify CMS health
