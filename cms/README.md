@@ -30,23 +30,64 @@ markdown files in `../frontend/content/`. Plus `users` for admin login.
 
 ## Local setup
 
+### One-command start (recommended)
+
 ```bash
-# 1. Postgres (pick one)
+# 1. Start Postgres in Docker
+docker run -d --name abc-cms-db \
+  -e POSTGRES_PASSWORD=postgres \
+  -e POSTGRES_DB=abc_cms \
+  -p 5432:5432 postgres:16
+
+# 2. Create local env file
+cat > .env.local <<'EOF'
+NODE_ENV=development
+PORT=3000
+PAYLOAD_SECRET=local-dev-secret-change-me
+DATABASE_URI=postgres://postgres:postgres@localhost:5432/abc_cms
+CORS_ORIGINS=http://localhost:8080
+CMS_ADMIN_EMAIL=admin@example.com
+CMS_ADMIN_PASSWORD=dev-password
+CMS_API_URL=http://localhost:3000/api
+CMS_HEALTH_URL=http://localhost:3000/api/health
+WEBSITE_URL=http://localhost:8080
+EOF
+
+# 3. Install deps (once)
+npm install
+
+# 4. Start dev server (auto-seeds on first run in dev mode)
+npm run dev
+```
+
+Then open **http://localhost:3000/admin** — login with:
+- **Email**: `admin@example.com`
+- **Password**: `dev-password`
+
+### Manual setup (if you prefer .env)
+
+```bash
+# 1. Postgres
 docker run -d --name abc-cms-db -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=abc_cms -p 5432:5432 postgres:16
-# or use a hosted one (Neon, Supabase, Render)
 
 # 2. Env
-cp .env.example .env    # fill PAYLOAD_SECRET, DATABASE_URI, CMS_ADMIN_*
+cp .env.example .env
+# edit .env: set PAYLOAD_SECRET, DATABASE_URI, CMS_ADMIN_EMAIL, CMS_ADMIN_PASSWORD
 
 # 3. Install + run
 npm install
-npm run dev             # next dev → http://localhost:3000
+npm run dev             # http://localhost:3000
 
-# 4. Bootstrap: import the existing markdown into the CMS + create the admin
+# 4. Bootstrap (only needed if auto-seed didn't run)
 npm run seed
 ```
 
-The first run also creates the Postgres schema automatically (push mode in dev).
+### Stop everything
+
+```bash
+# Stop dev server: Ctrl+C
+docker stop abc-cms-db
+```
 
 ## Scripts
 
