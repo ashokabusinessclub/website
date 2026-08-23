@@ -1,11 +1,9 @@
 name: Deploy CMS to VPS
-
 on:
   push:
     branches: [main]
     paths:
       - "cms/**"
-
 jobs:
   deploy:
     name: Pull, build and restart CMS on the VPS
@@ -15,7 +13,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
       - name: Deploy via SSH
         uses: appleboy/ssh-action@v1.2.0
         with:
@@ -26,10 +23,11 @@ jobs:
           script: |
             set -e
             CMS_ROOT=/opt/abc/cms
-            mkdir -p $CMS_ROOT
+            sudo mkdir -p $CMS_ROOT
+            sudo chown $USER:$USER $CMS_ROOT
             cd $CMS_ROOT
             git init
-            git remote add origin https://github.com/ashokabusinessclub/website.git
+            git remote add origin https://github.com/ashokabusinessclub/website.git 2>/dev/null || true
             git pull origin main
             cd cms
             npm ci
@@ -42,26 +40,23 @@ jobs:
             # Ensure systemd service directory exists
             sudo mkdir -p /etc/systemd/system
             # Always write the service file (overwrite if exists)
-            cat > /etc/systemd/system/abc-cms.service <<'EOF'
-[Unit]
-Description=ABC CMS (Payload/Next standalone)
-After=network.target postgresql.service
-
-[Service]
-Type=simple
-WorkingDirectory=/opt/abc/cms/cms/.next/standalone
-EnvironmentFile=/opt/abc/cms/cms/.env
-ExecStart=/usr/bin/node server.js
-Restart=always
-RestartSec=5
-
-[Install]
-WantedBy=multi-user.target
-EOF
-            systemctl daemon-reload
-            systemctl enable --now abc-cms
+            sudo tee /etc/systemd/system/abc-cms.service > /dev/null <<'EOF'
+            [Unit]
+            Description=ABC CMS (Payload/Next standalone)
+            After=network.target postgresql.service
+            [Service]
+            Type=simple
+            WorkingDirectory=/opt/abc/cms/cms/.next/standalone
+            EnvironmentFile=/opt/abc/cms/cms/.env
+            ExecStart=/usr/bin/node server.js
+            Restart=always
+            RestartSec=5
+            [Install]
+            WantedBy=multi-user.target
+            EOF
+            sudo systemctl daemon-reload
+            sudo systemctl enable --now abc-cms
             sudo systemctl restart abc-cms
-
       - name: Verify CMS health
         if: ${{ env.VPS_CMS_DOMAIN != '' }}
         run: |
