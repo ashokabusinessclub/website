@@ -1,4 +1,4 @@
-import "dotenv/config";
+import "./env";
 import cron from "node-cron";
 
 /**

@@ -6,6 +6,10 @@ const dirname = path.dirname(fileURLToPath(import.meta.url));
 
 export default withPayload({
   output: "standalone",
+  outputFileTracingRoot: dirname,
+  turbopack: {
+    root: dirname,
+  },
   transpilePackages: ["@payloadcms/next"],
   webpack: (config) => {
     config.resolve.alias = {

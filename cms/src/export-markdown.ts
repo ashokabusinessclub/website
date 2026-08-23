@@ -18,7 +18,7 @@
 import { mkdirSync, readdirSync, rmSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import "dotenv/config";
+import "./env";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const contentRoot = path.resolve(__dirname, "../../frontend/content");

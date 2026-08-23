@@ -12,7 +12,7 @@
 import { readFileSync, readdirSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import "dotenv/config";
+import "./env";
 import matter from "gray-matter";
 import { getPayload } from "payload";
 import { config } from "./payload.config";
