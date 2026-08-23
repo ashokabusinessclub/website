@@ -25,24 +25,32 @@ jobs:
           port: ${{ secrets.VPS_PORT }}
           script: |
             set -e
-            cd /opt/abc/repo
-            git pull --ff-only origin main
+            CMS_ROOT=/opt/abc/cms
+            mkdir -p $CMS_ROOT
+            cd $CMS_ROOT
+            git init
+            git remote add origin https://github.com/ashokabusinessclub/website.git
+            git pull origin main
             cd cms
             npm ci
             npm run build
-            cp -r .next/static .next/standalone/.next/
-            cp -r public .next/standalone/ 2>/dev/null || true
-            # Ensure systemd service exists
-            if [ ! -f /etc/systemd/system/abc-cms.service ]; then
-              cat > /etc/systemd/system/abc-cms.service <<'EOF'
+            # Copy standalone assets
+            cp -r .next/static .next/standalone/.next/ 2>/dev/null || true
+            # Copy public assets if needed
+            mkdir -p .next/standalone/public
+            cp -r public/* .next/standalone/public/ 2>/dev/null || true
+            # Ensure systemd service directory exists
+            sudo mkdir -p /etc/systemd/system
+            # Always write the service file (overwrite if exists)
+            cat > /etc/systemd/system/abc-cms.service <<'EOF'
 [Unit]
 Description=ABC CMS (Payload/Next standalone)
 After=network.target postgresql.service
 
 [Service]
 Type=simple
-WorkingDirectory=/opt/abc/repo/cms/.next/standalone
-EnvironmentFile=/opt/abc/repo/cms/.env
+WorkingDirectory=/opt/abc/cms/cms/.next/standalone
+EnvironmentFile=/opt/abc/cms/cms/.env
 ExecStart=/usr/bin/node server.js
 Restart=always
 RestartSec=5
@@ -50,9 +58,8 @@ RestartSec=5
 [Install]
 WantedBy=multi-user.target
 EOF
-              systemctl daemon-reload
-              systemctl enable --now abc-cms
-            fi
+            systemctl daemon-reload
+            systemctl enable --now abc-cms
             sudo systemctl restart abc-cms
 
       - name: Verify CMS health
