@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { PageHeader } from "@/components/PageHeader";
 import { useCmsContent } from "@/lib/cms";
 import { SponsorCard } from "@/components/cards";
@@ -52,7 +53,7 @@ export default function Sponsors() {
                   </p>
                 </div>
                 <Button asChild iconRight={<ArrowRight className="h-4 w-4" />} size="lg" className="mt-4 md:mt-0">
-                  <a href="mailto:businessclub@ashoka.edu.in">Get in touch</a>
+                  <Link to="/contact">Get in touch</Link>
                 </Button>
               </div>
             </div>
