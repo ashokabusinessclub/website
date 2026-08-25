@@ -1,4 +1,4 @@
-import { motion } from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
 
 export function FilterTabs({
   options,
@@ -13,6 +13,8 @@ export function FilterTabs({
   ariaLabel: string;
   className?: string;
 }) {
+  const reduceMotion = useReducedMotion();
+
   return (
     <div
       role="group"
@@ -27,14 +29,14 @@ export function FilterTabs({
             type="button"
             aria-pressed={active}
             onClick={() => onChange(o)}
-            className={`tab-underline relative whitespace-nowrap pb-1 text-xs font-semibold uppercase tracking-[0.16em] transition-fast ${
+            className={`tab-underline relative whitespace-nowrap pb-1 text-[0.65rem] font-semibold uppercase tracking-[0.22em] transition-fast ${
               active
                 ? "is-active text-foreground"
-                : "text-muted-foreground hover:text-foreground"
+                : "text-foreground/35 hover:text-foreground"
             }`}
           >
             {o}
-            {active && (
+            {active && !reduceMotion && (
               <motion.span
                 layoutId="section-tab-underline"
                 className="pointer-events-none absolute inset-x-[4px] bottom-0 h-[2px] rounded-full bg-primary"

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;0,9..144,900;1,9..144,400;1,9..144,600;1,9..144,700&family=Work+Sans:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -6,43 +6,43 @@
 :root {
   color-scheme: light;
 
-  /* Ashoka Business Club — ink, parchment, crimson & brass */
-  --background: 40 33% 96%;
-  --foreground: 24 14% 10%;
+  /* Light industrial — warm parchment, dark ink, amber accent */
+  --background: 40 20% 97%;
+  --foreground: 24 12% 12%;
 
-  --card: 40 40% 99%;
-  --card-foreground: 24 14% 10%;
+  --card: 40 20% 99%;
+  --card-foreground: 24 12% 12%;
 
-  --popover: 40 40% 99%;
-  --popover-foreground: 24 14% 10%;
+  --popover: 40 20% 99%;
+  --popover-foreground: 24 12% 12%;
 
-  --primary: 352 62% 30%;
-  --primary-foreground: 40 40% 97%;
+  --primary: 36 65% 44%;
+  --primary-foreground: 40 30% 98%;
 
-  --secondary: 38 30% 90%;
-  --secondary-foreground: 24 14% 12%;
+  --secondary: 36 16% 92%;
+  --secondary-foreground: 24 12% 16%;
 
-  --muted: 38 25% 92%;
-  --muted-foreground: 26 8% 40%;
+  --muted: 36 14% 90%;
+  --muted-foreground: 24 6% 42%;
 
-  --accent: 38 45% 56%;
-  --accent-foreground: 24 20% 10%;
+  --accent: 36 65% 44%;
+  --accent-foreground: 40 30% 98%;
 
-  --destructive: 0 72% 42%;
-  --destructive-foreground: 40 40% 97%;
+  --destructive: 0 62% 42%;
+  --destructive-foreground: 40 30% 98%;
 
-  --border: 32 18% 84%;
-  --input: 32 18% 84%;
-  --ring: 352 62% 30%;
+  --border: 32 14% 85%;
+  --input: 32 14% 85%;
+  --ring: 36 65% 44%;
 
-  --ink: 24 16% 9%;
-  --brass: 38 45% 56%;
-  --crimson: 352 62% 30%;
+  --ink: 24 12% 12%;
+  --brass: 36 65% 44%;
+  --crimson: 0 62% 42%;
 
-  --radius: 0.5rem;
+  --radius: 0.375rem;
 
-  /* Motion System — Custom Cubic-Bezier Easings */
-  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  /* Motion System */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
   --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
   --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
@@ -52,52 +52,59 @@
   --dur-base: 200ms;
   --dur-slow: 350ms;
   --dur-slower: 500ms;
-  --dur-entry: 500ms;
+  --dur-entry: 600ms;
 
   /* Radius System */
-  --radius-outer: 2rem;
-  --radius-inner: calc(2rem - 6px);
+  --radius-outer: 0.75rem;
+  --radius-inner: calc(0.75rem - 4px);
 
-  /* Shadow System */
-  --shadow-ambient: 0 2px 8px -2px hsl(var(--ink) / 0.06), 0 8px 24px -8px hsl(var(--ink) / 0.08);
-  --shadow-elevated: 0 4px 16px -4px hsl(var(--ink) / 0.1), 0 16px 48px -16px hsl(var(--ink) / 0.12);
-  --shadow-glass: inset 0 1px 1px hsl(var(--background) / 0.15), 0 2px 8px -2px hsl(var(--ink) / 0.1);
+  /* Shadow System — tinted with ink for consistency */
+  --shadow-ambient: 0 2px 12px -2px rgba(0,0,0,0.4), 0 8px 32px -8px rgba(0,0,0,0.5);
+  --shadow-elevated: 0 4px 24px -4px rgba(0,0,0,0.5), 0 16px 56px -16px rgba(0,0,0,0.6);
+  --shadow-glass: inset 0 1px 1px rgba(255,255,255,0.04), 0 2px 12px -2px rgba(0,0,0,0.5);
+  --shadow-glow: 0 0 40px -10px hsl(var(--brass) / 0.15);
 }
 
 .dark {
   color-scheme: dark;
 
-  --background: 24 14% 8%;
-  --foreground: 40 33% 96%;
+  /* Dark industrial — deep ink, warm white, amber */
+  --background: 0 0% 5%;
+  --foreground: 40 15% 92%;
 
-  --card: 24 14% 10%;
-  --card-foreground: 40 33% 96%;
+  --card: 0 0% 7%;
+  --card-foreground: 40 15% 92%;
 
-  --popover: 24 14% 10%;
-  --popover-foreground: 40 33% 96%;
+  --popover: 0 0% 7%;
+  --popover-foreground: 40 15% 92%;
 
-  --primary: 352 62% 45%;
-  --primary-foreground: 40 40% 97%;
+  --primary: 36 70% 52%;
+  --primary-foreground: 0 0% 5%;
 
-  --secondary: 38 25% 18%;
-  --secondary-foreground: 40 33% 96%;
+  --secondary: 0 0% 9%;
+  --secondary-foreground: 40 15% 82%;
 
-  --muted: 38 20% 15%;
-  --muted-foreground: 38 15% 60%;
+  --muted: 0 0% 12%;
+  --muted-foreground: 40 8% 52%;
 
-  --accent: 38 45% 56%;
-  --accent-foreground: 24 20% 10%;
+  --accent: 36 70% 52%;
+  --accent-foreground: 0 0% 5%;
 
-  --destructive: 0 72% 50%;
-  --destructive-foreground: 40 40% 97%;
+  --destructive: 0 62% 50%;
+  --destructive-foreground: 40 15% 95%;
 
-  --border: 32 15% 20%;
-  --input: 32 15% 20%;
-  --ring: 352 62% 45%;
+  --border: 0 0% 14%;
+  --input: 0 0% 14%;
+  --ring: 36 70% 52%;
 
-  --ink: 40 33% 96%;
-  --brass: 38 45% 56%;
-  --crimson: 352 62% 45%;
+  --ink: 40 15% 92%;
+  --brass: 36 70% 52%;
+  --crimson: 0 62% 50%;
+
+  --shadow-ambient: 0 2px 12px -2px rgba(0,0,0,0.4), 0 8px 32px -8px rgba(0,0,0,0.5);
+  --shadow-elevated: 0 4px 24px -4px rgba(0,0,0,0.5), 0 16px 56px -16px rgba(0,0,0,0.6);
+  --shadow-glass: inset 0 1px 1px rgba(255,255,255,0.04), 0 2px 12px -2px rgba(0,0,0,0.5);
+  --shadow-glow: 0 0 40px -10px hsl(var(--brass) / 0.3);
 }
 
 @layer base {
@@ -111,11 +118,11 @@
 
   body {
     @apply bg-background text-foreground antialiased;
-    font-family: 'Work Sans', system-ui, sans-serif;
+    font-family: 'DM Sans', system-ui, sans-serif;
   }
 
-  h1, h2, h3, h4 {
-    font-family: 'Fraunces', Georgia, serif;
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Space Grotesk', system-ui, sans-serif;
     @apply font-semibold tracking-tight text-foreground;
   }
 
@@ -126,32 +133,35 @@
 
   /* Selection */
   ::selection {
-    @apply bg-accent/30 text-accent-foreground;
+    @apply bg-primary/30 text-primary-foreground;
   }
 }
 
 @layer components {
   .container-abc {
-    @apply mx-auto w-full max-w-6xl px-6 lg:px-8;
+    @apply mx-auto w-full max-w-[1400px] px-5 sm:px-8 lg:px-12;
   }
 
   .eyebrow {
-    @apply text-xs font-semibold uppercase tracking-[0.22em] text-primary;
+    @apply text-[0.65rem] font-semibold uppercase tracking-[0.28em] text-primary;
   }
 
   .rule-brass {
-    @apply h-px w-full bg-gradient-to-r from-accent/70 via-border to-transparent;
+    @apply h-px w-full bg-gradient-to-r from-primary/60 via-primary/20 to-transparent;
   }
 
   .link-underline {
     @apply relative inline-block after:absolute after:bottom-0 after:left-0 after:h-px after:w-0 after:bg-current after:transition-all hover:after:w-full;
   }
 
-  .paper-grid {
-    background-image:
-      linear-gradient(to right, hsl(var(--foreground) / 0.06) 1px, transparent 1px),
-      linear-gradient(to bottom, hsl(var(--foreground) / 0.06) 1px, transparent 1px);
-    background-size: 64px 64px;
+  /* Section number tag — S.01, S.02, etc. */
+  .section-number {
+    @apply inline-flex items-center gap-2 text-[0.6rem] font-semibold uppercase tracking-[0.28em] text-muted-foreground;
+  }
+
+  .section-number::before {
+    content: "";
+    @apply block h-px w-6 bg-primary/40;
   }
 
   /* ============================================
@@ -208,7 +218,7 @@
     }
   }
 
-  /* Stagger delays for cascading entrance (transition-based) */
+  /* Stagger delays for cascading entrance */
   .stagger-1 { transition-delay: 0ms; }
   .stagger-2 { transition-delay: 60ms; }
   .stagger-3 { transition-delay: 120ms; }
@@ -217,47 +227,11 @@
   .stagger-6 { transition-delay: 300ms; }
 
   /* ============================================
-     DOUBLE-BEZEL CARD UTILITIES
+     FLAT CARD — the default card
      ============================================ */
 
-  .bezel-outer {
-    @apply relative border border-border;
-    background: hsl(var(--background) / 0.5);
-    border-radius: var(--radius-outer);
-    padding: 6px;
-    box-shadow: var(--shadow-ambient);
-    transition:
-      transform var(--dur-base) var(--ease-out),
-      border-color var(--dur-base) var(--ease-out),
-      box-shadow var(--dur-base) var(--ease-out);
-  }
-
-  .bezel-outer:hover {
-    border-color: hsl(var(--brass) / 0.55);
-    box-shadow: var(--shadow-elevated);
-  }
-
-  a.bezel-outer:hover {
-    transform: translateY(-3px);
-  }
-
-  .bezel-inner {
-    @apply relative;
-    background: hsl(var(--card));
-    border-radius: var(--radius-inner);
-    box-shadow: var(--shadow-glass);
-  }
-
-  /* ============================================
-     FLAT CARD UTILITY — the default card
-     ============================================
-     Single hairline border + ambient shadow. The double-bezel
-     above is reserved for focal panels only (hero, closing CTAs).
-     Hover lift applies to interactive cards (a / button) only,
-     so non-clickable panels sit still. */
-
   .card-lift {
-    @apply relative rounded-2xl border border-border bg-card;
+    @apply relative rounded-lg border border-border bg-card;
     box-shadow: var(--shadow-ambient);
     transition:
       transform var(--dur-base) var(--ease-out),
@@ -267,9 +241,48 @@
 
   a.card-lift:hover,
   button.card-lift:hover {
-    transform: translateY(-4px);
-    border-color: hsl(var(--brass) / 0.6);
+    transform: translateY(-2px);
+    border-color: hsl(var(--brass) / 0.4);
     box-shadow: var(--shadow-elevated);
+  }
+
+  /* ============================================
+     GLASS CARD — frosted glass effect
+     ============================================ */
+
+  .card-glass {
+    @apply relative rounded-lg border border-border bg-card/80;
+    backdrop-filter: blur(16px) saturate(1.2);
+    box-shadow: var(--shadow-glass);
+  }
+
+  /* ============================================
+     SECTION DIVIDER
+     ============================================ */
+
+  .section-divider {
+    @apply h-px w-full;
+    background: linear-gradient(to right, transparent, hsl(var(--border) / 0.6), transparent);
+  }
+
+  /* ============================================
+     HORIZONTAL SCROLL GALLERY
+     ============================================ */
+
+  .scroll-gallery {
+    @apply flex gap-4 overflow-x-auto pb-4;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .scroll-gallery::-webkit-scrollbar {
+    display: none;
+  }
+
+  .scroll-gallery > * {
+    scroll-snap-align: start;
+    flex-shrink: 0;
   }
 
   /* ============================================
@@ -305,11 +318,11 @@
   }
 
   .btn-secondary {
-    @apply btn-magnetic border border-border bg-background text-foreground;
+    @apply btn-magnetic border border-border bg-transparent text-foreground;
   }
 
   .btn-secondary:hover {
-    @apply border-accent text-accent;
+    @apply border-primary text-primary;
   }
 
   .btn-secondary .icon-wrapper {
@@ -321,7 +334,7 @@
   }
 
   .btn-ghost:hover {
-    @apply bg-accent/10 text-accent;
+    @apply bg-secondary text-primary;
   }
 
   .btn-ghost .icon-wrapper {
@@ -329,11 +342,93 @@
   }
 
   /* ============================================
+     NAVBAR
+     ============================================ */
+
+  .navbar {
+    @apply fixed inset-x-0 top-0 z-50;
+    background: hsl(var(--background) / 0.82);
+    backdrop-filter: blur(20px) saturate(1.4);
+    border-bottom: 1px solid hsl(var(--border));
+  }
+
+  .navbar-inner {
+    @apply container-abc flex items-center gap-3 py-4;
+  }
+
+  .hamburger-line {
+    @apply block h-0.5 w-6 bg-foreground transition-base;
+    transition-duration: 300ms;
+    transition-timing-function: var(--ease-spring);
+    transform-origin: center;
+  }
+
+  .hamburger-open .hamburger-line:nth-child(1) {
+    @apply rotate-45 translate-y-[7px];
+  }
+
+  .hamburger-open .hamburger-line:nth-child(2) {
+    @apply opacity-0 scale-0;
+  }
+
+  .hamburger-open .hamburger-line:nth-child(3) {
+    @apply -rotate-45 -translate-y-[7px];
+  }
+
+  /* Mobile menu overlay */
+  .mobile-menu-overlay {
+    @apply fixed inset-0 z-40;
+    background: hsl(var(--background) / 0.96);
+    backdrop-filter: blur(40px);
+  }
+
+  .mobile-menu-content {
+    @apply flex h-full flex-col items-center justify-center gap-8;
+  }
+
+  .mobile-menu-link {
+    @apply text-2xl md:text-3xl font-semibold;
+  }
+
+  /* ============================================
+     NOISE OVERLAY — adds texture to flat surfaces
+     ============================================ */
+
+  .noise-overlay {
+    position: relative;
+  }
+
+  .noise-overlay::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.03;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 256px 256px;
+    border-radius: inherit;
+  }
+
+  /* ============================================
+     EDITORIAL DROP CAP
+     ============================================ */
+
+  .prose-dropcap > p:first-of-type::first-letter {
+    font-family: 'Space Grotesk', system-ui, sans-serif;
+    font-weight: 700;
+    float: left;
+    font-size: 3.2em;
+    line-height: 0.85;
+    padding-right: 0.1em;
+    margin-top: 0.05em;
+    color: hsl(var(--brass));
+  }
+
+  /* ============================================
      THEME TRANSITION
      ============================================ */
 
-  /* Fallback crossfade for engines without the View Transitions API:
-     added to <html> for ~420ms while the theme class flips. */
   html.theme-anim,
   html.theme-anim *,
   html.theme-anim *::before,
@@ -344,7 +439,6 @@
     transition-delay: 0ms !important;
   }
 
-  /* Snappy, cohesive crossfade when Chromium's View Transitions API runs */
   ::view-transition-old(root),
   ::view-transition-new(root) {
     animation-duration: 300ms;
@@ -352,11 +446,8 @@
   }
 
   /* ============================================
-     TAB UNDERLINES — animated line under tabs
-     ============================================
-     Both show a line growing from center on hover; the
-     active tab gets a persistent line (rendered with a
-     Motion layoutId span so it slides between tabs). */
+     TAB UNDERLINES
+     ============================================ */
 
   .nav-tab,
   .tab-underline {
@@ -369,7 +460,7 @@
     position: absolute;
     height: 2px;
     border-radius: 9999px;
-    background: hsl(var(--brass) / 0.75);
+    background: hsl(var(--brass));
     transform: scaleX(0);
     transform-origin: center;
     transition: transform var(--dur-base) var(--ease-out);
@@ -398,66 +489,23 @@
   }
 
   /* ============================================
-     EDITORIAL DROP CAP — for prose bodies
+     ORBIT — continuous circular motion (event discs)
      ============================================ */
 
-  .prose-dropcap > p:first-of-type::first-letter {
-    font-family: 'Fraunces', Georgia, serif;
-    font-weight: 700;
-    float: left;
-    font-size: 3.4em;
-    line-height: 0.82;
-    padding-right: 0.12em;
-    margin-top: 0.05em;
-    color: hsl(var(--crimson));
+  @keyframes orbit-rotate {
+    to {
+      transform: rotate(360deg);
+    }
   }
 
-  /* ============================================
-     NAVBAR — INSTITUTIONAL TOP BAR
-     ============================================ */
-
-  .navbar {
-    @apply fixed inset-x-0 top-0 z-50;
-    background: hsl(var(--background));
-    border-bottom: 1px solid hsl(var(--border));
+  .orbit-spin {
+    animation: orbit-rotate var(--orbit-dur, 55s) linear infinite;
+    will-change: transform;
   }
 
-  .navbar-inner {
-    @apply container-abc flex items-center gap-3 py-3;
-  }
-
-  .hamburger-line {
-    @apply block h-0.5 w-6 bg-ink transition-base;
-    transition-duration: 300ms;
-    transition-timing-function: var(--ease-spring);
-    transform-origin: center;
-  }
-
-  .hamburger-open .hamburger-line:nth-child(1) {
-    @apply rotate-45 translate-y-[7px];
-  }
-
-  .hamburger-open .hamburger-line:nth-child(2) {
-    @apply opacity-0 scale-0;
-  }
-
-  .hamburger-open .hamburger-line:nth-child(3) {
-    @apply -rotate-45 -translate-y-[7px];
-  }
-
-  /* Mobile menu overlay */
-  .mobile-menu-overlay {
-    @apply fixed inset-0 z-40;
-    background: hsl(var(--ink) / 0.8);
-    backdrop-filter: blur(40px);
-  }
-
-  .mobile-menu-content {
-    @apply flex h-full flex-col items-center justify-center gap-8;
-  }
-
-  .mobile-menu-link {
-    @apply text-2xl md:text-3xl font-display font-medium;
+  .orbit-spin-reverse {
+    animation: orbit-rotate calc(var(--orbit-dur, 55s) * 1.4) linear infinite reverse;
+    will-change: transform;
   }
 
   /* ============================================

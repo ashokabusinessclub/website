@@ -10,12 +10,12 @@ export default {
     container: {
       center: true,
       padding: "1.5rem",
-      screens: { "2xl": "1280px" },
+      screens: { "2xl": "1400px" },
     },
     extend: {
       fontFamily: {
-        display: ["Fraunces", "Georgia", "serif"],
-        sans: ["Work Sans", "system-ui", "sans-serif"],
+        display: ["Space Grotesk", "system-ui", "sans-serif"],
+        sans: ["DM Sans", "system-ui", "sans-serif"],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -62,12 +62,22 @@ export default {
       },
       keyframes: {
         "fade-up": {
-          from: { opacity: "0", transform: "translateY(12px)" },
+          from: { opacity: "0", transform: "translateY(16px)" },
           to: { opacity: "1", transform: "translateY(0)" },
+        },
+        "counter": {
+          from: { opacity: "0", transform: "translateY(8px)" },
+          to: { opacity: "1", transform: "translateY(0)" },
+        },
+        "line-grow": {
+          from: { scaleX: "0" },
+          to: { scaleX: "1" },
         },
       },
       animation: {
-        "fade-up": "fade-up 0.6s ease-out both",
+        "fade-up": "fade-up 0.5s var(--ease-out) both",
+        "counter": "counter 0.4s var(--ease-out) both",
+        "line-grow": "line-grow 0.8s var(--ease-out) both",
       },
     },
   },

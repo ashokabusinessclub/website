@@ -23,12 +23,12 @@ export default defineConfig(({ mode }) => ({
     host: "::",
     port: 8080,
     middleware: [
-      (req, res, next) => {
+      (req: { url?: string }, res: { setHeader: (k: string, v: string) => void; end: (b: Buffer) => void }, next: () => void) => {
         if (req.url?.startsWith("/admin/")) {
           const filePath = path.join(__dirname, "public", req.url);
           if (fs.existsSync(filePath) && fs.statSync(filePath).isFile()) {
             const ext = path.extname(filePath);
-            const mimeTypes = {
+            const mimeTypes: Record<string, string> = {
               ".html": "text/html",
               ".js": "application/javascript",
               ".css": "text/css",

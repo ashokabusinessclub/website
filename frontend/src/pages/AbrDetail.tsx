@@ -15,23 +15,27 @@ export default function AbrDetail() {
 
   return (
     <article>
-      <header className="border-b border-border bg-secondary/50">
-        <div className="container-abc py-16 md:py-20">
+      <header className="relative overflow-hidden border-b border-border bg-background">
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute top-0 right-1/4 h-[300px] w-[400px] rounded-full bg-primary/[0.04] blur-[120px]"
+        />
+        <div className="container-abc relative py-16 md:py-20">
           <Reveal y={16}>
             <Link
               to="/abr"
-              className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-fast"
+              className="inline-flex items-center gap-2 text-sm text-foreground/40 hover:text-primary transition-fast"
             >
               <ArrowLeft className="h-4 w-4" /> Ashoka Business Review
             </Link>
-            <p className="mt-6 flex flex-wrap items-center gap-3 text-xs uppercase tracking-[0.18em] text-muted-foreground">
-              <span className="border border-accent px-2 py-0.5 text-accent-foreground transition-fast">
+            <p className="mt-6 flex flex-wrap items-center gap-3 text-[0.65rem] uppercase tracking-[0.22em] text-foreground/35">
+              <span className="border border-primary/30 px-2 py-0.5 text-primary transition-fast">
                 {item.data.type ?? "Publication"}
               </span>
               <span>{formatDate(item.data.date)}</span>
               {item.data.author && <span>· {item.data.author}</span>}
             </p>
-            <h1 className="mt-4 max-w-3xl font-display text-4xl leading-tight md:text-5xl">
+            <h1 className="mt-4 max-w-3xl font-display text-4xl font-bold leading-tight md:text-5xl">
               {item.data.title}
             </h1>
           </Reveal>
@@ -39,9 +43,9 @@ export default function AbrDetail() {
       </header>
 
       {item.data.cover && (
-        <div className="container-abc pt-12">
+        <div className="container-abc pt-10">
           <Reveal y={28}>
-            <div className="card-lift aspect-video max-h-[480px] overflow-hidden">
+            <div className="aspect-video max-h-[480px] overflow-hidden rounded-lg border border-border">
               <img
                 src={item.data.cover}
                 alt={item.data.title}
@@ -62,7 +66,7 @@ export default function AbrDetail() {
             <div className="mt-12">
               <div className="flex flex-wrap gap-2 border-t border-border pt-8">
                 {item.data.tags.map((t) => (
-                  <span key={t} className="bg-secondary px-3 py-1 text-xs transition-fast">
+                  <span key={t} className="bg-secondary px-2.5 py-1 text-[0.7rem] text-foreground/50 transition-fast">
                     {t}
                   </span>
                 ))}

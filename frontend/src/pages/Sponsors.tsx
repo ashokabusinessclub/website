@@ -11,15 +11,16 @@ export default function Sponsors() {
   return (
     <>
       <PageHeader
+        eyebrow="Partners"
         title="Organisations that have backed our work."
         intro="Sponsors and partners who have supported ABC events, publications and competitions over the years."
       />
 
-      <section className="container-abc py-20 md:py-28">
+      <section className="container-abc py-14 md:py-20">
         {sponsors.length === 0 ? (
           <Reveal>
             <div className="mx-auto max-w-xl text-center">
-              <p className="text-muted-foreground">
+              <p className="text-foreground/40">
                 Sponsor logos and branding will appear here as partnerships are
                 confirmed. If your organisation would like to work with us, we'd
                 love to talk.
@@ -27,7 +28,7 @@ export default function Sponsors() {
             </div>
           </Reveal>
         ) : (
-          <StaggerGroup className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
+          <StaggerGroup className="grid grid-cols-2 gap-x-5 gap-y-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
             {sponsors.map((s) => (
               <StaggerItem key={s.slug}>
                 <div className="h-full">
@@ -39,26 +40,32 @@ export default function Sponsors() {
         )}
       </section>
 
-      <section className="container-abc pb-24">
-        <Reveal y={32}>
-          <div className="bezel-outer p-10 md:p-16">
-            <div className="bezel-inner p-10 md:p-16">
-              <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+      <div className="section-divider" />
+
+      <section className="bg-background">
+        <div className="container-abc py-16 md:py-24">
+          <Reveal y={32}>
+            <div className="relative overflow-hidden rounded-lg border border-border bg-card p-8 backdrop-blur-sm md:p-12">
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute bottom-0 left-0 h-[250px] w-[300px] rounded-full bg-primary/[0.06] blur-[100px]"
+              />
+              <div className="relative flex flex-col md:flex-row md:items-center md:justify-between gap-6">
                 <div>
-                  <h2 className="font-display text-2xl md:text-3xl">Partner with ABC</h2>
-                  <p className="mt-3 max-w-xl text-muted-foreground">
+                  <h2 className="font-display text-2xl font-bold md:text-3xl">Partner with ABC</h2>
+                  <p className="mt-3 max-w-xl text-[0.9rem] text-foreground/45">
                     We work with firms, funds and founders who want direct access to a
                     sharp, cross-disciplinary student body. Write to us to discuss
                     sponsorship of an event, competition or ABR issue.
                   </p>
                 </div>
-                <Button asChild iconRight={<ArrowRight className="h-4 w-4" />} size="lg" className="mt-4 md:mt-0">
+                <Button asChild iconRight={<ArrowRight className="h-4 w-4" />} size="lg" className="mt-4 md:mt-0 shrink-0">
                   <Link to="/contact">Get in touch</Link>
                 </Button>
               </div>
             </div>
-          </div>
-        </Reveal>
+          </Reveal>
+        </div>
       </section>
     </>
   );

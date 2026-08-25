@@ -1,6 +1,6 @@
 import { ArrowUpRight, Mail, MapPin, Phone } from "lucide-react";
 import { PageHeader } from "@/components/PageHeader";
-import { Reveal, StaggerGroup, StaggerItem } from "@/components/reveal";
+import { Reveal } from "@/components/reveal";
 import { InstagramIcon, LinkedInIcon } from "@/components/icons";
 import { Button } from "@/components/ui/button";
 
@@ -41,46 +41,28 @@ const channels = [
   },
 ];
 
-const presidents = [
-  {
-    name: "Avinash Rai",
-    initials: "AR",
-    phone: "+91 93302 97893",
-    phoneHref: "tel:+919330297893",
-    email: "avinash.rai_ug2024@ashoka.edu.in",
-  },
-  {
-    name: "Swastika Arora",
-    initials: "SA",
-    phone: "+91 98362 81297",
-    phoneHref: "tel:+919836281297",
-    email: "swastika.arora_ug2024@ashoka.edu.in",
-  },
-];
-
 export default function Contact() {
   return (
     <>
       <PageHeader
-        eyebrow="Reach Us"
+        eyebrow="Contact"
         title="Talk to Ashoka Business Club."
         intro="Membership, partnerships, sponsorship, events, speakers, or the Ashoka Business Review — write to us and we'll point you to the right team."
       />
 
-      {/* Contact methods + address */}
-      <section className="container-abc py-16 md:py-24" aria-label="Contact details">
+      <section className="container-abc py-14 md:py-20" aria-label="Contact details">
         <div className="grid items-stretch gap-6 lg:grid-cols-12">
-          <Reveal className="lg:col-span-4">
+          <Reveal className="lg:col-span-5">
             <div
               id="contact-methods"
-              className="h-full overflow-hidden rounded-2xl border border-border bg-card shadow-[var(--shadow-ambient)]"
+              className="h-full overflow-hidden rounded-lg border border-border bg-card shadow-[var(--shadow-ambient)]"
             >
-              <div className="flex flex-col gap-1 border-b border-border px-5 py-4 sm:flex-row sm:items-baseline sm:justify-between lg:flex-col lg:items-start lg:gap-2 sm:px-6">
-                <p className="text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground">
+              <div className="border-b border-border px-6 py-5">
+                <p className="text-[0.6rem] font-semibold uppercase tracking-[0.28em] text-foreground/30">
                   Direct lines
                 </p>
-                <p className="text-xs text-muted-foreground">
-                  Drop us an email and we'll point you to the right team.
+                <p className="mt-1 text-[0.8rem] text-foreground/40">
+                  Drop us a message and we'll point you to the right team.
                 </p>
               </div>
               <ul className="divide-y divide-border">
@@ -91,16 +73,16 @@ export default function Contact() {
                       target={c.external ? "_blank" : undefined}
                       rel={c.external ? "noreferrer noopener" : undefined}
                       aria-label={`${c.label}: ${c.value}`}
-                      className="group flex items-center gap-4 px-5 py-4 transition-fast hover:bg-secondary/40 sm:px-6"
+                      className="group flex items-center gap-4 px-6 py-4 transition-fast hover:bg-secondary/50"
                     >
-                      <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-border bg-background text-accent">
-                        <c.icon className="h-5 w-5" />
+                      <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border border-border bg-background text-primary">
+                        <c.icon className="h-4 w-4" />
                       </span>
                       <span className="min-w-0 flex-1">
-                        <span className="block text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                        <span className="block text-[0.6rem] font-semibold uppercase tracking-[0.22em] text-foreground/30">
                           {c.label}
                         </span>
-                        <span className="mt-0.5 block whitespace-nowrap font-medium">
+                        <span className="mt-0.5 block whitespace-nowrap text-sm font-medium">
                           {c.value}
                         </span>
                       </span>
@@ -108,52 +90,14 @@ export default function Contact() {
                     </a>
                   </li>
                 ))}
-                {presidents.map((p) => (
-                  <li key={p.name}>
-                    <div className="px-5 py-4 sm:px-6">
-                      <div className="flex items-center gap-3">
-                        <span
-                          className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-border bg-background font-display text-sm font-semibold text-brass"
-                          aria-hidden="true"
-                        >
-                          {p.initials}
-                        </span>
-                        <span className="min-w-0 flex-1">
-                          <span className="block text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
-                            {p.name}
-                          </span>
-                          <span className="mt-0.5 block font-medium">
-                            President
-                          </span>
-                        </span>
-                      </div>
-                      <div className="mt-3 space-y-1.5">
-                        <a
-                          href={p.phoneHref}
-                          className="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground transition-fast hover:text-primary"
-                        >
-                          <Phone className="h-3.5 w-3.5 shrink-0 text-accent" aria-hidden="true" />
-                          {p.phone}
-                        </a>
-                        <a
-                          href={`mailto:${p.email}`}
-                          className="inline-flex min-w-0 items-center gap-2 text-sm font-medium text-muted-foreground transition-fast hover:text-primary"
-                        >
-                          <Mail className="h-3.5 w-3.5 shrink-0 text-accent" aria-hidden="true" />
-                          <span className="whitespace-nowrap">{p.email}</span>
-                        </a>
-                      </div>
-                    </div>
-                  </li>
-                ))}
               </ul>
             </div>
           </Reveal>
 
-          <Reveal delay={0.08} className="lg:col-span-8">
+          <Reveal delay={0.08} className="lg:col-span-7">
             <section
               aria-labelledby="visit-us"
-              className="flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-card shadow-[var(--shadow-ambient)]"
+              className="flex h-full flex-col overflow-hidden rounded-lg border border-border bg-card shadow-[var(--shadow-ambient)]"
             >
               <div className="relative aspect-[4/3] overflow-hidden sm:aspect-[16/9]">
                 <iframe
@@ -168,24 +112,24 @@ export default function Contact() {
                   className="pointer-events-none absolute inset-0 ring-1 ring-inset ring-border"
                   aria-hidden="true"
                 />
-                <div className="pointer-events-none absolute bottom-2.5 left-2.5 flex items-center gap-2 rounded-full border border-border bg-background/90 px-3 py-1.5 text-xs font-medium shadow-[var(--shadow-ambient)] backdrop-blur-sm">
+                <div className="pointer-events-none absolute bottom-3 left-3 flex items-center gap-2 rounded border border-border bg-background/90 px-3 py-1.5 text-xs font-medium shadow-[var(--shadow-ambient)] backdrop-blur-sm">
                   <MapPin className="h-3.5 w-3.5 text-primary" aria-hidden="true" />
                   Ashoka University
                 </div>
               </div>
               <div className="flex flex-col gap-5 border-t border-border p-6 sm:flex-row sm:items-center sm:justify-between sm:p-7">
                 <div className="min-w-0">
-                  <p className="text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground">
+                  <p className="text-[0.6rem] font-semibold uppercase tracking-[0.28em] text-foreground/30">
                     Where to find us
                   </p>
                   <h2
                     id="visit-us"
-                    className="mt-2 font-display text-2xl tracking-tight sm:text-[1.75rem]"
+                    className="mt-2 font-display text-xl font-bold sm:text-2xl"
                   >
                     Ashoka University
                   </h2>
-                  <p className="mt-3 flex items-start gap-2.5 text-sm leading-relaxed text-muted-foreground">
-                    <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-accent" aria-hidden="true" />
+                  <p className="mt-3 flex items-start gap-2.5 text-sm leading-relaxed text-foreground/45">
+                    <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden="true" />
                     <span>
                       {ADDRESS[0]}
                       <br />

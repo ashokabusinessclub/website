@@ -4,8 +4,8 @@ export type Theme = "light" | "dark";
 
 const STORAGE_KEY = "abc-theme";
 const THEME_COLORS: Record<Theme, string> = {
-  light: "#f8f6f1",
-  dark: "#171310",
+  light: "#f7f3ec",
+  dark: "#0d0d0d",
 };
 
 type ViewTransitionDocument = {
@@ -13,14 +13,14 @@ type ViewTransitionDocument = {
 };
 
 function getInitialTheme(): Theme {
-  if (typeof window === "undefined") return "light";
+  if (typeof window === "undefined") return "dark";
   try {
     const stored = localStorage.getItem(STORAGE_KEY);
     if (stored === "light" || stored === "dark") return stored;
   } catch {
     /* storage unavailable */
   }
-  return "light";
+  return "dark";
 }
 
 function applyTheme(theme: Theme, animate: boolean) {
@@ -43,10 +43,8 @@ function applyTheme(theme: Theme, animate: boolean) {
   };
 
   if (animate && !reduced && typeof api.startViewTransition === "function") {
-    // Chromium: capture a full-page crossfade around the theme flip.
     api.startViewTransition(update);
   } else if (animate && !reduced) {
-    // Other engines: briefly enable color transitions so tokens crossfade.
     root.classList.add("theme-anim");
     update();
     window.setTimeout(() => root.classList.remove("theme-anim"), 450);
@@ -60,7 +58,6 @@ export function useTheme() {
   const mounted = useRef(false);
 
   useEffect(() => {
-    // Animate only on toggles; the inline <head> script already painted once.
     applyTheme(theme, mounted.current);
     mounted.current = true;
   }, [theme]);

@@ -21,12 +21,16 @@ export default function DepartmentDetail() {
   return (
     <article>
       {/* Header */}
-      <header className="border-b border-border bg-secondary/50">
-        <div className="container-abc py-12 md:py-16">
+      <header className="relative overflow-hidden border-b border-border bg-background">
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute top-0 right-0 h-[400px] w-[400px] rounded-full bg-primary/[0.04] blur-[120px]"
+        />
+        <div className="container-abc relative py-12 md:py-16">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <Link
-              to="/departments"
-              className="inline-flex items-center gap-2 text-sm text-muted-foreground transition-fast hover:text-primary"
+              to="/what-awaits-you"
+              className="inline-flex items-center gap-2 text-sm text-foreground/40 transition-fast hover:text-primary"
             >
               <ArrowLeft className="h-4 w-4" /> All verticals
             </Link>
@@ -34,19 +38,19 @@ export default function DepartmentDetail() {
 
           <div className="mt-12 grid items-center gap-10 lg:grid-cols-[1.1fr_0.9fr]">
             <Reveal y={20}>
-              <p className="eyebrow">
+              <p className="section-number">
                 No. {String(index + 1).padStart(2, "0")} · The Departments
               </p>
-              <h1 className="mt-4 max-w-xl font-display text-5xl leading-[1.02] md:text-7xl">
+              <h1 className="mt-4 max-w-xl font-display text-5xl font-bold leading-[1.02] md:text-6xl lg:text-7xl">
                 {dept.data.name}
               </h1>
-              <p className="mt-6 max-w-xl text-lg leading-relaxed text-muted-foreground">
+              <p className="mt-6 max-w-xl text-lg leading-relaxed text-foreground/45">
                 {dept.data.description}
               </p>
             </Reveal>
             <Reveal y={20} delay={0.1}>
-              <div className="bezel-outer">
-                <div className="bezel-inner aspect-[4/3] overflow-hidden">
+              <div className="rounded-lg border border-border bg-card overflow-hidden">
+                <div className="aspect-[4/3]">
                   <DepartmentArt slug={dept.slug} className="h-full w-full" />
                 </div>
               </div>
@@ -56,14 +60,14 @@ export default function DepartmentDetail() {
       </header>
 
       {/* Body */}
-      <section className="container-abc py-16 md:py-24">
+      <section className="container-abc py-14 md:py-20">
         <div className="mx-auto max-w-3xl">
           <Reveal y={20}>
             <div className="prose-dropcap">
               {dept.body ? (
                 <Markdown>{dept.body}</Markdown>
               ) : (
-                <p className="text-muted-foreground">
+                <p className="text-foreground/40">
                   A fuller description of this department is coming soon.
                 </p>
               )}
@@ -72,11 +76,11 @@ export default function DepartmentDetail() {
 
           {dept.data.responsibilities?.length ? (
             <Reveal y={20} delay={0.05}>
-              <div className="card-lift mt-12 p-7">
+              <div className="card-lift mt-12 p-6">
                 <p className="eyebrow">Responsibilities</p>
-                <ul className="mt-4 space-y-3 text-sm leading-relaxed text-muted-foreground">
+                <ul className="mt-4 space-y-3 text-[0.85rem] leading-relaxed text-foreground/45">
                   {dept.data.responsibilities.map((r) => (
-                    <li key={r} className="border-l border-accent/70 pl-3">
+                    <li key={r} className="border-l-2 border-primary/30 pl-3">
                       {r}
                     </li>
                   ))}
@@ -90,36 +94,36 @@ export default function DepartmentDetail() {
         <div className="mx-auto mt-16 grid max-w-3xl gap-4 sm:grid-cols-2">
           <Link
             to={`/departments/${prev.slug}`}
-            className="card-lift group flex items-center gap-4 p-5"
+            className="card-lift group flex items-center gap-4 p-4"
           >
-            <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-xl border border-border">
+            <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-md border border-border">
               <DepartmentArt slug={prev.slug} className="absolute inset-0" />
             </div>
             <div className="min-w-0">
-              <p className="text-[0.6rem] uppercase tracking-[0.18em] text-muted-foreground">
+              <p className="text-[0.55rem] uppercase tracking-[0.22em] text-foreground/30">
                 Previous
               </p>
-              <p className="mt-1 truncate font-display text-lg transition-fast group-hover:text-primary">
+              <p className="mt-1 truncate font-display text-base font-medium transition-fast group-hover:text-primary">
                 {prev.data.name}
               </p>
             </div>
-            <ArrowLeft className="ml-auto h-4 w-4 shrink-0 text-muted-foreground transition-transform duration-[var(--dur-base)] ease-[var(--ease-out)] group-hover:-translate-x-1 group-hover:text-primary" />
+            <ArrowLeft className="ml-auto h-4 w-4 shrink-0 text-foreground/30 transition-transform duration-[var(--dur-base)] ease-[var(--ease-out)] group-hover:-translate-x-1 group-hover:text-primary" />
           </Link>
 
           <Link
             to={`/departments/${next.slug}`}
-            className="card-lift group flex items-center justify-end gap-4 p-5 text-right"
+            className="card-lift group flex items-center justify-end gap-4 p-4 text-right"
           >
-            <ArrowRight className="mr-auto h-4 w-4 shrink-0 text-muted-foreground transition-transform duration-[var(--dur-base)] ease-[var(--ease-out)] group-hover:translate-x-1 group-hover:text-primary" />
+            <ArrowRight className="mr-auto h-4 w-4 shrink-0 text-foreground/30 transition-transform duration-[var(--dur-base)] ease-[var(--ease-out)] group-hover:translate-x-1 group-hover:text-primary" />
             <div className="min-w-0">
-              <p className="text-[0.6rem] uppercase tracking-[0.18em] text-muted-foreground">
+              <p className="text-[0.55rem] uppercase tracking-[0.22em] text-foreground/30">
                 Next
               </p>
-              <p className="mt-1 truncate font-display text-lg transition-fast group-hover:text-primary">
+              <p className="mt-1 truncate font-display text-base font-medium transition-fast group-hover:text-primary">
                 {next.data.name}
               </p>
             </div>
-            <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-xl border border-border">
+            <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-md border border-border">
               <DepartmentArt slug={next.slug} className="absolute inset-0" />
             </div>
           </Link>
@@ -127,19 +131,17 @@ export default function DepartmentDetail() {
       </section>
 
       {/* All verticals */}
-      <section className="border-t border-border bg-secondary/40">
+      <div className="section-divider" />
+      <section className="bg-background">
         <div className="container-abc py-16 md:py-24">
           <Reveal>
             <div className="mb-10">
-              <div className="flex items-center gap-4">
-                <span className="rule-brass w-10" aria-hidden="true" />
-                <p className="eyebrow">The Departments</p>
-              </div>
-              <h2 className="mt-4 font-display text-3xl md:text-4xl">Every vertical.</h2>
+              <div className="section-number">The Departments</div>
+              <h2 className="mt-4 font-display text-3xl font-bold md:text-4xl">Every vertical.</h2>
             </div>
           </Reveal>
 
-          <StaggerGroup className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <StaggerGroup className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {departments.map((d) => (
               <StaggerItem key={d.slug}>
                 <DepartmentCard item={d} />

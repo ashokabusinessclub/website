@@ -20,11 +20,12 @@ export default function Abr() {
   return (
     <>
       <PageHeader
-        title="ABR — the club's writing desk."
+        eyebrow="ABR"
+        title="The club's writing desk."
         intro="Long-form publications, short-form Monocles and everything in between. Written, edited and illustrated entirely by students."
       />
 
-      <section className="container-abc pt-10">
+      <section className="container-abc pt-8">
         <Reveal y={16}>
           <FilterTabs
             options={filters}
@@ -35,15 +36,15 @@ export default function Abr() {
         </Reveal>
       </section>
 
-      <section className="container-abc py-20 md:py-28">
+      <section className="container-abc py-14 md:py-20">
         {visible.length === 0 ? (
           <Reveal>
-            <p className="text-center text-muted-foreground">No ABR content published in this category yet.</p>
+            <p className="text-center text-foreground/40">No ABR content published in this category yet.</p>
           </Reveal>
         ) : (
           <StaggerGroup
             key={filter}
-            className="grid gap-6"
+            className="grid gap-5"
             delayChildren={0.05}
           >
             {visible.map((i) => (
