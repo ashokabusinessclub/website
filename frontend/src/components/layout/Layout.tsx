@@ -2,6 +2,7 @@ import { ReactNode } from "react";
 import { Navbar } from "./Navbar";
 import { Footer } from "./Footer";
 import { ScrollToTop } from "./ScrollToTop";
+import { Preloader } from "@/components/preloader";
 
 export function Layout({ children }: { children: ReactNode }) {
   return (
@@ -12,6 +13,8 @@ export function Layout({ children }: { children: ReactNode }) {
       >
         Skip to content
       </a>
+      <Preloader />
+      <div className="grain" aria-hidden="true" />
       <ScrollToTop />
       <Navbar />
       <main id="main" className="flex-1">{children}</main>

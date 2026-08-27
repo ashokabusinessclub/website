@@ -1,6 +1,6 @@
 import { Link, useParams } from "react-router-dom";
-import { ArrowLeft, ArrowUpRight, Calendar, MapPin, Tag } from "lucide-react";
-import { formatDate } from "@/lib/content";
+import { ArrowLeft, ArrowUpRight, Calendar, MapPin, Tag, CalendarPlus } from "lucide-react";
+import { formatDate, gcalUrl } from "@/lib/content";
 import { useCmsContent } from "@/lib/cms";
 import { Markdown } from "@/components/Markdown";
 import { Button } from "@/components/ui/button";
@@ -93,6 +93,25 @@ export default function EventDetail() {
                   rel="noreferrer noopener"
                 >
                   Apply Here
+                </a>
+              </Button>
+            </div>
+          )}
+
+          {gcalUrl({ title: event.data.title, date: event.data.date, description: event.data.description, location: event.data.location }) && (
+            <div className="mt-6 flex justify-center">
+              <Button
+                variant="outline"
+                asChild
+                size="lg"
+                iconRight={<CalendarPlus className="h-4 w-4" />}
+              >
+                <a
+                  href={gcalUrl({ title: event.data.title, date: event.data.date, description: event.data.description, location: event.data.location })!}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                >
+                  Add to Google Calendar
                 </a>
               </Button>
             </div>

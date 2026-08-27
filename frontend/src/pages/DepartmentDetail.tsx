@@ -38,9 +38,7 @@ export default function DepartmentDetail() {
 
           <div className="mt-12 grid items-center gap-10 lg:grid-cols-[1.1fr_0.9fr]">
             <Reveal y={20}>
-              <p className="section-number">
-                No. {String(index + 1).padStart(2, "0")} · The Departments
-              </p>
+              <p className="section-number">The Departments</p>
               <h1 className="mt-4 max-w-xl font-display text-5xl font-bold leading-[1.02] md:text-6xl lg:text-7xl">
                 {dept.data.name}
               </h1>

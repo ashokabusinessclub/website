@@ -1,5 +1,6 @@
 import { Buffer } from "buffer";
 import matter from "gray-matter";
+import { parseISO } from "date-fns";
 
 // gray-matter expects a global Buffer; provide it before any parsing happens
 (globalThis as unknown as { Buffer: typeof Buffer }).Buffer =
@@ -146,4 +147,32 @@ export function formatDate(value?: string) {
     month: "short",
     year: "numeric",
   });
+}
+
+/** Build a Google Calendar "Add Event" URL from event frontmatter. */
+export function gcalUrl(event: {
+  title: string;
+  date: string;
+  description?: string;
+  location?: string;
+}) {
+  const d = parseISO(event.date);
+  if (Number.isNaN(d.getTime())) return null;
+
+  const pad = (n: number) => String(n).padStart(2, "0");
+  const ymd = `${d.getFullYear()}${pad(d.getMonth() + 1)}${pad(d.getDate())}`;
+  // All-day event: end date is exclusive, so add 1 day
+  const next = new Date(d);
+  next.setDate(next.getDate() + 1);
+  const end = `${next.getFullYear()}${pad(next.getMonth() + 1)}${pad(next.getDate())}`;
+
+  const params = new URLSearchParams({
+    action: "TEMPLATE",
+    text: event.title,
+    dates: `${ymd}/${end}`,
+  });
+  if (event.description) params.set("details", event.description);
+  if (event.location) params.set("location", event.location);
+
+  return `https://calendar.google.com/calendar/render?${params.toString()}`;
 }

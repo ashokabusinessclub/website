@@ -16,10 +16,11 @@ import {
   subMonths,
 } from "date-fns";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { ChevronLeft, ChevronRight, MapPin } from "lucide-react";
+import { ChevronLeft, ChevronRight, MapPin, CalendarDays, ExternalLink, CalendarPlus } from "lucide-react";
 import { PageHeader } from "@/components/PageHeader";
 import { Reveal } from "@/components/reveal";
 import { useCmsContent } from "@/lib/cms";
+import { gcalUrl } from "@/lib/content";
 import type { ContentEntry, EventItem } from "@/lib/content";
 
 const WEEKDAYS = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"];
@@ -129,24 +130,36 @@ export default function Events() {
   return (
     <>
       <PageHeader
-        eyebrow="Events"
+        eyebrow="Calendar"
         title="Flagships, sessions and the odd late-night build."
         intro="The club's year on one calendar — flip through the months to see what we have staged and what is coming up."
         scrubIntro
       >
-        {categories.length > 0 && (
-          <div className="mt-8 flex flex-wrap items-center gap-x-5 gap-y-2">
-            {categories.map((c) => (
-              <span
-                key={c}
-                className="inline-flex items-center gap-2 text-[0.65rem] font-medium uppercase tracking-[0.16em] text-foreground/45"
-              >
-                <span className={`h-1.5 w-1.5 rounded-full ${categoryDot(c)}`} />
-                {c}
-              </span>
-            ))}
-          </div>
-        )}
+        <div className="mt-8 flex flex-wrap items-center gap-x-5 gap-y-2">
+          <a
+            href="https://calendar.google.com/calendar/u/0/r?cid=abc-events@ashoka.edu.in"
+            target="_blank"
+            rel="noreferrer noopener"
+            className="inline-flex items-center gap-2 rounded-md border border-primary/30 bg-primary/10 px-3 py-1.5 text-[0.7rem] font-semibold uppercase tracking-[0.14em] text-primary transition-fast hover:bg-primary/20"
+          >
+            <CalendarDays className="h-3.5 w-3.5" />
+            Sync to Google Calendar
+            <ExternalLink className="h-3 w-3" />
+          </a>
+          {categories.length > 0 && (
+            <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
+              {categories.map((c) => (
+                <span
+                  key={c}
+                  className="inline-flex items-center gap-2 text-[0.65rem] font-medium uppercase tracking-[0.16em] text-foreground/45"
+                >
+                  <span className={`h-1.5 w-1.5 rounded-full ${categoryDot(c)}`} />
+                  {c}
+                </span>
+              ))}
+            </div>
+          )}
+        </div>
       </PageHeader>
 
       <section className="container-abc py-14 md:py-20">
@@ -293,7 +306,7 @@ export default function Events() {
                   {monthEvents.map((e) => {
                     const d = parseISO(e.data.date);
                     return (
-                      <li key={e.slug}>
+                      <li key={e.slug} className="relative">
                         <Link
                           to={`/events/${e.slug}`}
                           className="group flex items-center gap-5 py-4 transition-fast hover:bg-secondary/30 sm:px-3"
@@ -329,6 +342,18 @@ export default function Events() {
                           </div>
                           <ChevronRight className="h-4 w-4 shrink-0 text-foreground/25 transition-fast group-hover:translate-x-0.5 group-hover:text-primary" />
                         </Link>
+                        {gcalUrl({ title: e.data.title, date: e.data.date, description: e.data.description, location: e.data.location }) && (
+                          <a
+                            href={gcalUrl({ title: e.data.title, date: e.data.date, description: e.data.description, location: e.data.location })!}
+                            target="_blank"
+                            rel="noreferrer noopener"
+                            onClick={(ev) => ev.stopPropagation()}
+                            title="Add to Google Calendar"
+                            className="absolute right-2 top-1/2 -translate-y-1/2 flex h-7 w-7 items-center justify-center rounded-md text-foreground/25 transition-fast hover:bg-secondary hover:text-primary sm:right-4"
+                          >
+                            <CalendarPlus className="h-3.5 w-3.5" />
+                          </a>
+                        )}
                       </li>
                     );
                   })}
@@ -338,6 +363,7 @@ export default function Events() {
           </AnimatePresence>
         </div>
       </section>
+
     </>
   );
 }

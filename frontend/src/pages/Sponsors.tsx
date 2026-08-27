@@ -12,8 +12,8 @@ export default function Sponsors() {
     <>
       <PageHeader
         eyebrow="Partners"
-        title="Organisations that have backed our work."
-        intro="Sponsors and partners who have supported ABC events, publications and competitions over the years."
+        title="Past Partners."
+        intro="Organisations that have backed our work — sponsors and partners who have supported ABC events, publications and competitions over the years."
       />
 
       <section className="container-abc py-14 md:py-20">
@@ -21,18 +21,18 @@ export default function Sponsors() {
           <Reveal>
             <div className="mx-auto max-w-xl text-center">
               <p className="text-foreground/40">
-                Sponsor logos and branding will appear here as partnerships are
+                Partner logos and branding will appear here as partnerships are
                 confirmed. If your organisation would like to work with us, we'd
                 love to talk.
               </p>
             </div>
           </Reveal>
         ) : (
-          <StaggerGroup className="grid grid-cols-2 gap-x-5 gap-y-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
+          <StaggerGroup className="grid grid-cols-2 gap-x-8 gap-y-6 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
             {sponsors.map((s) => (
               <StaggerItem key={s.slug}>
                 <div className="h-full">
-                  <SponsorCard item={s} />
+                  <SponsorCard item={s} expanded />
                 </div>
               </StaggerItem>
             ))}
@@ -67,6 +67,7 @@ export default function Sponsors() {
           </Reveal>
         </div>
       </section>
+
     </>
   );
 }

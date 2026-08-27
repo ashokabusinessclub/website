@@ -1,26 +1,137 @@
-import { useEffect, useState } from "react";
-import { NavLink, Link } from "react-router-dom";
-import { Moon, Sun } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { NavLink, Link, useLocation } from "react-router-dom";
+import { Moon, Sun, ChevronDown } from "lucide-react";
 import { AnimatePresence, motion, useReducedMotion, type Variants } from "motion/react";
 import { useTheme } from "@/hooks/use-theme";
 
-export const navLinks = [
-  { to: "/about", label: "About" },
+export interface NavItem {
+  to: string;
+  label: string;
+  children?: { to: string; label: string }[];
+}
+
+export const navLinks: NavItem[] = [
+  {
+    to: "/about",
+    label: "About",
+    children: [
+      { to: "/about#nibbl", label: "nibbl." },
+      { to: "/about#leadership", label: "Our Team" },
+    ],
+  },
   { to: "/abr", label: "ABR" },
-  { to: "/events", label: "Events" },
-  { to: "/sponsors", label: "Sponsors" },
-  { to: "/what-awaits-you", label: "Join Us" },
+  { to: "/events", label: "Calendar" },
+  { to: "/sponsors", label: "Partners" },
+  {
+    to: "/what-awaits-you",
+    label: "Join Us",
+    children: [
+      { to: "/what-awaits-you#departments", label: "Departments" },
+      { to: "/what-awaits-you#induction", label: "Induction Forms" },
+    ],
+  },
   { to: "/contact", label: "Contact" },
 ];
 
+function NavDropdown({
+  item,
+  index,
+  isActive,
+  linkClass,
+  onOpenChange,
+}: {
+  item: NavItem;
+  index: number;
+  isActive: boolean;
+  linkClass: string;
+  onOpenChange?: (open: boolean) => void;
+}) {
+  const [open, setOpen] = useState(false);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout>>();
+  const location = useLocation();
+
+  const handleEnter = () => {
+    clearTimeout(timeoutRef.current);
+    setOpen(true);
+    onOpenChange?.(true);
+  };
+  const handleLeave = () => {
+    timeoutRef.current = setTimeout(() => {
+      setOpen(false);
+      onOpenChange?.(false);
+    }, 120);
+  };
+
+  useEffect(() => {
+    setOpen(false);
+    onOpenChange?.(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location.pathname]);
+
+  return (
+    <div className="relative" onMouseEnter={handleEnter} onMouseLeave={handleLeave}>
+      <NavLink
+        to={item.to}
+        className={linkClass}
+        onClick={() => setOpen(false)}
+      >
+        {({ isActive: linkActive }) => (
+          <>
+            <span
+              aria-hidden="true"
+              className={`index-num mr-1.5 text-[0.55rem] transition-fast ${
+                linkActive || isActive ? "text-primary" : "text-primary/40"
+              }`}
+            >
+              {String(index + 1).padStart(2, "0")}
+            </span>
+            {item.label}
+            <ChevronDown className={`ml-1 h-3 w-3 transition-transform duration-200 ${open ? "rotate-180" : ""}`} />
+            {(linkActive || isActive) && (
+              <motion.span
+                layoutId="nav-underline"
+                className="pointer-events-none absolute inset-x-3 bottom-1 h-[2px] rounded-full bg-primary"
+                transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+              />
+            )}
+          </>
+        )}
+      </NavLink>
+
+      <AnimatePresence>
+        {open && item.children && (
+          <motion.div
+            initial={{ opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 4 }}
+            transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
+            className="absolute left-0 top-full z-50 mt-1 min-w-[180px] overflow-hidden rounded-lg border border-border bg-popover shadow-lg"
+          >
+            {item.children.map((child) => (
+              <Link
+                key={child.to}
+                to={child.to}
+                className="block px-4 py-2.5 text-[0.75rem] font-medium text-foreground/70 transition-fast hover:bg-secondary hover:text-foreground"
+              >
+                {child.label}
+              </Link>
+            ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
 export function Navbar() {
   const [open, setOpen] = useState(false);
+  const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
   const reduceMotion = useReducedMotion();
   const { theme, toggle } = useTheme();
   const dark = theme === "dark";
 
   const linkClass = ({ isActive }: { isActive: boolean }) =>
-    `nav-tab relative whitespace-nowrap px-3 py-2 text-[0.8rem] font-medium tracking-wide transition-fast ${
+    `nav-tab relative whitespace-nowrap px-3 py-2 text-[0.72rem] font-semibold uppercase tracking-[0.14em] transition-fast ${
       isActive
         ? "is-active text-foreground"
         : "text-foreground/50 hover:text-foreground"
@@ -76,26 +187,44 @@ export function Navbar() {
 
           {/* Desktop Navigation */}
           <div className="ml-auto hidden items-center gap-0.5 xl:flex">
-            {navLinks.map((l) => (
-              <NavLink
-                key={l.to}
-                to={l.to}
-                className={({ isActive }) => linkClass({ isActive })}
-              >
-                {({ isActive }) => (
-                  <>
-                    {l.label}
-                    {isActive && (
-                      <motion.span
-                        layoutId="nav-underline"
-                        className="pointer-events-none absolute inset-x-3 bottom-1 h-[2px] rounded-full bg-primary"
-                        transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                      />
-                    )}
-                  </>
-                )}
-              </NavLink>
-            ))}
+            {navLinks.map((l, i) =>
+              l.children ? (
+                <NavDropdown
+                  key={l.to}
+                  item={l}
+                  index={i}
+                  isActive={false}
+                  linkClass={linkClass}
+                />
+              ) : (
+                <NavLink
+                  key={l.to}
+                  to={l.to}
+                  className={({ isActive }) => linkClass({ isActive })}
+                >
+                  {({ isActive }) => (
+                    <>
+                      <span
+                        aria-hidden="true"
+                        className={`index-num mr-1.5 text-[0.55rem] transition-fast ${
+                          isActive ? "text-primary" : "text-primary/40"
+                        }`}
+                      >
+                        {String(i + 1).padStart(2, "0")}
+                      </span>
+                      {l.label}
+                      {isActive && (
+                        <motion.span
+                          layoutId="nav-underline"
+                          className="pointer-events-none absolute inset-x-3 bottom-1 h-[2px] rounded-full bg-primary"
+                          transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                        />
+                      )}
+                    </>
+                  )}
+                </NavLink>
+              )
+            )}
           </div>
 
           {/* Theme Toggle + Hamburger */}
@@ -153,31 +282,100 @@ export function Navbar() {
             transition={{ duration: reduceMotion ? 0 : 0.35, ease: [0.16, 1, 0.3, 1] }}
           >
             <motion.nav
-              className="mobile-menu-content"
+              className="flex h-full flex-col justify-between px-6 pb-10 pt-28"
               variants={reduceMotion ? undefined : menuVariants}
               initial={reduceMotion ? false : "hidden"}
               animate={reduceMotion ? undefined : "show"}
               aria-label="Mobile navigation"
             >
-              {navLinks.map((l) => (
-                <motion.div
-                  key={l.to}
-                  variants={reduceMotion ? undefined : linkVariants}
-                  className="mobile-menu-link"
-                >
-                  <NavLink
-                    to={l.to}
-                    onClick={() => setOpen(false)}
-                    className={({ isActive }) =>
-                      `text-2xl font-semibold md:text-3xl ${
-                        isActive ? "text-primary" : "text-foreground/70 hover:text-primary"
-                      }`
-                    }
+              <div>
+                {navLinks.map((l, i) => (
+                  <motion.div
+                    key={l.to}
+                    variants={reduceMotion ? undefined : linkVariants}
+                    className="border-b border-border/60"
                   >
-                    {l.label}
-                  </NavLink>
-                </motion.div>
-              ))}
+                    {l.children ? (
+                      <>
+                        <button
+                          type="button"
+                          onClick={() =>
+                            setMobileExpanded((prev) =>
+                              prev === l.to ? null : l.to
+                            )
+                          }
+                          className={`group flex w-full items-baseline gap-4 py-4 ${
+                            mobileExpanded === l.to ? "text-primary" : "text-foreground/80 hover:text-primary"
+                          }`}
+                        >
+                          <span className="index-num text-[0.65rem] font-semibold text-primary/50">
+                            {String(i + 1).padStart(2, "0")}
+                          </span>
+                          <span className="flex-1 text-left font-display text-3xl font-semibold tracking-tight">
+                            {l.label}
+                          </span>
+                          <ChevronDown
+                            className={`h-5 w-5 text-foreground/30 transition-transform duration-200 ${
+                              mobileExpanded === l.to ? "rotate-180" : ""
+                            }`}
+                          />
+                        </button>
+                        <AnimatePresence>
+                          {mobileExpanded === l.to && (
+                            <motion.div
+                              initial={{ height: 0, opacity: 0 }}
+                              animate={{ height: "auto", opacity: 1 }}
+                              exit={{ height: 0, opacity: 0 }}
+                              transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+                              className="overflow-hidden"
+                            >
+                              <div className="pb-3 pl-8">
+                                {l.children.map((child) => (
+                                  <Link
+                                    key={child.to}
+                                    to={child.to}
+                                    onClick={() => setOpen(false)}
+                                    className="block py-2 text-lg text-foreground/60 transition-fast hover:text-primary"
+                                  >
+                                    {child.label}
+                                  </Link>
+                                ))}
+                              </div>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </>
+                    ) : (
+                      <NavLink
+                        to={l.to}
+                        onClick={() => setOpen(false)}
+                        className={({ isActive }) =>
+                          `group flex items-baseline gap-4 py-4 ${
+                            isActive ? "text-primary" : "text-foreground/80 hover:text-primary"
+                          }`
+                        }
+                      >
+                        <span className="index-num text-[0.65rem] font-semibold text-primary/50">
+                          {String(i + 1).padStart(2, "0")}
+                        </span>
+                        <span className="font-display text-3xl font-semibold tracking-tight">
+                          {l.label}
+                        </span>
+                      </NavLink>
+                    )}
+                  </motion.div>
+                ))}
+              </div>
+
+              <motion.div
+                variants={reduceMotion ? undefined : linkVariants}
+                className="flex items-end justify-between text-[0.62rem] font-semibold uppercase tracking-[0.22em] text-foreground/35"
+              >
+                <span>Ashoka University</span>
+                <a href="mailto:businessclub@ashoka.edu.in" className="text-primary/70">
+                  businessclub@ashoka.edu.in
+                </a>
+              </motion.div>
             </motion.nav>
           </motion.div>
         )}

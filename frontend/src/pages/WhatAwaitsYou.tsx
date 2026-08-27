@@ -13,6 +13,7 @@ import {
   Briefcase,
   PenTool,
   TrendingUp,
+  FileText,
 } from "lucide-react";
 
 const opportunities = [
@@ -213,6 +214,48 @@ export default function WhatAwaitsYou() {
           </Reveal>
         </div>
       </section>
+
+      <div className="section-divider" />
+
+      {/* ── Induction Forms ── */}
+      <section id="induction" className="scroll-mt-[120px] bg-background">
+        <div className="container-abc py-14 md:py-20">
+          <Reveal>
+            <div className="mb-10">
+              <div className="section-number">S.06 — Induction Forms</div>
+              <h2 className="mt-4 font-display text-3xl font-bold md:text-4xl">
+                Ready to join?
+              </h2>
+              <ScrubText
+                text="Applications open at the start of each semester. Fill in the induction form for the department you're interested in — we'll get back to you shortly."
+                className="mt-4 max-w-xl text-[0.9rem] leading-relaxed text-foreground/45"
+              />
+            </div>
+          </Reveal>
+
+          <StaggerGroup className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {departments.map((d) => (
+              <StaggerItem key={d.slug}>
+                <div className="card-lift h-full p-6">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                    <FileText className="h-5 w-5" />
+                  </div>
+                  <h3 className="mt-4 font-display text-lg font-semibold">{d.data.name}</h3>
+                  <p className="mt-2 text-[0.85rem] leading-relaxed text-foreground/45 line-clamp-2">
+                    {d.data.description}
+                  </p>
+                  <Button variant="outline" asChild size="sm" className="mt-4">
+                    <a href="#" target="_blank" rel="noreferrer noopener">
+                      Apply now <ArrowRight className="ml-1.5 h-3.5 w-3.5" />
+                    </a>
+                  </Button>
+                </div>
+              </StaggerItem>
+            ))}
+          </StaggerGroup>
+        </div>
+      </section>
+
     </>
   );
 }

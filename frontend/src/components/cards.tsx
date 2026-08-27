@@ -2,7 +2,6 @@ import { CSSProperties } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
 import { ContentEntry, EventItem, AbrItem, Department, Sponsor, formatDate } from "@/lib/content";
-import { useCmsContent } from "@/lib/cms";
 import { DepartmentArt } from "@/components/department-art";
 
 function Cover({ src, alt }: { src?: string; alt: string }) {
@@ -38,9 +37,6 @@ export function DepartmentCard({
   item: ContentEntry<Department>;
   style?: CSSProperties;
 }) {
-  const { departments } = useCmsContent();
-  const index = departments.findIndex((d) => d.slug === item.slug);
-
   return (
     <Link
       to={`/departments/${item.slug}`}
@@ -54,10 +50,6 @@ export function DepartmentCard({
           className="absolute inset-0 transition-transform duration-[var(--dur-slower)] ease-[var(--ease-out)] group-hover:scale-[1.04]"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-ink/80 via-ink/10 to-ink/5" />
-
-        <span className="absolute left-4 top-4 inline-flex items-center rounded border border-border bg-background/80 px-2.5 py-1 text-[0.55rem] font-semibold uppercase tracking-[0.22em] text-foreground/70 backdrop-blur-sm">
-          No. {String(index + 1).padStart(2, "0")}
-        </span>
 
         <div className="absolute inset-x-0 bottom-0 p-5">
           <h3 className="font-display text-xl font-semibold text-background transition-fast group-hover:text-primary">
@@ -175,9 +167,11 @@ export function AbrCard({
 export function SponsorCard({
   item,
   style,
+  expanded,
 }: {
   item: ContentEntry<Sponsor>;
   style?: CSSProperties;
+  expanded?: boolean;
 }) {
   const content = (
     <div className="flex h-full w-full items-center justify-center px-5">
@@ -186,7 +180,7 @@ export function SponsorCard({
           src={item.data.logo}
           alt={`${item.data.name} logo`}
           loading="lazy"
-          className="max-h-16 max-w-[90%] object-contain opacity-50 grayscale transition-fast group-hover:scale-[1.06] group-hover:opacity-100 group-hover:grayscale-0"
+          className={`${expanded ? "max-h-20 max-w-[95%]" : "max-h-16 max-w-[90%]"} object-contain opacity-50 grayscale transition-fast group-hover:scale-[1.06] group-hover:opacity-100 group-hover:grayscale-0`}
         />
       ) : (
         <span className="text-sm font-medium text-foreground/40 transition-fast group-hover:text-foreground">
@@ -196,7 +190,7 @@ export function SponsorCard({
     </div>
   );
 
-  const className = "group h-24 w-full";
+  const className = `group ${expanded ? "h-28 w-full" : "h-24 w-full"}`;
 
   return item.data.website ? (
     <a

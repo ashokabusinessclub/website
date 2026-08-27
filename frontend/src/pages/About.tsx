@@ -148,13 +148,7 @@ export default function About() {
                   exit={reduceMotion ? undefined : { opacity: 0, y: -14 }}
                   transition={{ duration: 0.32, ease: [0.16, 1, 0.3, 1] }}
                 >
-                  <span
-                    aria-hidden="true"
-                    className="block font-display text-[7rem] font-bold leading-none tracking-tighter text-primary/15"
-                  >
-                    {String(active + 1).padStart(2, "0")}
-                  </span>
-                  <h3 className="mt-2 font-display text-3xl font-semibold xl:text-4xl">
+                  <h3 className="font-display text-3xl font-semibold xl:text-4xl">
                     {currentVertical.title}
                   </h3>
                   <p className="mt-2 text-sm font-medium uppercase tracking-[0.18em] text-primary/80">
@@ -217,10 +211,6 @@ export default function About() {
                       }`}
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-ink/85 via-ink/20 to-transparent" />
-
-                    <span className="absolute left-4 top-4 inline-flex items-center rounded border border-background/20 bg-background/70 px-2.5 py-1 text-[0.55rem] font-semibold uppercase tracking-[0.22em] text-foreground/80 backdrop-blur-sm">
-                      No. {String(i + 1).padStart(2, "0")}
-                    </span>
 
                     {/* Overlay caption — primary on mobile, secondary on desktop */}
                     <div
@@ -381,6 +371,7 @@ export default function About() {
           </StaggerGroup>
         </div>
       </section>
+
     </>
   );
 }

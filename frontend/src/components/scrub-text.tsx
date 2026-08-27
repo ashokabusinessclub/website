@@ -62,7 +62,7 @@ export function ScrubText({
           <span
             key={wi}
             aria-hidden="true"
-            className="inline-block whitespace-nowrap"
+            className="inline whitespace-nowrap"
           >
             {[...word].map((ch, ci) => (
               <Char

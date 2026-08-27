@@ -347,7 +347,6 @@ export function EventOrbit({ events }: { events: ContentEntry<EventItem>[] }) {
         <Reveal>
           <div className="mb-12 flex flex-wrap items-end justify-between gap-4 md:mb-16">
             <div>
-              <div className="section-number">S.03 — Events</div>
               <MaskRise>
                 <h2 className="mt-4 font-display text-3xl font-bold md:text-4xl">
                   What we put on campus
@@ -358,7 +357,7 @@ export function EventOrbit({ events }: { events: ContentEntry<EventItem>[] }) {
               to="/events"
               className="inline-flex items-center gap-2 text-sm font-medium text-primary link-underline transition-fast"
             >
-              All events <ArrowRight className="h-4 w-4" />
+              View calendar <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
         </Reveal>
