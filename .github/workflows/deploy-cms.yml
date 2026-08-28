@@ -32,6 +32,7 @@ jobs:
             cd cms
             npm ci
             npm run build
+            npm run seed || true
             # Copy standalone assets
             cp -r .next/static .next/standalone/.next/ 2>/dev/null || true
             # Copy public assets if needed
