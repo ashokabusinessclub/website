@@ -29,10 +29,10 @@ import {
  * that is the fallback data source.
  */
 
-const CMS_URL = (import.meta.env.VITE_CMS_URL as string | undefined)?.replace(
-  /\/$/,
-  "",
-);
+const CMS_URL = (
+  (import.meta.env.VITE_CMS_URL as string | undefined) ||
+  (import.meta.env.PROD ? "https://cms.ashokabusinessclub.com" : "http://localhost:3000")
+).replace(/\/$/, "");
 
 /** Accept both `https://cms.example.com` and `https://cms.example.com/api`. */
 const API_BASE = CMS_URL && (CMS_URL.endsWith("/api") ? CMS_URL : `${CMS_URL}/api`);
