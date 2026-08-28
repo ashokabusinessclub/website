@@ -45,7 +45,6 @@ export default function Contact() {
   return (
     <>
       <PageHeader
-        eyebrow="Contact"
         title="Talk to Ashoka Business Club."
         intro="Membership, partnerships, sponsorship, events, speakers, or the Ashoka Business Review — write to us and we'll point you to the right team."
       />

@@ -70,7 +70,6 @@ export default function WhatAwaitsYou() {
   return (
     <>
       <PageHeader
-        eyebrow="Join Us"
         title="Join a club that hands you the work, not a certificate."
         intro="Membership in ABC is an apprenticeship in how business actually gets discussed, written about and executed — alongside people who take it seriously."
         scrubIntro

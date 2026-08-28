@@ -11,7 +11,6 @@ export default function Sponsors() {
   return (
     <>
       <PageHeader
-        eyebrow="Partners"
         title="Past Partners."
         intro="Organisations that have backed our work — sponsors and partners who have supported ABC events, publications and competitions over the years."
       />

@@ -109,7 +109,6 @@ export default function About() {
   return (
     <>
       <PageHeader
-        eyebrow="About"
         title="A business club built on a liberal arts campus."
         intro="The Ashoka Business Club is a student-run body at Ashoka University. We exist to make commercial thinking accessible, rigorous and genuinely interesting — from every discipline."
         scrubIntro

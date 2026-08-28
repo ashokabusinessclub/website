@@ -130,7 +130,6 @@ export default function Events() {
   return (
     <>
       <PageHeader
-        eyebrow="Calendar"
         title="Flagships, sessions and the odd late-night build."
         intro="The club's year on one calendar — flip through the months to see what we have staged and what is coming up."
         scrubIntro

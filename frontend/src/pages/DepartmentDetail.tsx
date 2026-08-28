@@ -75,7 +75,7 @@ export default function DepartmentDetail() {
           {dept.data.responsibilities?.length ? (
             <Reveal y={20} delay={0.05}>
               <div className="card-lift mt-12 p-6">
-                <p className="eyebrow">Responsibilities</p>
+                <h3 className="font-display text-lg font-semibold text-foreground">Responsibilities</h3>
                 <ul className="mt-4 space-y-3 text-[0.85rem] leading-relaxed text-foreground/45">
                   {dept.data.responsibilities.map((r) => (
                     <li key={r} className="border-l-2 border-primary/30 pl-3">

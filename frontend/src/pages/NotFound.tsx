@@ -5,8 +5,7 @@ import { ArrowRight } from "lucide-react";
 export default function NotFound() {
   return (
     <section className="container-abc flex min-h-[60vh] flex-col items-center justify-center py-24 text-center animate-entry">
-      <p className="eyebrow">404</p>
-      <h1 className="mt-4 font-display text-4xl font-bold md:text-5xl">
+      <h1 className="font-display text-4xl font-bold md:text-5xl">
         This page isn't on the agenda.
       </h1>
       <p className="mt-4 max-w-md text-foreground/40">

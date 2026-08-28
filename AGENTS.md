@@ -156,3 +156,9 @@ All commit messages MUST follow the **Conventional Commits 1.0.0** specification
 - **DO NOT PUSH** to remote without explicit user approval.
 - Stage and commit locally only when instructed; wait for "push" confirmation before running `git push`.
 - Never force-push or rewrite history without direct instruction.
+
+---
+
+## 10. Design & UI Conventions (DO NOT List)
+
+- **NEVER use eyebrow text on page headers:** Do not add eyebrow labels, brass rules, or small uppercase category tags above main page titles (e.g., `---Contact`, `---About`, `---Calendar`). Page titles must lead directly at the top of the header without eyebrow text above them.

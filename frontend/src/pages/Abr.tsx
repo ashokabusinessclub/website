@@ -28,7 +28,6 @@ export default function Abr() {
   return (
     <>
       <PageHeader
-        eyebrow="ABR"
         title="The club's writing desk."
         intro="Long-form publications, short-form Monocles and everything in between. Written, edited and illustrated entirely by students."
       />
