@@ -77,14 +77,6 @@ function NavDropdown({
       >
         {({ isActive: linkActive }) => (
           <>
-            <span
-              aria-hidden="true"
-              className={`index-num mr-1.5 text-[0.55rem] transition-fast ${
-                linkActive || isActive ? "text-primary" : "text-primary/40"
-              }`}
-            >
-              {String(index + 1).padStart(2, "0")}
-            </span>
             {item.label}
             <ChevronDown className={`ml-1 h-3 w-3 transition-transform duration-200 ${open ? "rotate-180" : ""}`} />
             {(linkActive || isActive) && (
@@ -204,14 +196,6 @@ export function Navbar() {
                 >
                   {({ isActive }) => (
                     <>
-                      <span
-                        aria-hidden="true"
-                        className={`index-num mr-1.5 text-[0.55rem] transition-fast ${
-                          isActive ? "text-primary" : "text-primary/40"
-                        }`}
-                      >
-                        {String(i + 1).padStart(2, "0")}
-                      </span>
                       {l.label}
                       {isActive && (
                         <motion.span
@@ -308,9 +292,6 @@ export function Navbar() {
                             mobileExpanded === l.to ? "text-primary" : "text-foreground/80 hover:text-primary"
                           }`}
                         >
-                          <span className="index-num text-[0.65rem] font-semibold text-primary/50">
-                            {String(i + 1).padStart(2, "0")}
-                          </span>
                           <span className="flex-1 text-left font-display text-3xl font-semibold tracking-tight">
                             {l.label}
                           </span>
@@ -355,9 +336,6 @@ export function Navbar() {
                           }`
                         }
                       >
-                        <span className="index-num text-[0.65rem] font-semibold text-primary/50">
-                          {String(i + 1).padStart(2, "0")}
-                        </span>
                         <span className="font-display text-3xl font-semibold tracking-tight">
                           {l.label}
                         </span>
