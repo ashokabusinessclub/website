@@ -197,6 +197,8 @@ export function Navbar() {
                   {({ isActive }) => (
                     <>
                       {l.label}
+                      {/* invisible spacer to align with dropdown chevron */}
+                      <span className="ml-1 inline-block w-3 h-3" aria-hidden="true" />
                       {isActive && (
                         <motion.span
                           layoutId="nav-underline"
@@ -288,7 +290,7 @@ export function Navbar() {
                               prev === l.to ? null : l.to
                             )
                           }
-                          className={`group flex w-full items-baseline gap-4 py-4 ${
+                          className={`group flex w-full items-center gap-4 py-4 ${
                             mobileExpanded === l.to ? "text-primary" : "text-foreground/80 hover:text-primary"
                           }`}
                         >
@@ -331,7 +333,7 @@ export function Navbar() {
                         to={l.to}
                         onClick={() => setOpen(false)}
                         className={({ isActive }) =>
-                          `group flex items-baseline gap-4 py-4 ${
+                          `group flex items-center gap-4 py-4 ${
                             isActive ? "text-primary" : "text-foreground/80 hover:text-primary"
                           }`
                         }
@@ -339,6 +341,8 @@ export function Navbar() {
                         <span className="font-display text-3xl font-semibold tracking-tight">
                           {l.label}
                         </span>
+                        {/* spacer to align with dropdown chevron */}
+                        <span className="w-5 h-5" aria-hidden="true" />
                       </NavLink>
                     )}
                   </motion.div>
