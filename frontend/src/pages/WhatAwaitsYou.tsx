@@ -79,14 +79,12 @@ export default function WhatAwaitsYou() {
       <section id="departments" className="container-abc scroll-mt-[120px] py-14 md:py-20">
         <Reveal>
           <div className="mb-10">
-            <div className="section-number">S.01 — Departments</div>
-            <h2 className="mt-4 font-display text-3xl font-bold md:text-4xl">
+            <h2 className="font-display text-3xl font-bold md:text-4xl">
               Six verticals, one club.
             </h2>
-            <ScrubText
-              text="This is where the departments live. Every initiative at ABC is owned by a vertical — pick the one that fits you best, or jump straight in and let the work choose."
-              className="mt-4 max-w-xl text-[0.9rem] leading-relaxed text-foreground/45"
-            />
+            <p className="mt-4 max-w-xl text-[0.9rem] leading-relaxed text-foreground/60">
+              This is where the departments live. Every initiative at ABC is owned by a vertical — pick the one that fits you best, or jump straight in and let the work choose.
+            </p>
           </div>
         </Reveal>
 
@@ -114,8 +112,7 @@ export default function WhatAwaitsYou() {
         <div className="container-abc py-14 md:py-20">
           <Reveal>
             <div className="mb-10">
-              <div className="section-number">S.02 — What you'll do</div>
-              <h2 className="mt-4 font-display text-3xl font-bold md:text-4xl">
+              <h2 className="font-display text-3xl font-bold md:text-4xl">
                 Not a certificate. An apprenticeship.
               </h2>
             </div>
@@ -145,8 +142,7 @@ export default function WhatAwaitsYou() {
         <div className="container-abc grid gap-12 py-14 md:py-20 lg:grid-cols-2">
           <Reveal y={28}>
             <div>
-              <div className="section-number">S.03 — Skills you'll use</div>
-              <h2 className="mt-4 font-display text-3xl font-bold md:text-4xl">
+              <h2 className="font-display text-3xl font-bold md:text-4xl">
                 Skills you'll actually use after graduation.
               </h2>
               <ul className="mt-6 space-y-3">
@@ -163,8 +159,7 @@ export default function WhatAwaitsYou() {
           </Reveal>
           <Reveal y={28} delay={0.1}>
             <div>
-              <div className="section-number">S.04 — Access</div>
-              <h2 className="mt-4 font-display text-3xl font-bold md:text-4xl">
+              <h2 className="font-display text-3xl font-bold md:text-4xl">
                 Rooms you would not otherwise be in.
               </h2>
               <p className="mt-5 text-[0.9rem] leading-relaxed text-foreground/45">
@@ -186,8 +181,7 @@ export default function WhatAwaitsYou() {
         <div className="container-abc py-14 md:py-20">
           <Reveal>
             <div className="mb-12">
-              <div className="section-number">S.05 — How to join</div>
-              <h2 className="mt-4 font-display text-3xl font-bold md:text-4xl">The process</h2>
+              <h2 className="font-display text-3xl font-bold md:text-4xl">The process</h2>
             </div>
           </Reveal>
           <StaggerGroup className="grid gap-5 md:grid-cols-3">
@@ -221,14 +215,12 @@ export default function WhatAwaitsYou() {
         <div className="container-abc py-14 md:py-20">
           <Reveal>
             <div className="mb-10">
-              <div className="section-number">S.06 — Induction Forms</div>
-              <h2 className="mt-4 font-display text-3xl font-bold md:text-4xl">
+              <h2 className="font-display text-3xl font-bold md:text-4xl">
                 Ready to join?
               </h2>
-              <ScrubText
-                text="Applications open at the start of each semester. Fill in the induction form for the department you're interested in — we'll get back to you shortly."
-                className="mt-4 max-w-xl text-[0.9rem] leading-relaxed text-foreground/45"
-              />
+              <p className="mt-4 max-w-xl text-[0.9rem] leading-relaxed text-foreground/60">
+                Applications open at the start of each semester. Fill in the induction form for the department you're interested in — we'll get back to you shortly.
+              </p>
             </div>
           </Reveal>
 

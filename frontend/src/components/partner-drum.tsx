@@ -147,8 +147,7 @@ export function PartnerDrum({
     return (
       <section className="relative border-y border-border bg-background">
         <div className="container-abc py-14 md:py-20">
-          <div className="section-number">S.05 — Partners</div>
-          <h2 className="mt-4 font-display text-3xl font-bold md:text-4xl">
+          <h2 className="font-display text-3xl font-bold md:text-4xl">
             Organisations that trust us
           </h2>
           <ul className="mt-10 grid grid-cols-2 gap-x-6 gap-y-4 sm:grid-cols-3 lg:grid-cols-4">
@@ -170,8 +169,7 @@ export function PartnerDrum({
         <div className="container-abc flex items-end justify-between pt-28">
           <Reveal>
             <div>
-              <div className="section-number">S.05 — Partners</div>
-              <h2 className="mt-4 font-display text-3xl font-bold md:text-4xl">
+              <h2 className="font-display text-3xl font-bold md:text-4xl">
                 Organisations that trust us
               </h2>
             </div>

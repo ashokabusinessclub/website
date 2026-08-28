@@ -159,26 +159,8 @@
     @apply mx-auto w-full max-w-[1400px] px-5 sm:px-8 lg:px-12;
   }
 
-  .eyebrow {
-    @apply text-[0.65rem] font-semibold uppercase tracking-[0.28em] text-primary;
-  }
-
-  .rule-brass {
-    @apply h-px w-full bg-gradient-to-r from-primary/60 via-primary/20 to-transparent;
-  }
-
   .link-underline {
     @apply relative inline-block after:absolute after:bottom-0 after:left-0 after:h-px after:w-0 after:bg-current after:transition-all hover:after:w-full;
-  }
-
-  /* Section number tag — S.01, S.02, etc. */
-  .section-number {
-    @apply inline-flex items-center gap-2 text-[0.6rem] font-semibold uppercase tracking-[0.28em] text-muted-foreground;
-  }
-
-  .section-number::before {
-    content: "";
-    @apply block h-px w-6 bg-primary/40;
   }
 
   /* ============================================
@@ -466,12 +448,10 @@
      TAB UNDERLINES
      ============================================ */
 
-  .nav-tab,
   .tab-underline {
     position: relative;
   }
 
-  .nav-tab::after,
   .tab-underline::after {
     content: "";
     position: absolute;
@@ -481,26 +461,15 @@
     transform: scaleX(0);
     transform-origin: center;
     transition: transform var(--dur-base) var(--ease-out);
-  }
-
-  .nav-tab::after {
-    left: 0.75rem;
-    right: 0.75rem;
-    bottom: 4px;
-  }
-
-  .tab-underline::after {
     left: 4px;
     right: 4px;
     bottom: 0;
   }
 
-  .nav-tab:hover::after,
   .tab-underline:hover::after {
     transform: scaleX(1);
   }
 
-  .nav-tab.is-active::after,
   .tab-underline.is-active::after {
     display: none;
   }

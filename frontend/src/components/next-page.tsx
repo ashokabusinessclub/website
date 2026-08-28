@@ -4,9 +4,6 @@ import { MaskRise } from "@/components/reveal";
 
 interface NextPageProps {
   to: string;
-  /** Section marker, e.g. "S.06" */
-  index?: string;
-  label?: string;
   title: string;
 }
 
@@ -14,7 +11,7 @@ interface NextPageProps {
  * Cominvi-style end-of-page signpost — a full-width bordered block that
  * points to the next logical page, sized like a section heading.
  */
-export function NextPage({ to, index = "Next", label = "Next page", title }: NextPageProps) {
+export function NextPage({ to, title }: NextPageProps) {
   return (
     <Link
       to={to}
@@ -29,11 +26,8 @@ export function NextPage({ to, index = "Next", label = "Next page", title }: Nex
 
       <div className="container-abc relative flex items-center justify-between gap-6 py-16 md:py-24">
         <div className="min-w-0">
-          <p className="section-number transition-colors duration-500 group-hover:text-primary/70">
-            {index} — {label}
-          </p>
           <MaskRise>
-            <span className="display-xl mt-5 block transition-colors duration-500 ease-[var(--ease-out)] group-hover:text-primary">
+            <span className="display-xl block transition-colors duration-500 ease-[var(--ease-out)] group-hover:text-primary">
               {title}
             </span>
           </MaskRise>

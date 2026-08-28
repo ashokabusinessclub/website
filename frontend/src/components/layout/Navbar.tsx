@@ -77,15 +77,17 @@ function NavDropdown({
       >
         {({ isActive: linkActive }) => (
           <>
-            {item.label}
+            <span className="relative">
+              {item.label}
+              {(linkActive || isActive) && (
+                <motion.span
+                  layoutId="nav-underline"
+                  className="pointer-events-none absolute -bottom-1.5 inset-x-0 h-[2px] rounded-full bg-primary"
+                  transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                />
+              )}
+            </span>
             <ChevronDown className={`ml-1 h-3 w-3 transition-transform duration-200 ${open ? "rotate-180" : ""}`} />
-            {(linkActive || isActive) && (
-              <motion.span
-                layoutId="nav-underline"
-                className="pointer-events-none absolute inset-x-3 bottom-1 h-[2px] rounded-full bg-primary"
-                transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-              />
-            )}
           </>
         )}
       </NavLink>
@@ -195,18 +197,16 @@ export function Navbar() {
                   className={({ isActive }) => `${linkClass({ isActive })} flex items-center h-full`}
                 >
                   {({ isActive }) => (
-                    <>
+                    <span className="relative">
                       {l.label}
-                      {/* invisible spacer to align with dropdown chevron */}
-                      <span className="ml-1 inline-block w-3 h-3" aria-hidden="true" />
                       {isActive && (
                         <motion.span
                           layoutId="nav-underline"
-                          className="pointer-events-none absolute inset-x-3 bottom-1 h-[2px] rounded-full bg-primary"
+                          className="pointer-events-none absolute -bottom-1.5 inset-x-0 h-[2px] rounded-full bg-primary"
                           transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
                         />
                       )}
-                    </>
+                    </span>
                   )}
                 </NavLink>
               )
@@ -338,11 +338,9 @@ export function Navbar() {
                           }`
                         }
                       >
-                        <span className="font-display text-3xl font-semibold tracking-tight">
+                        <span className="flex-1 text-left font-display text-3xl font-semibold tracking-tight">
                           {l.label}
                         </span>
-                        {/* spacer to align with dropdown chevron */}
-                        <span className="w-5 h-5" aria-hidden="true" />
                       </NavLink>
                     )}
                   </motion.div>

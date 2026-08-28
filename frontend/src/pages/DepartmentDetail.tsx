@@ -38,8 +38,7 @@ export default function DepartmentDetail() {
 
           <div className="mt-12 grid items-center gap-10 lg:grid-cols-[1.1fr_0.9fr]">
             <Reveal y={20}>
-              <p className="section-number">The Departments</p>
-              <h1 className="mt-4 max-w-xl font-display text-5xl font-bold leading-[1.02] md:text-6xl lg:text-7xl">
+              <h1 className="max-w-xl font-display text-5xl font-bold leading-[1.02] md:text-6xl lg:text-7xl">
                 {dept.data.name}
               </h1>
               <p className="mt-6 max-w-xl text-lg leading-relaxed text-foreground/45">
@@ -134,8 +133,7 @@ export default function DepartmentDetail() {
         <div className="container-abc py-16 md:py-24">
           <Reveal>
             <div className="mb-10">
-              <div className="section-number">The Departments</div>
-              <h2 className="mt-4 font-display text-3xl font-bold md:text-4xl">Every vertical.</h2>
+              <h2 className="font-display text-3xl font-bold md:text-4xl">Every vertical.</h2>
             </div>
           </Reveal>
 
