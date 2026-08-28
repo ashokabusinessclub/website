@@ -148,3 +148,11 @@ All commit messages MUST follow the **Conventional Commits 1.0.0** specification
 
 - Always verify changes with project build, type-check, and lint/test commands.
 - Never commit secrets, credentials, or sensitive data to version control.
+
+---
+
+## 9. Git & Deployment
+
+- **DO NOT PUSH** to remote without explicit user approval.
+- Stage and commit locally only when instructed; wait for "push" confirmation before running `git push`.
+- Never force-push or rewrite history without direct instruction.
