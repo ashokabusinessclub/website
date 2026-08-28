@@ -21,10 +21,14 @@ export const config = buildConfig({
   graphQL: {
     disable: true,
   },
-  cors:
-    process.env.CORS_ORIGINS?.split(",")
+  cors: (() => {
+    const origins = process.env.CORS_ORIGINS?.split(",")
       .map((o) => o.trim())
-      .filter(Boolean) ?? "*",
+      .filter(Boolean);
+    return origins && origins.length > 0
+      ? origins
+      : ["https://ashokabusinessclub.com", "http://localhost:8080", "*"];
+  })(),
   csrf:
     process.env.CSRF_ORIGINS?.split(",")
       .map((o) => o.trim())
