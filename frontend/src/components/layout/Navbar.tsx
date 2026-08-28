@@ -72,7 +72,7 @@ function NavDropdown({
     <div className="relative flex items-center" onMouseEnter={handleEnter} onMouseLeave={handleLeave}>
       <NavLink
         to={item.to}
-        className={linkClass}
+        className={`${linkClass} flex items-center h-full`}
         onClick={() => setOpen(false)}
       >
         {({ isActive: linkActive }) => (
@@ -192,7 +192,7 @@ export function Navbar() {
                 <NavLink
                   key={l.to}
                   to={l.to}
-                  className={({ isActive }) => linkClass({ isActive })}
+                  className={({ isActive }) => `${linkClass({ isActive })} flex items-center h-full`}
                 >
                   {({ isActive }) => (
                     <>
