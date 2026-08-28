@@ -69,7 +69,7 @@ function NavDropdown({
   }, [location.pathname]);
 
   return (
-    <div className="relative" onMouseEnter={handleEnter} onMouseLeave={handleLeave}>
+    <div className="relative flex items-center" onMouseEnter={handleEnter} onMouseLeave={handleLeave}>
       <NavLink
         to={item.to}
         className={linkClass}
