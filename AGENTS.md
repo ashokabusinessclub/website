@@ -162,4 +162,7 @@ All commit messages MUST follow the **Conventional Commits 1.0.0** specification
 
 ## 10. Design & UI Conventions (DO NOT List)
 
-- **NEVER use eyebrow text on page headers:** Do not add eyebrow labels, brass rules, or small uppercase category tags above main page titles (e.g., `---Contact`, `---About`, `---Calendar`). Page titles must lead directly at the top of the header without eyebrow text above them.
+- **NEVER use eyebrow text, badge pills, or category chips above headings:** Do not add eyebrow labels, decorative pills, badges, brass rules, or small uppercase tags above main page titles, section headings, or card titles (e.g., `---Contact`, `---About`, `S.01 — ...`, `Founded by ...`). Headings and titles must lead directly at the top of headers, sections, and cards without eyebrow elements above them.
+- **Do not use gradients:** Avoid gradient backgrounds, gradient text fills, and heavy gradient borders across sections, cards, buttons, and stages. Rely on solid surfaces, refined contrast, and crisp hairline borders.
+- **Choose Hero patterns that are not centered:** Hero sections must use non-centered, asymmetrical editorial layouts (e.g., strong left-anchored typography and content) instead of center-aligned hero blocks.
+- **Do not use Tailwind:** Do not write or introduce Tailwind CSS for styling and layout; adhere to clean, structured, and idiomatic styling conventions.
