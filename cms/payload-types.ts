@@ -72,6 +72,7 @@ export interface Config {
     events: Event;
     'abr-items': AbrItem;
     sponsors: Sponsor;
+    'nibbl-menu': NibblMenu;
     'payload-kv': PayloadKv;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
@@ -84,6 +85,7 @@ export interface Config {
     events: EventsSelect<false> | EventsSelect<true>;
     'abr-items': AbrItemsSelect<false> | AbrItemsSelect<true>;
     sponsors: SponsorsSelect<false> | SponsorsSelect<true>;
+    'nibbl-menu': NibblMenuSelect<false> | NibblMenuSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -255,6 +257,36 @@ export interface Sponsor {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "nibbl-menu".
+ */
+export interface NibblMenu {
+  id: number;
+  name: string;
+  slug: string;
+  category: 'Nostalgic Classics' | 'Signature Pop-Up Specials' | '2025 Upcoming Menu';
+  /**
+   * Short description or flavor notes.
+   */
+  note?: string | null;
+  /**
+   * Optional price (e.g. ₹120).
+   */
+  price?: string | null;
+  /**
+   * Optional category/badge tag (e.g. Campus Favourite, 14 New SKUs).
+   */
+  tag?: string | null;
+  available?: boolean | null;
+  order?: number | null;
+  /**
+   * Optional markdown description or recipe notes.
+   */
+  content?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -296,6 +328,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'sponsors';
         value: number | Sponsor;
+      } | null)
+    | ({
+        relationTo: 'nibbl-menu';
+        value: number | NibblMenu;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -423,6 +459,23 @@ export interface SponsorsSelect<T extends boolean = true> {
   description?: T;
   website?: T;
   year?: T;
+  order?: T;
+  content?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "nibbl-menu_select".
+ */
+export interface NibblMenuSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  category?: T;
+  note?: T;
+  price?: T;
+  tag?: T;
+  available?: T;
   order?: T;
   content?: T;
   updatedAt?: T;

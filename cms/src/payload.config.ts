@@ -4,6 +4,7 @@ import { Departments } from "./collections/Departments";
 import { Events } from "./collections/Events";
 import { AbrItems } from "./collections/AbrItems";
 import { Sponsors } from "./collections/Sponsors";
+import { NibblMenu } from "./collections/NibblMenu";
 import { Users } from "./collections/Users";
 
 export const config = buildConfig({
@@ -13,9 +14,9 @@ export const config = buildConfig({
       connectionString:
         process.env.DATABASE_URI ?? "postgres://localhost:5432/abc_cms",
     },
-    push: process.env.NODE_ENV !== "production",
+    push: process.env.DB_PUSH !== "false",
   }),
-  collections: [Users, Departments, Events, AbrItems, Sponsors],
+  collections: [Users, Departments, Events, AbrItems, Sponsors, NibblMenu],
   graphQL: {
     disable: true,
   },

@@ -15,8 +15,8 @@ export const navLinks: NavItem[] = [
     to: "/about",
     label: "About",
     children: [
-      { to: "/about#nibbl", label: "nibbl." },
-      { to: "/about#leadership", label: "Our Team" },
+      { to: "/nibbl", label: "Nibbl" },
+      { to: "/team", label: "Our Team" },
     ],
   },
   { to: "/abr", label: "ABR" },

@@ -11,10 +11,12 @@ import {
   AbrItem,
   Department,
   Sponsor,
+  NibblMenuItem,
   departments as mdDepartments,
   events as mdEvents,
   abrItems as mdAbrItems,
   sponsors as mdSponsors,
+  nibblMenuItems as mdNibblMenuItems,
 } from "./content";
 
 /**
@@ -44,6 +46,7 @@ export interface CmsContent {
   events: ContentEntry<EventItem>[];
   abrItems: ContentEntry<AbrItem>[];
   sponsors: ContentEntry<Sponsor>[];
+  nibblMenuItems: ContentEntry<NibblMenuItem>[];
   eventCategories: string[];
   abrTypes: string[];
   source: CmsSource;
@@ -131,12 +134,21 @@ export function CmsProvider({ children }: { children: ReactNode }) {
     retry: 1,
     refetchOnWindowFocus: false,
   });
+  const nibblMenuQuery = useQuery({
+    queryKey: ["cms", "nibbl-menu"],
+    queryFn: () => fetchCollection("nibbl-menu"),
+    enabled,
+    staleTime: 5 * 60_000,
+    retry: 1,
+    refetchOnWindowFocus: false,
+  });
 
   const value = useMemo<CmsContent>(() => {
     const deptDocs = departmentsQuery.data;
     const eventDocs = eventsQuery.data;
     const abrDocs = abrQuery.data;
     const sponsorDocs = sponsorsQuery.data;
+    const nibblDocs = nibblMenuQuery.data;
 
     const departments = deptDocs
       ? sortBy(
@@ -168,6 +180,13 @@ export function CmsProvider({ children }: { children: ReactNode }) {
         )
       : mdSponsors;
 
+    const nibblMenuItems = nibblDocs
+      ? sortBy(
+          nibblDocs.map((n) => toEntry<NibblMenuItem>(n, ["content"])),
+          (n) => (n.data.order ?? 99) as number,
+        )
+      : mdNibblMenuItems;
+
     const eventCategories = Array.from(
       new Set(events.map((e) => e.data.category).filter(Boolean) as string[]),
     );
@@ -176,17 +195,18 @@ export function CmsProvider({ children }: { children: ReactNode }) {
     );
 
     const source: CmsSource =
-      deptDocs || eventDocs || abrDocs || sponsorDocs ? "cms" : "markdown";
+      deptDocs || eventDocs || abrDocs || sponsorDocs || nibblDocs ? "cms" : "markdown";
 
     return {
       departments,
       events,
       abrItems,
       sponsors,
+      nibblMenuItems,
       eventCategories,
       abrTypes,
       source,
-      loading: enabled && (departmentsQuery.isFetching || eventsQuery.isFetching || abrQuery.isFetching || sponsorsQuery.isFetching),
+      loading: enabled && (departmentsQuery.isFetching || eventsQuery.isFetching || abrQuery.isFetching || sponsorsQuery.isFetching || nibblMenuQuery.isFetching),
     };
   }, [
     departmentsQuery.data,
@@ -197,6 +217,8 @@ export function CmsProvider({ children }: { children: ReactNode }) {
     abrQuery.isFetching,
     sponsorsQuery.data,
     sponsorsQuery.isFetching,
+    nibblMenuQuery.data,
+    nibblMenuQuery.isFetching,
     enabled,
   ]);
 

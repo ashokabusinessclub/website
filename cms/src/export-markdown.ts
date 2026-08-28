@@ -33,6 +33,7 @@ const COLLECTIONS = {
   events: "events",
   "abr-items": "abr",
   sponsors: "sponsors",
+  "nibbl-menu": "nibbl-menu",
 } as const;
 
 /** Order of keys written in each frontmatter block. */
@@ -50,6 +51,7 @@ const FIELD_ORDER = {
   ],
   "abr-items": ["title", "date", "author", "type", "cover", "tags", "excerpt"],
   sponsors: ["name", "logo", "description", "website", "year", "order"],
+  "nibbl-menu": ["name", "category", "note", "price", "tag", "available", "order"],
 } as const;
 
 function yamlString(value: string): string {

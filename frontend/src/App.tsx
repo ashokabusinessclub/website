@@ -6,6 +6,8 @@ import { EASE } from "./components/reveal";
 
 const Home = lazy(() => import("./pages/Home"));
 const About = lazy(() => import("./pages/About"));
+const Team = lazy(() => import("./pages/Team"));
+const Nibbl = lazy(() => import("./pages/Nibbl"));
 const DepartmentDetail = lazy(() => import("./pages/DepartmentDetail"));
 const Abr = lazy(() => import("./pages/Abr"));
 const AbrDetail = lazy(() => import("./pages/AbrDetail"));
@@ -43,6 +45,8 @@ function AnimatedRoutes() {
           <Routes location={location}>
             <Route path="/" element={<Home />} />
             <Route path="/about" element={<About />} />
+            <Route path="/team" element={<Team />} />
+            <Route path="/nibbl" element={<Nibbl />} />
             <Route path="/departments/:slug" element={<DepartmentDetail />} />
             <Route path="/abr" element={<Abr />} />
             <Route path="/abr/:slug" element={<AbrDetail />} />

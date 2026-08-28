@@ -25,6 +25,7 @@ const COLLECTIONS = {
   events: { slugField: "slug", sort: "-date" },
   abr: { slugField: "slug", sort: "-date" },
   sponsors: { slugField: "slug", sort: "order" },
+  "nibbl-menu": { slugField: "slug", sort: "order" },
 } as const;
 
 type CollectionName = keyof typeof COLLECTIONS;
@@ -110,6 +111,18 @@ function toPayloadDoc(collection: CollectionName, doc: SeedDoc) {
         order: (base.order as number) ?? 99,
         content: body || undefined,
       };
+    case "nibbl-menu":
+      return {
+        name: base.name as string,
+        slug: doc.slug,
+        category: (base.category as string) ?? "Nostalgic Classics",
+        note: (base.note as string) ?? undefined,
+        price: (base.price as string) ?? undefined,
+        tag: (base.tag as string) ?? undefined,
+        available: base.available !== false,
+        order: (base.order as number) ?? 99,
+        content: body || undefined,
+      };
   }
 }
 
@@ -117,7 +130,8 @@ type PayloadCollection =
   | "departments"
   | "events"
   | "abr-items"
-  | "sponsors";
+  | "sponsors"
+  | "nibbl-menu";
 
 async function upsertCollection(
   payload: Awaited<ReturnType<typeof getPayload>>,
@@ -187,6 +201,7 @@ async function main() {
   await upsertCollection(payload, "events", "events");
   await upsertCollection(payload, "abr-items", "abr");
   await upsertCollection(payload, "sponsors", "sponsors");
+  await upsertCollection(payload, "nibbl-menu", "nibbl-menu");
 
   console.log("[seed] done");
 }

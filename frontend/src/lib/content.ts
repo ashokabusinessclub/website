@@ -136,6 +136,32 @@ export const sponsors = parseCollection(sponsorFiles)
       a.data.name.localeCompare(b.data.name),
   );
 
+/* ---------------- Nibbl Menu ---------------- */
+
+export interface NibblMenuItem extends Frontmatter {
+  name: string;
+  category: string;
+  note?: string;
+  price?: string;
+  tag?: string;
+  available?: boolean;
+  order?: number;
+}
+
+const nibblFiles = import.meta.glob("/content/nibbl-menu/*.md", {
+  eager: true,
+  query: "?raw",
+  import: "default",
+}) as Record<string, string>;
+
+export const nibblMenuItems = parseCollection(nibblFiles)
+  .map((e) => e as ContentEntry<NibblMenuItem>)
+  .sort(
+    (a, b) =>
+      (a.data.order ?? 99) - (b.data.order ?? 99) ||
+      a.data.name.localeCompare(b.data.name),
+  );
+
 /* ---------------- Helpers ---------------- */
 
 export function formatDate(value?: string) {

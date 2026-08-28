@@ -11,11 +11,10 @@ import {
   useScroll,
   useTransform,
 } from "motion/react";
-import { ArrowRight, ArrowUpRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { useCmsContent } from "@/lib/cms";
 import { AbrCard } from "@/components/cards";
 import { EventOrbit } from "@/components/event-orbit";
-import { ChapterBar } from "@/components/scrollytelling";
 import { Button } from "@/components/ui/button";
 import {
   EASE_SNAP,
@@ -24,14 +23,6 @@ import {
   StaggerGroup,
   StaggerItem,
 } from "@/components/reveal";
-import { DepartmentArt } from "@/components/department-art";
-
-const CHAPTERS = [
-  { id: "departments", label: "Departments" },
-  { id: "events", label: "Calendar" },
-  { id: "publications", label: "Publications" },
-  { id: "join", label: "Join us" },
-];
 
 function HeroLine({
   children,
@@ -223,80 +214,6 @@ export default function Home() {
         )}
       </section>
 
-      {/* Scrollytelling chapter bar */}
-      <ChapterBar chapters={CHAPTERS} />
-
-      {/* ═══ DEPARTMENTS — editorial index rows (kononenko work-list) ═══ */}
-      <section id="departments" className="scroll-mt-28 bg-background">
-        <div className="container-abc pt-16 md:pt-24">
-          <div className="flex flex-col gap-6 pb-10 md:flex-row md:items-end md:justify-between md:pb-14">
-            <Reveal>
-              <div>
-                <MaskRise>
-                  <h2 className="display-lg">
-                    Six teams,
-                    <br />
-                    one club.
-                  </h2>
-                </MaskRise>
-              </div>
-            </Reveal>
-            <Reveal delay={0.1}>
-              <p className="max-w-md text-[0.95rem] leading-relaxed text-foreground/60 md:pb-1">
-                Six student-led verticals run everything we do — research, writing, partnerships, industry outreach and operations.
-              </p>
-            </Reveal>
-          </div>
-        </div>
-
-        <StaggerGroup>
-          {departments.map((d, i) => (
-            <StaggerItem key={d.slug} y={26}>
-              <Link
-                to={`/departments/${d.slug}`}
-                className="index-row group outline-none"
-                aria-label={`${d.data.name} — explore department`}
-              >
-                {/* hover art fill — the dark poster carries its own palette */}
-                <div className="index-row-art">
-                  <DepartmentArt slug={d.slug} className="h-full w-full" />
-                  <div className="absolute inset-0 bg-gradient-to-r from-[#141009]/92 via-[#141009]/55 to-transparent" />
-                </div>
-
-                <div className="relative z-10 mx-auto grid max-w-[1400px] grid-cols-[1fr_auto] items-center gap-5 px-5 py-8 transition-colors duration-500 ease-[var(--ease-out)] group-hover:text-[#F2E9D6] sm:gap-8 sm:px-8 md:py-11 lg:px-12">
-                  <span className="min-w-0">
-                    <span className="block truncate font-display text-2xl font-bold tracking-tight sm:text-3xl md:text-[2.6rem] md:leading-tight">
-                      {d.data.name}
-                    </span>
-                    <span className="mt-1 hidden max-w-xl truncate text-[0.82rem] text-foreground/45 transition-colors duration-500 group-hover:text-[#F2E9D6]/60 sm:block">
-                      {d.data.description}
-                    </span>
-                  </span>
-
-                  <span className="flex h-11 w-11 items-center justify-center rounded-full border border-border transition-all duration-500 ease-[var(--ease-out)] group-hover:rotate-45 group-hover:border-primary group-hover:bg-primary sm:h-14 sm:w-14">
-                    <ArrowUpRight className="h-4 w-4 transition-colors duration-500 group-hover:text-primary-foreground sm:h-5 sm:w-5" />
-                  </span>
-                </div>
-              </Link>
-            </StaggerItem>
-          ))}
-        </StaggerGroup>
-
-        <div className="container-abc py-8 md:py-10">
-          <Reveal>
-            <Link
-              to="/what-awaits-you"
-              className="inline-flex items-center gap-2 text-sm font-medium text-primary link-underline transition-fast"
-            >
-              Find your department <ArrowRight className="h-4 w-4" />
-            </Link>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* Divider */}
-      <div className="section-divider" />
-
       {/* ═══ EVENTS — orbiting discs ═══ */}
       <EventOrbit events={events} />
 
@@ -316,9 +233,7 @@ export default function Home() {
 
           <div className="order-1 self-start lg:order-2 lg:sticky lg:top-32">
             <Reveal>
-              <MaskRise>
-                <h2 className="display-lg">The writing desk.</h2>
-              </MaskRise>
+              <h2 className="display-lg">The writing desk.</h2>
             </Reveal>
             <Reveal delay={0.1}>
               <p className="mt-6 max-w-md text-[0.95rem] leading-relaxed text-foreground/60">
