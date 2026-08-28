@@ -32,6 +32,7 @@ jobs:
             git remote add origin https://github.com/ashokabusinessclub/website.git 2>/dev/null || true
             git pull origin main
             cd cms
+            mkdir -p public/media
             npm ci
             npm run build
             npm run seed || true

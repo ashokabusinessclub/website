@@ -37,6 +37,24 @@ const CMS_URL = (import.meta.env.VITE_CMS_URL as string | undefined)?.replace(
 /** Accept both `https://cms.example.com` and `https://cms.example.com/api`. */
 const API_BASE = CMS_URL && (CMS_URL.endsWith("/api") ? CMS_URL : `${CMS_URL}/api`);
 
+/** Resolve media URLs from CMS (e.g. /api/media/file/..., /media/...) against the CMS host origin */
+export function resolveMediaUrl(url?: string | null): string | undefined {
+  if (!url) return undefined;
+  if (
+    url.startsWith("http://") ||
+    url.startsWith("https://") ||
+    url.startsWith("data:") ||
+    url.startsWith("blob:")
+  ) {
+    return url;
+  }
+  if (CMS_URL && (url.startsWith("/api/media") || url.startsWith("/media"))) {
+    const origin = CMS_URL.replace(/\/api\/?$/, "");
+    return `${origin}${url.startsWith("/") ? "" : "/"}${url}`;
+  }
+  return url;
+}
+
 const CMS_TIMEOUT_MS = 4000;
 
 export type CmsSource = "cms" | "markdown";
@@ -65,12 +83,21 @@ interface CmsDoc {
 }
 
 async function fetchCollection(name: string): Promise<CmsDoc[]> {
-  const res = await fetch(`${API_BASE}/${name}?limit=0&depth=0`, {
+  const res = await fetch(`${API_BASE}/${name}?limit=0&depth=1`, {
     signal: AbortSignal.timeout(CMS_TIMEOUT_MS),
   });
   if (!res.ok) throw new Error(`CMS ${name}: HTTP ${res.status}`);
   const json = (await res.json()) as { docs?: CmsDoc[] };
   return json.docs ?? [];
+}
+
+function extractMediaUrl(val: unknown): string | undefined {
+  if (!val) return undefined;
+  if (typeof val === "string") return resolveMediaUrl(val);
+  if (typeof val === "object" && val !== null && "url" in val) {
+    return resolveMediaUrl(String((val as { url: unknown }).url));
+  }
+  return undefined;
 }
 
 function toEntry<T extends Record<string, unknown>>(
@@ -159,7 +186,12 @@ export function CmsProvider({ children }: { children: ReactNode }) {
 
     const events = eventDocs
       ? sortBy(
-          eventDocs.map((e) => toEntry<EventItem>(e, ["content"])),
+          eventDocs.map((e) => {
+            const entry = toEntry<EventItem>(e, ["content"]);
+            const coverUrl = extractMediaUrl(e.coverImage) || extractMediaUrl(e.cover);
+            if (coverUrl) entry.data.cover = coverUrl;
+            return entry;
+          }),
           (e) => e.data.date ?? "",
           -1,
         )
@@ -167,7 +199,20 @@ export function CmsProvider({ children }: { children: ReactNode }) {
 
     const abrItems = abrDocs
       ? sortBy(
-          abrDocs.map((a) => toEntry<AbrItem>(a, ["content"])),
+          abrDocs.map((a) => {
+            const entry = toEntry<AbrItem>(a, ["content"]);
+            const coverUrl = extractMediaUrl(a.coverImage) || extractMediaUrl(a.cover);
+            if (coverUrl) entry.data.cover = coverUrl;
+            if (Array.isArray(a.images)) {
+              entry.data.images = a.images
+                .map((img: { image?: unknown; url?: string; caption?: string; alt?: string }) => {
+                  const url = extractMediaUrl(img.image) || extractMediaUrl(img.url);
+                  return url ? { url, caption: img.caption, alt: img.alt } : null;
+                })
+                .filter(Boolean) as AbrItem["images"];
+            }
+            return entry;
+          }),
           (a) => a.data.date ?? "",
           -1,
         )
@@ -175,7 +220,14 @@ export function CmsProvider({ children }: { children: ReactNode }) {
 
     const sponsors = sponsorDocs
       ? sortBy(
-          sponsorDocs.map((s) => toEntry<Sponsor>(s, ["content"])),
+          sponsorDocs.map((s) => {
+            const entry = toEntry<Sponsor>(s, ["content"]);
+            const logoUrl = extractMediaUrl(s.logoImage) || extractMediaUrl(s.logo);
+            const logoDarkUrl = extractMediaUrl(s.logoDarkImage) || extractMediaUrl(s.logoDark);
+            if (logoUrl) entry.data.logo = logoUrl;
+            if (logoDarkUrl) entry.data.logoDark = logoDarkUrl;
+            return entry;
+          }),
           (s) => (s.data.order ?? 99) as number,
         )
       : mdSponsors;

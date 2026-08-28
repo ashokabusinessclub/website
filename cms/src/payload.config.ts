@@ -5,6 +5,7 @@ import { Events } from "./collections/Events";
 import { AbrItems } from "./collections/AbrItems";
 import { Sponsors } from "./collections/Sponsors";
 import { NibblMenu } from "./collections/NibblMenu";
+import { Media } from "./collections/Media";
 import { Users } from "./collections/Users";
 
 export const config = buildConfig({
@@ -16,7 +17,7 @@ export const config = buildConfig({
     },
     push: process.env.DB_PUSH !== "false",
   }),
-  collections: [Users, Departments, Events, AbrItems, Sponsors, NibblMenu],
+  collections: [Users, Media, Departments, Events, AbrItems, Sponsors, NibblMenu],
   graphQL: {
     disable: true,
   },

@@ -2,6 +2,10 @@ import type { CollectionConfig } from "payload";
 
 export const NibblMenu: CollectionConfig = {
   slug: "nibbl-menu",
+  labels: {
+    singular: "Menu Item",
+    plural: "nibbl. Menu",
+  },
   admin: {
     useAsTitle: "name",
     defaultColumns: ["name", "category", "price", "available", "order", "updatedAt"],

@@ -105,6 +105,7 @@ function toPayloadDoc(collection: CollectionName, doc: SeedDoc) {
         name: base.name as string,
         slug: doc.slug,
         logo: (base.logo as string) ?? undefined,
+        logoDark: (base.logoDark as string) ?? undefined,
         description: (base.description as string) ?? undefined,
         website: (base.website as string) ?? undefined,
         year: (base.year as string) ?? undefined,

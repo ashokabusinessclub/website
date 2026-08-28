@@ -50,7 +50,7 @@ const FIELD_ORDER = {
     "applyUrl",
   ],
   "abr-items": ["title", "date", "author", "type", "cover", "tags", "excerpt"],
-  sponsors: ["name", "logo", "description", "website", "year", "order"],
+  sponsors: ["name", "logo", "logoDark", "description", "website", "year", "order"],
   "nibbl-menu": ["name", "category", "note", "price", "tag", "available", "order"],
 } as const;
 

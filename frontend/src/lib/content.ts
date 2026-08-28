@@ -55,6 +55,12 @@ export const getDepartment = (slug: string) =>
 
 /* ---------------- ABR ---------------- */
 
+export interface AbrArticleImage {
+  url: string;
+  caption?: string;
+  alt?: string;
+}
+
 export interface AbrItem extends Frontmatter {
   title: string;
   date: string;
@@ -63,6 +69,7 @@ export interface AbrItem extends Frontmatter {
   cover?: string;
   tags?: string[];
   excerpt?: string;
+  images?: AbrArticleImage[];
 }
 
 const abrFiles = import.meta.glob("/content/abr/*.md", {
@@ -116,6 +123,7 @@ export const getEvent = (slug: string) => events.find((e) => e.slug === slug);
 export interface Sponsor extends Frontmatter {
   name: string;
   logo?: string;
+  logoDark?: string;
   description?: string;
   website?: string;
   year?: string;

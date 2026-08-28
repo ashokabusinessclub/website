@@ -173,15 +173,40 @@ export function SponsorCard({
   style?: CSSProperties;
   expanded?: boolean;
 }) {
+  const lightLogo = item.data.logo;
+  const darkLogo = item.data.logoDark || item.data.logo;
+  const hasDarkVariant = Boolean(item.data.logoDark && item.data.logoDark !== item.data.logo);
+
+  const imgClass = `${
+    expanded ? "max-h-20 max-w-[95%]" : "max-h-16 max-w-[90%]"
+  } object-contain opacity-50 grayscale transition-fast group-hover:scale-[1.06] group-hover:opacity-100 group-hover:grayscale-0`;
+
   const content = (
     <div className="flex h-full w-full items-center justify-center px-5">
-      {item.data.logo ? (
-        <img
-          src={item.data.logo}
-          alt={`${item.data.name} logo`}
-          loading="lazy"
-          className={`${expanded ? "max-h-20 max-w-[95%]" : "max-h-16 max-w-[90%]"} object-contain opacity-50 grayscale transition-fast group-hover:scale-[1.06] group-hover:opacity-100 group-hover:grayscale-0`}
-        />
+      {lightLogo ? (
+        hasDarkVariant ? (
+          <>
+            <img
+              src={lightLogo}
+              alt={`${item.data.name} logo`}
+              loading="lazy"
+              className={`${imgClass} dark:hidden`}
+            />
+            <img
+              src={darkLogo}
+              alt={`${item.data.name} logo`}
+              loading="lazy"
+              className={`${imgClass} hidden dark:block`}
+            />
+          </>
+        ) : (
+          <img
+            src={lightLogo}
+            alt={`${item.data.name} logo`}
+            loading="lazy"
+            className={imgClass}
+          />
+        )
       ) : (
         <span className="text-sm font-medium text-foreground/40 transition-fast group-hover:text-foreground">
           {item.data.name}

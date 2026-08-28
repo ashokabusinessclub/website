@@ -68,6 +68,7 @@ export interface Config {
   blocks: {};
   collections: {
     users: User;
+    media: Media;
     departments: Department;
     events: Event;
     'abr-items': AbrItem;
@@ -81,6 +82,7 @@ export interface Config {
   collectionsJoins: {};
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
+    media: MediaSelect<false> | MediaSelect<true>;
     departments: DepartmentsSelect<false> | DepartmentsSelect<true>;
     events: EventsSelect<false> | EventsSelect<true>;
     'abr-items': AbrItemsSelect<false> | AbrItemsSelect<true>;
@@ -153,6 +155,50 @@ export interface User {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "media".
+ */
+export interface Media {
+  id: number;
+  /**
+   * Alternative text for accessibility and screen readers.
+   */
+  alt?: string | null;
+  /**
+   * Optional caption to display under the image.
+   */
+  caption?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
+  sizes?: {
+    thumbnail?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+    card?: {
+      url?: string | null;
+      width?: number | null;
+      height?: number | null;
+      mimeType?: string | null;
+      filesize?: number | null;
+      filename?: string | null;
+    };
+  };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "departments".
  */
 export interface Department {
@@ -191,6 +237,13 @@ export interface Event {
   slug: string;
   date: string;
   category?: string | null;
+  /**
+   * Upload event cover image (preferred).
+   */
+  coverImage?: (number | null) | Media;
+  /**
+   * Or provide an external/fallback image URL or path.
+   */
   cover?: string | null;
   location?: string | null;
   description?: string | null;
@@ -214,9 +267,33 @@ export interface AbrItem {
   date: string;
   author?: string | null;
   type?: string | null;
+  /**
+   * Upload cover image for this article (preferred).
+   */
+  coverImage?: (number | null) | Media;
+  /**
+   * Or provide an external/fallback image URL or path.
+   */
   cover?: string | null;
   /**
-   * List of tag strings.
+   * Upload images to include in this article. You can also embed them directly inside the Markdown content using ![Caption](/api/media/file/filename.ext) or the image URL.
+   */
+  images?:
+    | {
+        image: number | Media;
+        /**
+         * Optional caption shown under the image.
+         */
+        caption?: string | null;
+        /**
+         * Accessibility alt text.
+         */
+        alt?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * List of tag strings (e.g. ["Finance", "Tech"]).
    */
   tags?:
     | {
@@ -229,7 +306,7 @@ export interface AbrItem {
     | null;
   excerpt?: string | null;
   /**
-   * Markdown body of the article.
+   * Markdown body of the article. Embed images using markdown: ![Alt Text](/api/media/file/filename.ext) or full URL.
    */
   content?: string | null;
   updatedAt: string;
@@ -243,7 +320,22 @@ export interface Sponsor {
   id: number;
   name: string;
   slug: string;
+  /**
+   * Upload primary logo (used for light mode or universal display).
+   */
+  logoImage?: (number | null) | Media;
+  /**
+   * Upload optional dark mode logo (if different from light mode).
+   */
+  logoDarkImage?: (number | null) | Media;
+  /**
+   * Direct URL or static fallback path (e.g. /uploads/sponsors/xyz.svg). Used if no logo image is uploaded.
+   */
   logo?: string | null;
+  /**
+   * Direct URL or static fallback path for dark mode.
+   */
+  logoDark?: string | null;
   description?: string | null;
   website?: string | null;
   year?: string | null;
@@ -312,6 +404,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'users';
         value: number | User;
+      } | null)
+    | ({
+        relationTo: 'media';
+        value: number | Media;
       } | null)
     | ({
         relationTo: 'departments';
@@ -400,6 +496,49 @@ export interface UsersSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "media_select".
+ */
+export interface MediaSelect<T extends boolean = true> {
+  alt?: T;
+  caption?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  url?: T;
+  thumbnailURL?: T;
+  filename?: T;
+  mimeType?: T;
+  filesize?: T;
+  width?: T;
+  height?: T;
+  focalX?: T;
+  focalY?: T;
+  sizes?:
+    | T
+    | {
+        thumbnail?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+        card?:
+          | T
+          | {
+              url?: T;
+              width?: T;
+              height?: T;
+              mimeType?: T;
+              filesize?: T;
+              filename?: T;
+            };
+      };
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "departments_select".
  */
 export interface DepartmentsSelect<T extends boolean = true> {
@@ -422,6 +561,7 @@ export interface EventsSelect<T extends boolean = true> {
   slug?: T;
   date?: T;
   category?: T;
+  coverImage?: T;
   cover?: T;
   location?: T;
   description?: T;
@@ -441,7 +581,16 @@ export interface AbrItemsSelect<T extends boolean = true> {
   date?: T;
   author?: T;
   type?: T;
+  coverImage?: T;
   cover?: T;
+  images?:
+    | T
+    | {
+        image?: T;
+        caption?: T;
+        alt?: T;
+        id?: T;
+      };
   tags?: T;
   excerpt?: T;
   content?: T;
@@ -455,7 +604,10 @@ export interface AbrItemsSelect<T extends boolean = true> {
 export interface SponsorsSelect<T extends boolean = true> {
   name?: T;
   slug?: T;
+  logoImage?: T;
+  logoDarkImage?: T;
   logo?: T;
+  logoDark?: T;
   description?: T;
   website?: T;
   year?: T;

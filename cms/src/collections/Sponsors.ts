@@ -2,6 +2,10 @@ import type { CollectionConfig } from "payload";
 
 export const Sponsors: CollectionConfig = {
   slug: "sponsors",
+  labels: {
+    singular: "Sponsor / Partner",
+    plural: "Sponsors & Partners",
+  },
   admin: {
     useAsTitle: "name",
     defaultColumns: ["name", "year", "order", "updatedAt"],
@@ -16,7 +20,36 @@ export const Sponsors: CollectionConfig = {
   fields: [
     { name: "name", type: "text", required: true },
     { name: "slug", type: "text", required: true, unique: true, index: true },
-    { name: "logo", type: "text" },
+    {
+      name: "logoImage",
+      type: "upload",
+      relationTo: "media",
+      admin: {
+        description: "Upload primary logo (used for light mode or universal display).",
+      },
+    },
+    {
+      name: "logoDarkImage",
+      type: "upload",
+      relationTo: "media",
+      admin: {
+        description: "Upload optional dark mode logo (if different from light mode).",
+      },
+    },
+    {
+      name: "logo",
+      type: "text",
+      admin: {
+        description: "Direct URL or static fallback path (e.g. /uploads/sponsors/xyz.svg). Used if no logo image is uploaded.",
+      },
+    },
+    {
+      name: "logoDark",
+      type: "text",
+      admin: {
+        description: "Direct URL or static fallback path for dark mode.",
+      },
+    },
     { name: "description", type: "textarea" },
     { name: "website", type: "text" },
     { name: "year", type: "text" },

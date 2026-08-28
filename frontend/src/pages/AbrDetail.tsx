@@ -61,6 +61,31 @@ export default function AbrDetail() {
           <Markdown>{item.body}</Markdown>
         </Reveal>
 
+        {item.data.images && item.data.images.length > 0 && (
+          <Reveal y={20} delay={0.08}>
+            <div className="mt-12 space-y-6 border-t border-border pt-10">
+              <h3 className="font-display text-xl font-bold tracking-tight">Article Media</h3>
+              <div className="grid gap-6 sm:grid-cols-2">
+                {item.data.images.map((img, i) => (
+                  <figure key={i} className="overflow-hidden rounded-xl border border-border bg-card">
+                    <img
+                      src={img.url}
+                      alt={img.alt || img.caption || item.data.title}
+                      className="aspect-[4/3] w-full object-cover"
+                      loading="lazy"
+                    />
+                    {img.caption && (
+                      <figcaption className="p-3 text-xs text-foreground/60">
+                        {img.caption}
+                      </figcaption>
+                    )}
+                  </figure>
+                ))}
+              </div>
+            </div>
+          </Reveal>
+        )}
+
         {item.data.tags?.length ? (
           <Reveal y={20} delay={0.1}>
             <div className="mt-12">
