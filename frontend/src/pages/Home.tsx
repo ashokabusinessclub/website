@@ -2,7 +2,6 @@ import {
   useEffect,
   useRef,
   useState,
-  type CSSProperties,
   type ReactNode,
 } from "react";
 import { Link } from "react-router-dom";
@@ -16,7 +15,6 @@ import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { useCmsContent } from "@/lib/cms";
 import { AbrCard } from "@/components/cards";
 import { EventOrbit } from "@/components/event-orbit";
-import { ScrubText } from "@/components/scrub-text";
 import { ChapterBar } from "@/components/scrollytelling";
 import { Button } from "@/components/ui/button";
 import {
@@ -33,15 +31,6 @@ const CHAPTERS = [
   { id: "events", label: "Calendar" },
   { id: "publications", label: "Publications" },
   { id: "join", label: "Join us" },
-];
-
-const TICKER_ITEMS = [
-  { code: "FIN", no: "01", label: "Finance" },
-  { code: "MKT", no: "02", label: "Marketing" },
-  { code: "EXC", no: "03", label: "Collaborations" },
-  { code: "IND", no: "04", label: "Industry" },
-  { code: "LND", no: "05", label: "Learning & Dev" },
-  { code: "ABR", no: "06", label: "Business Review" },
 ];
 
 function HeroLine({
@@ -130,46 +119,12 @@ function StatCell({
   );
 }
 
-/* Disciplines marquee — cominvi's mineral-element strip, club-flavoured */
-function DisciplineTicker() {
-  return (
-    <div
-      aria-hidden="true"
-      className="overflow-hidden border-y border-border bg-secondary/30 py-4"
-    >
-      <div className="marquee-track" style={{ "--marquee-dur": "38s" } as CSSProperties}>
-        {[0, 1].map((copy) => (
-          <div key={copy} className="flex shrink-0 items-center" aria-hidden={copy === 1}>
-            {TICKER_ITEMS.map((t) => (
-              <span
-                key={`${copy}-${t.code}`}
-                className="flex shrink-0 items-baseline gap-2.5 px-8"
-              >
-                <span className="index-num text-[0.65rem] font-bold tracking-[0.2em] text-primary">
-                  {t.code}
-                </span>
-                <span className="font-display text-sm font-semibold uppercase tracking-[0.18em] text-foreground/70">
-                  {t.label}
-                </span>
-                <span className="index-num text-[0.65rem] font-semibold text-foreground/30">
-                  #{t.no}
-                </span>
-                <span className="ml-8 text-primary/40">◆</span>
-              </span>
-            ))}
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
 export default function Home() {
   const { departments, events, abrItems, sponsors } = useCmsContent();
   const stats = [
     { k: departments.length, v: "Departments" },
     { k: events.length, v: "Events hosted" },
-    { k: abrItems.length * 12, v: "Articles published" },
+    { k: abrItems.length, v: "Articles published" },
     { k: sponsors.length, v: "Partners" },
   ].filter((s) => s.k > 0);
   const reduceMotion = useReducedMotion();
@@ -233,10 +188,14 @@ export default function Home() {
           </h1>
 
           <div className="mt-10 flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
-            <ScrubText
-              className="max-w-md text-base leading-relaxed text-foreground/50 md:text-lg"
-              text="The Ashoka Business Club brings research, industry dialogue and hands-on experience together — one club, six verticals, a full calendar of work that ships."
-            />
+            <motion.p
+              initial={reduceMotion ? false : { opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, ease: EASE_SNAP, delay: 0.65 }}
+              className="max-w-xl text-base leading-relaxed text-foreground/60 md:text-lg"
+            >
+              The Ashoka Business Club brings research, industry dialogue and hands-on experience together — one club, six verticals, a full calendar of work that ships.
+            </motion.p>
             <HeroLine delay={0.85}>
               <span className="flex flex-wrap gap-3">
                 <Button asChild iconRight={<ArrowRight className="h-4 w-4" />} size="lg">
@@ -264,20 +223,17 @@ export default function Home() {
         )}
       </section>
 
-      {/* Disciplines ticker */}
-      <DisciplineTicker />
-
       {/* Scrollytelling chapter bar */}
       <ChapterBar chapters={CHAPTERS} />
 
       {/* ═══ DEPARTMENTS — editorial index rows (kononenko work-list) ═══ */}
       <section id="departments" className="scroll-mt-28 bg-background">
         <div className="container-abc pt-16 md:pt-24">
-          <div className="flex flex-wrap items-end justify-between gap-6 pb-10 md:pb-14">
+          <div className="flex flex-col gap-6 pb-10 md:flex-row md:items-end md:justify-between md:pb-14">
             <Reveal>
               <div>
                 <MaskRise>
-                  <h2 className="mt-5 display-lg">
+                  <h2 className="display-lg">
                     Six teams,
                     <br />
                     one club.
@@ -286,10 +242,9 @@ export default function Home() {
               </div>
             </Reveal>
             <Reveal delay={0.1}>
-              <ScrubText
-                className="max-w-md text-[0.95rem] leading-relaxed text-foreground/50"
-                text="Six student-led verticals run everything we do — research, writing, partnerships, industry outreach and operations."
-              />
+              <p className="max-w-md text-[0.95rem] leading-relaxed text-foreground/60 md:pb-1">
+                Six student-led verticals run everything we do — research, writing, partnerships, industry outreach and operations.
+              </p>
             </Reveal>
           </div>
         </div>
@@ -362,14 +317,15 @@ export default function Home() {
           <div className="order-1 self-start lg:order-2 lg:sticky lg:top-32">
             <Reveal>
               <MaskRise>
-                <h2 className="mt-5 display-lg">The writing desk.</h2>
+                <h2 className="display-lg">The writing desk.</h2>
               </MaskRise>
             </Reveal>
-            <ScrubText
-              className="mt-7 max-w-md text-[0.95rem] leading-relaxed text-foreground/50"
-              text="The Ashoka Business Review is our print-backed research vertical — long-form arguments, interviews and data stories written entirely by students."
-            />
-            <Reveal delay={0.15}>
+            <Reveal delay={0.1}>
+              <p className="mt-6 max-w-md text-[0.95rem] leading-relaxed text-foreground/60">
+                The Ashoka Business Review is our print-backed research vertical — long-form arguments, interviews and data stories written entirely by students.
+              </p>
+            </Reveal>
+            <Reveal delay={0.2}>
               <Button asChild iconRight={<ArrowRight className="h-4 w-4" />} size="lg" className="mt-8">
                 <Link to="/abr">Read more</Link>
               </Button>
@@ -401,7 +357,7 @@ export default function Home() {
             </MaskRise>
           </h2>
           <Reveal delay={0.2}>
-            <p className="mx-auto mt-8 max-w-xl text-base leading-relaxed text-foreground/45">
+            <p className="mx-auto mt-8 max-w-xl text-base leading-relaxed text-foreground/60">
               Applications open each semester. Explore what membership looks
               like — the work, the exposure and the people.
             </p>
