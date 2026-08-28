@@ -2,6 +2,10 @@ import type { CollectionConfig } from "payload";
 
 export const AbrItems: CollectionConfig = {
   slug: "abr-items",
+  labels: {
+    singular: "Ashoka Business Review Article",
+    plural: "Ashoka Business Review",
+  },
   admin: {
     useAsTitle: "title",
     defaultColumns: ["title", "type", "date", "author", "updatedAt"],
