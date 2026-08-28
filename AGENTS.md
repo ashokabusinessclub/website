@@ -139,8 +139,9 @@ All commit messages MUST follow the **Conventional Commits 1.0.0** specification
 2. `feat` MUST be used when adding a new feature.
 3. `fix` MUST be used for bug fixes.
 4. Description MUST immediately follow the colon and space after the prefix.
-5. Longer body MUST begin one blank line after the description.
-6. Footers MUST begin one blank line after the body and use token format (e.g. `BREAKING CHANGE:`, `Refs: #123`).
+5. If the commit message exceeds character/word limits (keep subject line under 72 characters), provide a concise summarizing header line, followed by a blank line and a detailed body description providing further details.
+6. Longer body MUST begin one blank line after the description.
+7. Footers MUST begin one blank line after the body and use token format (e.g. `BREAKING CHANGE:`, `Refs: #123`).
 
 ---
 
