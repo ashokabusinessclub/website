@@ -13,6 +13,7 @@
     "start": "next start",
     "generate:importmap": "payload generate:importmap",
     "generate:types": "payload generate:types",
+    "test": "tsx --test src/**/*.test.ts",
     "seed": "tsx src/seed.ts",
     "export": "tsx src/export-markdown.ts",
     "monitor": "tsx src/heartbeat.ts",

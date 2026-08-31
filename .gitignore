@@ -12,8 +12,12 @@
 /cms/node_modules
 /cms/.next
 /cms/dist
-/cms/.env
-
-.env
-.env.local
 /tasks
+
+# Environment files (may contain secrets)
+.env
+.env.*
+**/.env
+**/.env.*
+!.env.example
+!**/.env.example

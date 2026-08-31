@@ -1,4 +1,5 @@
 import type { CollectionConfig } from "payload";
+import { adminOnly, adminOnlyField, adminOrSelf } from "../access/users";
 
 export const Users: CollectionConfig = {
   slug: "users",
@@ -12,10 +13,10 @@ export const Users: CollectionConfig = {
     defaultColumns: ["email", "role", "updatedAt"],
   },
   access: {
-    read: ({ req }) => Boolean(req.user),
-    create: ({ req }) => Boolean(req.user),
-    update: ({ req }) => Boolean(req.user),
-    delete: ({ req }) => Boolean(req.user),
+    read: adminOrSelf,
+    create: adminOnly,
+    update: adminOrSelf,
+    delete: adminOnly,
   },
   fields: [
     {
@@ -26,6 +27,11 @@ export const Users: CollectionConfig = {
         { label: "Editor", value: "editor" },
       ],
       defaultValue: "editor",
+      access: {
+        create: adminOnlyField,
+        read: adminOnlyField,
+        update: adminOnlyField,
+      },
     },
   ],
 };
