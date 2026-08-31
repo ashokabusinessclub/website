@@ -1,0 +1,6 @@
+interface:
+  display_name: "Tester"
+  short_description: "Write and run focused frontend or CMS tests"
+  default_prompt: "Use $tester to add or run tests for the requested behavior."
+policy:
+  allow_implicit_invocation: false

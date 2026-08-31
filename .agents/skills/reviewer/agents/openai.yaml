@@ -1,0 +1,6 @@
+interface:
+  display_name: "Reviewer"
+  short_description: "Review frontend and CMS changes for bugs and security issues"
+  default_prompt: "Use $reviewer to review the requested code changes and return actionable findings."
+policy:
+  allow_implicit_invocation: false

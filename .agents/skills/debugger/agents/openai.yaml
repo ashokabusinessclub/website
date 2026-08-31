@@ -1,0 +1,6 @@
+interface:
+  display_name: "Debugger"
+  short_description: "Investigate and fix frontend or CMS bugs with verification"
+  default_prompt: "Use $debugger to investigate the reported bug, fix it, and verify the result."
+policy:
+  allow_implicit_invocation: false
