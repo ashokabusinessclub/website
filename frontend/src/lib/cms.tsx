@@ -23,14 +23,14 @@ import {
  * Runtime CMS layer.
  *
  * The site is a static build: markdown content is bundled at build time and
- * always available. When `VITE_CMS_URL` is set, this provider additionally
+ * always available. When `CMS_URL` is set, this provider additionally
  * fetches the CMS REST API on load and swaps in live content. If the CMS is
  * down, times out, or returns nothing, the bundled markdown simply stays –
  * that is the fallback data source.
  */
 
 const CMS_URL = (
-  (import.meta.env.VITE_CMS_URL as string | undefined) ||
+  (import.meta.env.CMS_URL as string | undefined) ||
   (import.meta.env.PROD ? "https://cms.ashokabusinessclub.com" : "http://localhost:3000")
 ).replace(/\/$/, "");
 
