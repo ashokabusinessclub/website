@@ -109,6 +109,9 @@ jobs:
             done
 
             if [ "$HEALTHY" != true ]; then
+              echo "CMS health check failed after deployment." >&2
+              sudo systemctl --no-pager --full status abc-cms || true
+              sudo journalctl -u abc-cms -n 80 --no-pager || true
               if [ -n "$PREVIOUS_RELEASE" ] && [ -d "$PREVIOUS_RELEASE" ]; then
                 ln -sfn "$PREVIOUS_RELEASE" "$CMS_ROOT/current.next"
                 mv -Tf "$CMS_ROOT/current.next" "$CURRENT_LINK"
@@ -123,5 +126,5 @@ jobs:
             exit 1
           fi
           sleep 10
-          curl -fsS --retry 5 --retry-delay 5 --retry-all-errors \
+          curl --fail-with-body -sS --retry 5 --retry-delay 5 --retry-all-errors \
             "https://${VPS_CMS_DOMAIN}/api/health"
