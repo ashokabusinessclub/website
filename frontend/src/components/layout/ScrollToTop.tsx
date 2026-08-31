@@ -1,24 +1,28 @@
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigationType } from "react-router-dom";
 import { ChevronUp } from "lucide-react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { Button } from "@/components/ui/button";
 
 export function ScrollToTop() {
   const { pathname } = useLocation();
+  const navigationType = useNavigationType();
   const [isVisible, setIsVisible] = useState(false);
   const reduceMotion = useReducedMotion();
 
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "instant" as ScrollBehavior });
+    if (navigationType !== "POP") {
+      window.scrollTo({ top: 0, behavior: "instant" as ScrollBehavior });
+    }
 
     const handleScroll = () => {
       setIsVisible(window.scrollY > 400);
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [pathname]);
+  }, [navigationType, pathname]);
 
   return (
     <AnimatePresence>

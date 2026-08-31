@@ -1,5 +1,11 @@
 import { lazy, Suspense } from "react";
-import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
+import {
+  BrowserRouter,
+  Route,
+  Routes,
+  useLocation,
+  useNavigationType,
+} from "react-router-dom";
 import { AnimatePresence, motion, MotionConfig } from "motion/react";
 import { Layout } from "./components/layout/Layout";
 import { EASE } from "./components/reveal";
@@ -33,11 +39,12 @@ function PageFallback() {
 
 function AnimatedRoutes() {
   const location = useLocation();
+  const navigationType = useNavigationType();
   return (
     <AnimatePresence mode="popLayout" initial={false}>
       <motion.div
         key={location.pathname}
-        initial={{ opacity: 0, y: 16 }}
+        initial={navigationType === "POP" ? false : { opacity: 0, y: 16 }}
         animate={{ opacity: 1, y: 0, transition: { duration: 0.35, ease: EASE } }}
         exit={{ opacity: 0, y: -14, transition: { duration: 0.22, ease: EASE } }}
       >
