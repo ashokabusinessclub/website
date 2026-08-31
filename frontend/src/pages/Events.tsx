@@ -42,6 +42,7 @@ function categoryDot(category?: string) {
 
 export default function Events() {
   const { events } = useCmsContent();
+  const hasUpcomingEvents = events.some((event) => parseISO(event.data.date) >= new Date());
   const reduce = useReducedMotion();
   const [direction, setDirection] = useState(0);
 
@@ -130,8 +131,8 @@ export default function Events() {
   return (
     <>
       <PageHeader
-        title="Flagships, sessions and the odd late-night build."
-        intro="The club's year on one calendar — flip through the months to see what we have staged and what is coming up."
+        title={hasUpcomingEvents ? "Flagships, sessions and the odd late-night build." : "An archive of flagships, sessions and late-night builds."}
+        intro={hasUpcomingEvents ? "The club's year on one calendar — flip through past events and announced dates." : "All currently published dates have passed. Browse the archive here; verified future events will appear when announced."}
         scrubIntro
       >
         <div className="mt-8 flex flex-wrap items-center gap-x-5 gap-y-2">

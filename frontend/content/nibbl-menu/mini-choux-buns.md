@@ -1,9 +1,9 @@
 ---
 name: Mini Choux Buns
-category: 2025 Upcoming Menu
+category: Menu archive
 note: Piped with fresh vanilla bean diplomat cream
 tag: 14 New SKUs
-available: true
+available: false
 order: 8
 ---
 

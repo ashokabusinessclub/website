@@ -19,6 +19,14 @@ function requiredProductionValue(
   return value ?? fallback;
 }
 
+export function shouldPushSchema(
+  nodeEnv = process.env.NODE_ENV,
+  configuredValue = process.env.DB_PUSH,
+): boolean {
+  if (nodeEnv === "production") return false;
+  return configuredValue === "true";
+}
+
 export const config = buildConfig({
   secret: requiredProductionValue("PAYLOAD_SECRET", "dev-only-secret-change-me"),
   db: postgresAdapter({
@@ -29,8 +37,16 @@ export const config = buildConfig({
           "postgres://localhost:5432/abc_cms",
         ),
     },
-    push: process.env.DB_PUSH !== "false",
+    push: shouldPushSchema(),
   }),
+  upload: {
+    abortOnLimit: true,
+    limits: {
+      files: 1,
+      fileSize: 10 * 1024 * 1024,
+    },
+    safeFileNames: true,
+  },
   collections: [Users, Media, Departments, Events, AbrItems, Sponsors, NibblMenu],
   graphQL: {
     disable: true,

@@ -1,4 +1,5 @@
 import type { CollectionConfig } from "payload";
+import { validateImageReference, validateSlug } from "../fields/validation";
 
 export const AbrItems: CollectionConfig = {
   slug: "abr-items",
@@ -19,7 +20,7 @@ export const AbrItems: CollectionConfig = {
   defaultSort: "-date",
   fields: [
     { name: "title", type: "text", required: true },
-    { name: "slug", type: "text", required: true, unique: true, index: true },
+    { name: "slug", type: "text", required: true, unique: true, index: true, validate: validateSlug },
     { name: "date", type: "date", required: true },
     { name: "author", type: "text" },
     { name: "type", type: "text", defaultValue: "Publication" },
@@ -34,6 +35,7 @@ export const AbrItems: CollectionConfig = {
     {
       name: "cover",
       type: "text",
+      validate: validateImageReference,
       admin: {
         description: "Or provide an external/fallback image URL or path.",
       },

@@ -5,13 +5,19 @@ import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { Button } from "@/components/ui/button";
 
 export function ScrollToTop() {
-  const { pathname } = useLocation();
+  const { pathname, hash } = useLocation();
   const navigationType = useNavigationType();
   const [isVisible, setIsVisible] = useState(false);
   const reduceMotion = useReducedMotion();
 
   useEffect(() => {
-    if (navigationType !== "POP") {
+    if (hash) {
+      requestAnimationFrame(() => {
+        const target = document.getElementById(decodeURIComponent(hash.slice(1)));
+        target?.scrollIntoView({ behavior: "auto", block: "start" });
+        target?.focus({ preventScroll: true });
+      });
+    } else if (navigationType !== "POP") {
       window.scrollTo({ top: 0, behavior: "instant" as ScrollBehavior });
     }
 
@@ -22,7 +28,7 @@ export function ScrollToTop() {
     window.addEventListener("scroll", handleScroll, { passive: true });
     handleScroll();
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [navigationType, pathname]);
+  }, [hash, navigationType, pathname]);
 
   return (
     <AnimatePresence>

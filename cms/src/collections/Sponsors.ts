@@ -1,4 +1,5 @@
 import type { CollectionConfig } from "payload";
+import { validateHttpsUrl, validateImageReference, validateSlug } from "../fields/validation";
 
 export const Sponsors: CollectionConfig = {
   slug: "sponsors",
@@ -19,7 +20,7 @@ export const Sponsors: CollectionConfig = {
   defaultSort: "order",
   fields: [
     { name: "name", type: "text", required: true },
-    { name: "slug", type: "text", required: true, unique: true, index: true },
+    { name: "slug", type: "text", required: true, unique: true, index: true, validate: validateSlug },
     {
       name: "logoImage",
       type: "upload",
@@ -39,6 +40,7 @@ export const Sponsors: CollectionConfig = {
     {
       name: "logo",
       type: "text",
+      validate: validateImageReference,
       admin: {
         description: "Direct URL or static fallback path (e.g. /uploads/sponsors/xyz.svg). Used if no logo image is uploaded.",
       },
@@ -46,12 +48,13 @@ export const Sponsors: CollectionConfig = {
     {
       name: "logoDark",
       type: "text",
+      validate: validateImageReference,
       admin: {
         description: "Direct URL or static fallback path for dark mode.",
       },
     },
     { name: "description", type: "textarea" },
-    { name: "website", type: "text" },
+    { name: "website", type: "text", validate: validateHttpsUrl },
     { name: "year", type: "text" },
     { name: "order", type: "number", defaultValue: 99 },
     {

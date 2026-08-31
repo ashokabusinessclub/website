@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/button";
 interface TeamMember {
   name: string;
   role: string;
-  image?: string;
   initials: string;
 }
 
@@ -26,7 +25,7 @@ interface BatchTimeline {
 const BATCH_TIMELINE: BatchTimeline[] = [
   {
     year: "2024–25",
-    period: "Current Administration",
+    period: "Archived administration",
     memberCount: 65,
     projectCount: 14,
     summary:
@@ -42,13 +41,11 @@ const BATCH_TIMELINE: BatchTimeline[] = [
         name: "Manav Agrawal",
         role: "President",
         initials: "MA",
-        image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300&auto=format&fit=crop&q=80",
       },
       {
         name: "Anoushka Bajaj",
         role: "Vice President",
         initials: "AB",
-        image: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=300&auto=format&fit=crop&q=80",
       },
     ],
     core: [
@@ -56,37 +53,31 @@ const BATCH_TIMELINE: BatchTimeline[] = [
         name: "Himanshi Beri",
         role: "Head of Operations",
         initials: "HB",
-        image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&auto=format&fit=crop&q=80",
       },
       {
         name: "Kavya Grover",
         role: "Head of Strategy",
         initials: "KG",
-        image: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?w=300&auto=format&fit=crop&q=80",
       },
       {
         name: "Suhani Goel",
         role: "Head of Communications",
         initials: "SG",
-        image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=300&auto=format&fit=crop&q=80",
       },
       {
         name: "Swastika Arora",
         role: "nibbl. Co-Lead",
         initials: "SA",
-        image: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=300&auto=format&fit=crop&q=80",
       },
       {
         name: "Arushi Mantri",
         role: "nibbl. Co-Lead",
         initials: "AM",
-        image: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=300&auto=format&fit=crop&q=80",
       },
       {
         name: "Aryaman Sen",
         role: "Finance Lead",
         initials: "AS",
-        image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300&auto=format&fit=crop&q=80",
       },
     ],
   },
@@ -107,13 +98,11 @@ const BATCH_TIMELINE: BatchTimeline[] = [
         name: "Kabir Kedia",
         role: "President",
         initials: "KK",
-        image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=300&auto=format&fit=crop&q=80",
       },
       {
         name: "Manav Agrawal",
         role: "Vice President",
         initials: "MA",
-        image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300&auto=format&fit=crop&q=80",
       },
     ],
     core: [
@@ -121,13 +110,11 @@ const BATCH_TIMELINE: BatchTimeline[] = [
         name: "Anoushka Bajaj",
         role: "Head of Collaborations",
         initials: "AB",
-        image: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=300&auto=format&fit=crop&q=80",
       },
       {
         name: "Himanshi Beri",
         role: "Head of Marketing",
         initials: "HB",
-        image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&auto=format&fit=crop&q=80",
       },
     ],
   },
@@ -148,13 +135,11 @@ const BATCH_TIMELINE: BatchTimeline[] = [
         name: "Aarush Choudhary",
         role: "Founding President",
         initials: "AC",
-        image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=300&auto=format&fit=crop&q=80",
       },
       {
         name: "Kabir Kedia",
         role: "Co-Founder & VP",
         initials: "KK",
-        image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=300&auto=format&fit=crop&q=80",
       },
     ],
     core: [
@@ -162,15 +147,12 @@ const BATCH_TIMELINE: BatchTimeline[] = [
         name: "Manav Agrawal",
         role: "Founding Member",
         initials: "MA",
-        image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300&auto=format&fit=crop&q=80",
       },
     ],
   },
 ];
 
 function MemberCard({ member, highlight = false }: { member: TeamMember; highlight?: boolean }) {
-  const [imgError, setImgError] = useState(false);
-
   return (
     <div
       className={`group flex items-center gap-3.5 rounded-xl border p-3.5 transition-all duration-200 ${
@@ -180,19 +162,9 @@ function MemberCard({ member, highlight = false }: { member: TeamMember; highlig
       }`}
     >
       <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-full border border-border bg-secondary">
-        {member.image && !imgError ? (
-          <img
-            src={member.image}
-            alt={member.name}
-            onError={() => setImgError(true)}
-            loading="lazy"
-            className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-          />
-        ) : (
-          <span className="flex h-full w-full items-center justify-center font-display text-sm font-bold text-foreground/60">
-            {member.initials}
-          </span>
-        )}
+        <span className="flex h-full w-full items-center justify-center font-display text-sm font-bold text-foreground/60">
+          {member.initials}
+        </span>
       </div>
 
       <div className="min-w-0 flex-1">
@@ -217,7 +189,7 @@ export default function Team() {
     <>
       <PageHeader
         title="The leadership and people who built ABC."
-        intro="A chronological record of student leadership, core teams, member scale, and major accomplishments across every administration."
+        intro="An archive of student leadership, core teams, member scale, and major accomplishments through 2024–25. Current leadership will be added after it is verified."
       />
 
       {/* Filter Tabs */}

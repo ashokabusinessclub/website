@@ -1,9 +1,9 @@
 ---
 name: Artisanal Loaf Slices
-category: 2025 Upcoming Menu
+category: Menu archive
 note: Matcha, Earl Grey, and spiced chocolate bakes
 tag: 14 New SKUs
-available: true
+available: false
 order: 9
 ---
 

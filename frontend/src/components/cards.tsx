@@ -1,15 +1,16 @@
 import { CSSProperties } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
-import { ContentEntry, EventItem, AbrItem, Department, Sponsor, formatDate } from "@/lib/content";
+import { ContentEntry, EventItem, AbrItem, Department, Sponsor, formatDate, safeExternalUrl, safeMediaUrl } from "@/lib/content";
 import { DepartmentArt } from "@/components/department-art";
 
 function Cover({ src, alt }: { src?: string; alt: string }) {
+  const safeSrc = safeMediaUrl(src);
   return (
     <div className="relative aspect-[16/10] w-full overflow-hidden" aria-hidden="true">
-      {src ? (
+      {safeSrc ? (
         <img
-          src={src}
+          src={safeSrc}
           alt={alt}
           loading="lazy"
           className="h-full w-full object-cover transition-fast duration-[var(--dur-slower)] ease-[var(--ease-out)] group-hover:scale-[1.03]"
@@ -173,8 +174,8 @@ export function SponsorCard({
   style?: CSSProperties;
   expanded?: boolean;
 }) {
-  const lightLogo = item.data.logo;
-  const darkLogo = item.data.logoDark || item.data.logo;
+  const lightLogo = safeMediaUrl(item.data.logo);
+  const darkLogo = safeMediaUrl(item.data.logoDark) || lightLogo;
   const hasDarkVariant = Boolean(item.data.logoDark && item.data.logoDark !== item.data.logo);
 
   const imgClass = `${
@@ -217,9 +218,10 @@ export function SponsorCard({
 
   const className = `group ${expanded ? "h-28 w-full" : "h-24 w-full"}`;
 
-  return item.data.website ? (
+  const website = safeExternalUrl(item.data.website);
+  return website ? (
     <a
-      href={item.data.website}
+      href={website}
       target="_blank"
       rel="noreferrer noopener"
       style={style}

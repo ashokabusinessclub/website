@@ -6,7 +6,6 @@ import { ScrubText } from "@/components/scrub-text";
 import { useCmsContent } from "@/lib/cms";
 import { DepartmentCard } from "@/components/cards";
 import {
-  ArrowRight,
   BookOpen,
   Users,
   Mic,
@@ -76,7 +75,7 @@ export default function WhatAwaitsYou() {
       />
 
       {/* ── Departments ── */}
-      <section id="departments" className="container-abc scroll-mt-[120px] py-14 md:py-20">
+      <section id="departments" tabIndex={-1} className="container-abc scroll-mt-[120px] py-14 md:py-20">
         <Reveal>
           <div className="mb-10">
             <h2 className="font-display text-3xl font-bold md:text-4xl">
@@ -211,7 +210,7 @@ export default function WhatAwaitsYou() {
       <div className="section-divider" />
 
       {/* ── Induction Forms ── */}
-      <section id="induction" className="scroll-mt-[120px] bg-background">
+      <section id="induction" tabIndex={-1} className="scroll-mt-[120px] bg-background">
         <div className="container-abc py-14 md:py-20">
           <Reveal>
             <div className="mb-10">
@@ -219,7 +218,7 @@ export default function WhatAwaitsYou() {
                 Ready to join?
               </h2>
               <p className="mt-4 max-w-xl text-[0.9rem] leading-relaxed text-foreground/60">
-                Applications open at the start of each semester. Fill in the induction form for the department you're interested in — we'll get back to you shortly.
+                Applications are currently closed. Recruitment announcements and verified department forms will be published here when the next cycle opens.
               </p>
             </div>
           </Reveal>
@@ -235,11 +234,9 @@ export default function WhatAwaitsYou() {
                   <p className="mt-2 text-[0.85rem] leading-relaxed text-foreground/45 line-clamp-2">
                     {d.data.description}
                   </p>
-                  <Button variant="outline" asChild size="sm" className="mt-4">
-                    <a href="#" target="_blank" rel="noreferrer noopener">
-                      Apply now <ArrowRight className="ml-1.5 h-3.5 w-3.5" />
-                    </a>
-                  </Button>
+                  <p className="mt-4 text-xs font-semibold uppercase tracking-[0.12em] text-foreground/40">
+                    Applications closed
+                  </p>
                 </div>
               </StaggerItem>
             ))}

@@ -1,4 +1,5 @@
 import type { CollectionConfig } from "payload";
+import { validateSlug } from "../fields/validation";
 
 export const NibblMenu: CollectionConfig = {
   slug: "nibbl-menu",
@@ -19,7 +20,7 @@ export const NibblMenu: CollectionConfig = {
   defaultSort: "order",
   fields: [
     { name: "name", type: "text", required: true },
-    { name: "slug", type: "text", required: true, unique: true, index: true },
+    { name: "slug", type: "text", required: true, unique: true, index: true, validate: validateSlug },
     {
       name: "category",
       type: "select",

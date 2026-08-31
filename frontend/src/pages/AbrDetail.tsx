@@ -1,6 +1,6 @@
 import { Link, useParams } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
-import { formatDate } from "@/lib/content";
+import { formatDate, safeMediaUrl } from "@/lib/content";
 import { useCmsContent } from "@/lib/cms";
 import { Markdown } from "@/components/Markdown";
 import { Reveal } from "@/components/reveal";
@@ -12,6 +12,11 @@ export default function AbrDetail() {
   const item = slug ? abrItems.find((i) => i.slug === slug) : undefined;
 
   if (!item) return <NotFound />;
+  const cover = safeMediaUrl(item.data.cover);
+  const images = item.data.images?.flatMap((image) => {
+    const url = safeMediaUrl(image.url);
+    return url ? [{ ...image, url }] : [];
+  });
 
   return (
     <article>
@@ -42,12 +47,12 @@ export default function AbrDetail() {
         </div>
       </header>
 
-      {item.data.cover && (
+      {cover && (
         <div className="container-abc pt-10">
           <Reveal y={28}>
             <div className="aspect-video max-h-[480px] overflow-hidden rounded-lg border border-border">
               <img
-                src={item.data.cover}
+                src={cover}
                 alt={item.data.title}
                 className="aspect-video w-full object-cover"
               />
@@ -61,12 +66,12 @@ export default function AbrDetail() {
           <Markdown>{item.body}</Markdown>
         </Reveal>
 
-        {item.data.images && item.data.images.length > 0 && (
+        {images && images.length > 0 && (
           <Reveal y={20} delay={0.08}>
             <div className="mt-12 space-y-6 border-t border-border pt-10">
               <h3 className="font-display text-xl font-bold tracking-tight">Article Media</h3>
               <div className="grid gap-6 sm:grid-cols-2">
-                {item.data.images.map((img, i) => (
+                {images.map((img, i) => (
                   <figure key={i} className="overflow-hidden rounded-xl border border-border bg-card">
                     <img
                       src={img.url}

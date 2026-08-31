@@ -18,6 +18,7 @@ import {
   sponsors as mdSponsors,
   nibblMenuItems as mdNibblMenuItems,
 } from "./content";
+import { safeExternalUrl, safeMediaUrl } from "./urls";
 
 /**
  * Runtime CMS layer.
@@ -29,10 +30,8 @@ import {
  * that is the fallback data source.
  */
 
-const CMS_URL = (
-  import.meta.env.VITE_CMS_URL ||
-  (import.meta.env.PROD ? "https://cms.ashokabusinessclub.com" : "http://localhost:3000")
-).replace(/\/$/, "");
+const configuredCmsUrl = safeExternalUrl(import.meta.env.VITE_CMS_URL);
+const CMS_URL = configuredCmsUrl?.replace(/\/$/, "") ?? "";
 
 /** Accept both `https://cms.example.com` and `https://cms.example.com/api`. */
 const API_BASE = CMS_URL && (CMS_URL.endsWith("/api") ? CMS_URL : `${CMS_URL}/api`);
@@ -40,19 +39,11 @@ const API_BASE = CMS_URL && (CMS_URL.endsWith("/api") ? CMS_URL : `${CMS_URL}/ap
 /** Resolve media URLs from CMS (e.g. /api/media/file/..., /media/...) against the CMS host origin */
 export function resolveMediaUrl(url?: string | null): string | undefined {
   if (!url) return undefined;
-  if (
-    url.startsWith("http://") ||
-    url.startsWith("https://") ||
-    url.startsWith("data:") ||
-    url.startsWith("blob:")
-  ) {
-    return url;
-  }
   if (CMS_URL && (url.startsWith("/api/media") || url.startsWith("/media"))) {
     const origin = CMS_URL.replace(/\/api\/?$/, "");
-    return `${origin}${url.startsWith("/") ? "" : "/"}${url}`;
+    return safeMediaUrl(url, origin);
   }
-  return url;
+  return safeMediaUrl(url);
 }
 
 const CMS_TIMEOUT_MS = 4000;
@@ -83,13 +74,37 @@ interface CmsDoc {
 }
 
 async function fetchCollection(name: string): Promise<CmsDoc[]> {
-  const res = await fetch(`${API_BASE}/${name}?limit=0&depth=1`, {
+  const res = await fetch(`${API_BASE}/${name}?limit=100&depth=1`, {
     signal: AbortSignal.timeout(CMS_TIMEOUT_MS),
     cache: "no-store",
   });
   if (!res.ok) throw new Error(`CMS ${name}: HTTP ${res.status}`);
-  const json = (await res.json()) as { docs?: CmsDoc[] };
-  return json.docs ?? [];
+  const json = (await res.json()) as { docs?: unknown };
+  if (!Array.isArray(json.docs)) throw new Error(`CMS ${name}: invalid response`);
+  return json.docs as CmsDoc[];
+}
+
+interface CmsSnapshot {
+  departments: CmsDoc[];
+  events: CmsDoc[];
+  abrItems: CmsDoc[];
+  sponsors: CmsDoc[];
+  nibblMenuItems: CmsDoc[];
+}
+
+async function fetchSnapshot(): Promise<CmsSnapshot> {
+  const [departments, events, abrItems, sponsors, nibblMenuItems] = await Promise.all([
+    fetchCollection("departments"),
+    fetchCollection("events"),
+    fetchCollection("abr-items"),
+    fetchCollection("sponsors"),
+    fetchCollection("nibbl-menu"),
+  ]);
+  const collections = [departments, events, abrItems, sponsors, nibblMenuItems];
+  if (collections.some((docs) => docs.length === 0)) {
+    throw new Error("CMS snapshot is incomplete; retaining bundled content");
+  }
+  return { departments, events, abrItems, sponsors, nibblMenuItems };
 }
 
 function extractMediaUrl(val: unknown): string | undefined {
@@ -129,47 +144,21 @@ function sortBy<T>(items: T[], key: (item: T) => number | string, dir: 1 | -1 = 
 
 export function CmsProvider({ children }: { children: ReactNode }) {
   const enabled = Boolean(API_BASE);
-  const liveQueryOptions = {
+  const snapshotQuery = useQuery({
+    queryKey: ["cms", "snapshot", API_BASE],
+    queryFn: fetchSnapshot,
     enabled,
-    staleTime: 15_000,
-    refetchInterval: 30_000,
-    refetchIntervalInBackground: false,
-    refetchOnWindowFocus: true,
+    staleTime: 5 * 60_000,
+    refetchOnWindowFocus: false,
     retry: 1,
-  } as const;
-
-  const departmentsQuery = useQuery({
-    queryKey: ["cms", "departments"],
-    queryFn: () => fetchCollection("departments"),
-    ...liveQueryOptions,
-  });
-  const eventsQuery = useQuery({
-    queryKey: ["cms", "events"],
-    queryFn: () => fetchCollection("events"),
-    ...liveQueryOptions,
-  });
-  const abrQuery = useQuery({
-    queryKey: ["cms", "abr-items"],
-    queryFn: () => fetchCollection("abr-items"),
-    ...liveQueryOptions,
-  });
-  const sponsorsQuery = useQuery({
-    queryKey: ["cms", "sponsors"],
-    queryFn: () => fetchCollection("sponsors"),
-    ...liveQueryOptions,
-  });
-  const nibblMenuQuery = useQuery({
-    queryKey: ["cms", "nibbl-menu"],
-    queryFn: () => fetchCollection("nibbl-menu"),
-    ...liveQueryOptions,
   });
 
   const value = useMemo<CmsContent>(() => {
-    const deptDocs = departmentsQuery.data;
-    const eventDocs = eventsQuery.data;
-    const abrDocs = abrQuery.data;
-    const sponsorDocs = sponsorsQuery.data;
-    const nibblDocs = nibblMenuQuery.data;
+    const deptDocs = snapshotQuery.data?.departments;
+    const eventDocs = snapshotQuery.data?.events;
+    const abrDocs = snapshotQuery.data?.abrItems;
+    const sponsorDocs = snapshotQuery.data?.sponsors;
+    const nibblDocs = snapshotQuery.data?.nibblMenuItems;
 
     const departments = deptDocs
       ? sortBy(
@@ -240,8 +229,7 @@ export function CmsProvider({ children }: { children: ReactNode }) {
       new Set(abrItems.map((i) => i.data.type ?? "Publication")),
     );
 
-    const source: CmsSource =
-      deptDocs || eventDocs || abrDocs || sponsorDocs || nibblDocs ? "cms" : "markdown";
+    const source: CmsSource = snapshotQuery.data ? "cms" : "markdown";
 
     return {
       departments,
@@ -252,19 +240,11 @@ export function CmsProvider({ children }: { children: ReactNode }) {
       eventCategories,
       abrTypes,
       source,
-      loading: enabled && (departmentsQuery.isFetching || eventsQuery.isFetching || abrQuery.isFetching || sponsorsQuery.isFetching || nibblMenuQuery.isFetching),
+      loading: enabled && snapshotQuery.isFetching,
     };
   }, [
-    departmentsQuery.data,
-    departmentsQuery.isFetching,
-    eventsQuery.data,
-    eventsQuery.isFetching,
-    abrQuery.data,
-    abrQuery.isFetching,
-    sponsorsQuery.data,
-    sponsorsQuery.isFetching,
-    nibblMenuQuery.data,
-    nibblMenuQuery.isFetching,
+    snapshotQuery.data,
+    snapshotQuery.isFetching,
     enabled,
   ]);
 

@@ -6,50 +6,88 @@ on:
     paths:
       - "cms/**"
       - ".github/workflows/deploy-cms.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-cms-production
+  cancel-in-progress: false
+
 jobs:
   deploy:
-    name: Pull, build and restart CMS on the VPS
+    name: Build an immutable CMS release and activate it
     runs-on: ubuntu-latest
+    environment: production
     env:
       VPS_CMS_DOMAIN: ${{ secrets.VPS_CMS_DOMAIN }}
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
       - name: Deploy via SSH
-        uses: appleboy/ssh-action@v1.2.0
+        uses: appleboy/ssh-action@7eaf76671a0d7eec5d98ee897acda4f968735a17 # v1.2.0
         with:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
           port: ${{ secrets.VPS_PORT }}
           script: |
-            set -e
+            set -euo pipefail
             CMS_ROOT=/opt/abc/cms
-            sudo mkdir -p $CMS_ROOT
-            sudo chown $USER:$USER $CMS_ROOT
-            cd $CMS_ROOT
-            git init
-            git remote add origin https://github.com/ashokabusinessclub/website.git 2>/dev/null || true
-            git pull origin main
+            RELEASE_SHA=${{ github.sha }}
+            RELEASE_ROOT="$CMS_ROOT/releases/$RELEASE_SHA"
+            SHARED_MEDIA="$CMS_ROOT/shared/media"
+            CMS_ENV="$CMS_ROOT/cms/.env"
+            CURRENT_LINK="$CMS_ROOT/current"
+
+            test -f "$CMS_ENV"
+            sudo mkdir -p "$CMS_ROOT/releases" "$SHARED_MEDIA"
+            sudo chown -R "$USER:$USER" "$CMS_ROOT/releases" "$CMS_ROOT/shared"
+
+            if [ ! -d "$RELEASE_ROOT/.git" ]; then
+              git clone --filter=blob:none --no-checkout \
+                https://github.com/ashokabusinessclub/website.git "$RELEASE_ROOT"
+            fi
+            cd "$RELEASE_ROOT"
+            git fetch --depth=1 origin "$RELEASE_SHA"
+            git checkout --detach "$RELEASE_SHA"
+
+            mkdir -p cms/public
+            if [ -L cms/public/media ]; then
+              test "$(readlink cms/public/media)" = "$SHARED_MEDIA"
+            else
+              test ! -e cms/public/media
+              ln -s "$SHARED_MEDIA" cms/public/media
+            fi
+            if [ -L cms/.env ]; then
+              test "$(readlink cms/.env)" = "$CMS_ENV"
+            else
+              test ! -e cms/.env
+              ln -s "$CMS_ENV" cms/.env
+            fi
+            trap 'rm -f "$RELEASE_ROOT/cms/.env"' EXIT
             cd cms
-            mkdir -p public/media
             npm ci
+            npm run migrate
             npm run build
-            # Copy standalone assets
-            cp -r .next/static .next/standalone/.next/ 2>/dev/null || true
-            # Copy public assets if needed
+            rm -f .env
+            trap - EXIT
+
+            mkdir -p .next/standalone/.next
+            cp -a .next/static .next/standalone/.next/
             mkdir -p .next/standalone/public
-            cp -r public/* .next/standalone/public/ 2>/dev/null || true
-            # Ensure systemd service directory exists
+            cp -a public/. .next/standalone/public/
+
+            PREVIOUS_RELEASE=$(readlink -f "$CURRENT_LINK" || true)
+            ln -sfn "$RELEASE_ROOT" "$CMS_ROOT/current.next"
+            mv -Tf "$CMS_ROOT/current.next" "$CURRENT_LINK"
+
             sudo mkdir -p /etc/systemd/system
-            # Always write the service file (overwrite if exists)
             sudo tee /etc/systemd/system/abc-cms.service > /dev/null <<'EOF'
             [Unit]
             Description=ABC CMS (Payload/Next standalone)
             After=network.target postgresql.service
             [Service]
             Type=simple
-            WorkingDirectory=/opt/abc/cms/cms/.next/standalone
+            WorkingDirectory=/opt/abc/cms/current/cms/.next/standalone
             EnvironmentFile=/opt/abc/cms/cms/.env
             ExecStart=/usr/bin/node server.js
             Restart=always
@@ -60,6 +98,24 @@ jobs:
             sudo systemctl daemon-reload
             sudo systemctl enable --now abc-cms
             sudo systemctl restart abc-cms
+
+            HEALTHY=false
+            for attempt in 1 2 3 4 5 6; do
+              if curl -fsS http://127.0.0.1:3000/api/health > /dev/null; then
+                HEALTHY=true
+                break
+              fi
+              sleep 5
+            done
+
+            if [ "$HEALTHY" != true ]; then
+              if [ -n "$PREVIOUS_RELEASE" ] && [ -d "$PREVIOUS_RELEASE" ]; then
+                ln -sfn "$PREVIOUS_RELEASE" "$CMS_ROOT/current.next"
+                mv -Tf "$CMS_ROOT/current.next" "$CURRENT_LINK"
+                sudo systemctl restart abc-cms
+              fi
+              exit 1
+            fi
       - name: Verify CMS health
         run: |
           if [ -z "${VPS_CMS_DOMAIN}" ]; then

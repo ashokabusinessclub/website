@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import {
   AnimatePresence,
   motion,
@@ -30,7 +30,7 @@ export function useActiveSection(ids: string[]) {
 
     els.forEach((el) => observer.observe(el));
     return () => observer.disconnect();
-  }, [ids.join("|")]);
+  }, [ids]);
 
   return active;
 }
@@ -46,7 +46,8 @@ export function ChapterBar({
   chapters: { id: string; label: string }[];
 }) {
   const reduce = useReducedMotion();
-  const active = useActiveSection(chapters.map((c) => c.id));
+  const chapterIds = useMemo(() => chapters.map((c) => c.id), [chapters]);
+  const active = useActiveSection(chapterIds);
   const activeIndex = Math.max(
     0,
     chapters.findIndex((c) => c.id === active)

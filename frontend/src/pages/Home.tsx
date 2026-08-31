@@ -259,8 +259,6 @@ export default function Home() {
           className="pointer-events-none absolute left-1/2 top-1/2 h-[420px] w-[720px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/[0.07] blur-[130px]"
         />
         <div className="container-abc relative py-28 text-center md:py-40">
-          <Reveal>
-          </Reveal>
           <h2 className="mx-auto mt-8 max-w-4xl">
             <MaskRise>
               <span className="display-xl block">The most ambitious</span>

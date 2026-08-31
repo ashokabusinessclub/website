@@ -35,15 +35,13 @@ export const navLinks: NavItem[] = [
 
 function NavDropdown({
   item,
-  index,
   isActive,
   linkClass,
   onOpenChange,
 }: {
   item: NavItem;
-  index: number;
   isActive: boolean;
-  linkClass: string;
+  linkClass: ({ isActive }: { isActive: boolean }) => string;
   onOpenChange?: (open: boolean) => void;
 }) {
   const [open, setOpen] = useState(false);
@@ -69,11 +67,27 @@ function NavDropdown({
   }, [location.pathname]);
 
   return (
-    <div className="relative flex items-center" onMouseEnter={handleEnter} onMouseLeave={handleLeave}>
+    <div
+      className="relative flex items-center"
+      onMouseEnter={handleEnter}
+      onMouseLeave={handleLeave}
+      onFocus={handleEnter}
+      onBlur={(event) => {
+        if (!event.currentTarget.contains(event.relatedTarget)) handleLeave();
+      }}
+      onKeyDown={(event) => {
+        if (event.key === "Escape") {
+          setOpen(false);
+          (event.currentTarget.querySelector("a") as HTMLElement | null)?.focus();
+        }
+      }}
+    >
       <NavLink
         to={item.to}
-        className={`${linkClass} flex items-center h-full`}
+        className={({ isActive: linkActive }) => `${linkClass({ isActive: linkActive })} flex items-center h-full`}
         onClick={() => setOpen(false)}
+        aria-haspopup="menu"
+        aria-expanded={open}
       >
         {({ isActive: linkActive }) => (
           <>
@@ -100,12 +114,14 @@ function NavDropdown({
             exit={{ opacity: 0, y: 4 }}
             transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
             className="absolute left-0 top-full z-50 mt-1 min-w-[180px] overflow-hidden rounded-lg border border-border bg-popover shadow-lg"
+            role="menu"
           >
             {item.children.map((child) => (
               <Link
                 key={child.to}
                 to={child.to}
                 className="block px-4 py-2.5 text-[0.75rem] font-medium text-foreground/70 transition-fast hover:bg-secondary hover:text-foreground"
+                role="menuitem"
               >
                 {child.label}
               </Link>
@@ -123,6 +139,8 @@ export function Navbar() {
   const reduceMotion = useReducedMotion();
   const { theme, toggle } = useTheme();
   const dark = theme === "dark";
+  const menuRef = useRef<HTMLDivElement>(null);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
 
   const linkClass = ({ isActive }: { isActive: boolean }) =>
     `nav-tab relative whitespace-nowrap px-3 py-2 text-[0.72rem] font-semibold uppercase tracking-[0.14em] transition-fast ${
@@ -149,16 +167,38 @@ export function Navbar() {
 
   useEffect(() => {
     if (!open) return;
+    const menuButton = menuButtonRef.current;
 
     const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setOpen(false);
+      if (e.key === "Escape") {
+        setOpen(false);
+        return;
+      }
+      if (e.key !== "Tab" || !menuRef.current) return;
+      const focusable = Array.from(
+        menuRef.current.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])',
+        ),
+      );
+      if (focusable.length === 0) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
     };
     const prevOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     window.addEventListener("keydown", onKeyDown);
+    requestAnimationFrame(() => menuRef.current?.querySelector<HTMLElement>("a, button")?.focus());
     return () => {
       document.body.style.overflow = prevOverflow;
       window.removeEventListener("keydown", onKeyDown);
+      menuButton?.focus();
     };
   }, [open]);
 
@@ -181,12 +221,11 @@ export function Navbar() {
 
           {/* Desktop Navigation */}
           <div className="ml-auto hidden items-center gap-0.5 xl:flex">
-            {navLinks.map((l, i) =>
+            {navLinks.map((l) =>
               l.children ? (
                 <NavDropdown
                   key={l.to}
                   item={l}
-                  index={i}
                   isActive={false}
                   linkClass={linkClass}
                 />
@@ -216,6 +255,7 @@ export function Navbar() {
           {/* Theme Toggle + Hamburger */}
           <div className="ml-auto flex items-center gap-1 xl:ml-0">
             <button
+              ref={menuButtonRef}
               type="button"
               onClick={toggle}
               aria-label={dark ? "Switch to light mode" : "Switch to dark mode"}
@@ -256,6 +296,7 @@ export function Navbar() {
       <AnimatePresence>
         {open && (
           <motion.div
+            ref={menuRef}
             key="mobile-menu"
             id="mobile-menu"
             className="mobile-menu-overlay"

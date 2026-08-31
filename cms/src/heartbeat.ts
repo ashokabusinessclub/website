@@ -1,5 +1,7 @@
 import "./env";
 import cron from "node-cron";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
 
 /**
  * UptimeRobot "Heartbeat" monitors work on cron pings: you configure a
@@ -39,17 +41,27 @@ export function startHeartbeat() {
   const heartbeatWebsite = process.env.UPTIMEROBOT_HEARTBEAT_WEBSITE;
   const heartbeatCms = process.env.UPTIMEROBOT_HEARTBEAT_CMS;
   const websiteUrl = process.env.WEBSITE_URL;
-  const intervalMinutes = Number(process.env.HEARTBEAT_INTERVAL_MINUTES ?? 5);
+  const intervalMinutes = parseHeartbeatInterval(
+    process.env.HEARTBEAT_INTERVAL_MINUTES,
+  );
 
   if (!heartbeatWebsite && !heartbeatCms) {
     log("no heartbeat URLs configured – monitoring disabled");
     return;
   }
 
-  const schedule = `*/${Math.max(1, Math.min(59, intervalMinutes))} * * * *`;
+  const schedule = `*/${intervalMinutes} * * * *`;
   log(`scheduled every ${intervalMinutes} minute(s)`);
 
+  let running = false;
   cron.schedule(schedule, async () => {
+    if (running) {
+      log("previous check still running → overlapping check skipped");
+      return;
+    }
+    running = true;
+
+    try {
     // 1. Website – only ping its heartbeat when the site really is up.
     if (websiteUrl && heartbeatWebsite) {
       const siteUp = await ping(websiteUrl);
@@ -79,10 +91,31 @@ export function startHeartbeat() {
         log(`cms health check FAILED → heartbeat skipped (monitor will flip to down)`);
       }
     }
+    } finally {
+      running = false;
+    }
   });
 }
 
-startHeartbeat();
+export function parseHeartbeatInterval(value: string | undefined): number {
+  if (value === undefined || value === "") return 5;
+  if (!/^\d+$/.test(value)) {
+    throw new Error("HEARTBEAT_INTERVAL_MINUTES must be an integer from 1 to 59");
+  }
+  const interval = Number(value);
+  if (!Number.isSafeInteger(interval) || interval < 1 || interval > 59) {
+    throw new Error("HEARTBEAT_INTERVAL_MINUTES must be an integer from 1 to 59");
+  }
+  return interval;
+}
 
-process.on("SIGINT", () => process.exit(0));
-process.on("SIGTERM", () => process.exit(0));
+const isMain =
+  process.argv[1] !== undefined &&
+  path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
+
+if (isMain) startHeartbeat();
+
+if (isMain) {
+  process.on("SIGINT", () => process.exit(0));
+  process.on("SIGTERM", () => process.exit(0));
+}

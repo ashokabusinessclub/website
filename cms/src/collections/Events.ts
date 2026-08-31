@@ -1,4 +1,5 @@
 import type { CollectionConfig } from "payload";
+import { validateHttpsUrl, validateImageReference, validateSlug } from "../fields/validation";
 
 export const Events: CollectionConfig = {
   slug: "events",
@@ -19,7 +20,7 @@ export const Events: CollectionConfig = {
   defaultSort: "-date",
   fields: [
     { name: "title", type: "text", required: true },
-    { name: "slug", type: "text", required: true, unique: true, index: true },
+    { name: "slug", type: "text", required: true, unique: true, index: true, validate: validateSlug },
     { name: "date", type: "date", required: true },
     { name: "category", type: "text" },
     {
@@ -33,6 +34,7 @@ export const Events: CollectionConfig = {
     {
       name: "cover",
       type: "text",
+      validate: validateImageReference,
       admin: {
         description: "Or provide an external/fallback image URL or path.",
       },
@@ -40,7 +42,7 @@ export const Events: CollectionConfig = {
     { name: "location", type: "text" },
     { name: "description", type: "textarea" },
     { name: "featured", type: "checkbox", defaultValue: false },
-    { name: "applyUrl", type: "text" },
+    { name: "applyUrl", type: "text", validate: validateHttpsUrl },
     {
       name: "content",
       type: "textarea",

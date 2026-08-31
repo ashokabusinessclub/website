@@ -1,10 +1,17 @@
 {
   "name": "ashoka-business-club",
   "private": true,
+  "packageManager": "npm@11.19.0",
   "scripts": {
     "dev": "concurrently --kill-others-on-fail --names cms,frontend --prefix-colors magenta,cyan \"npm --prefix cms run dev\" \"npm --prefix frontend run dev\"",
     "dev:cms": "npm --prefix cms run dev",
-    "dev:frontend": "npm --prefix frontend run dev"
+    "dev:frontend": "npm --prefix frontend run dev",
+    "build": "npm --prefix frontend run build && npm --prefix cms run build",
+    "lint": "npm --prefix frontend run lint",
+    "typecheck": "npm --prefix frontend run typecheck && npm --prefix cms run typecheck",
+    "test": "npm --prefix frontend run test && npm --prefix cms run test",
+    "audit:prod": "npm --prefix frontend audit --omit=dev && npm --prefix cms audit --omit=dev",
+    "check": "npm run lint && npm run typecheck && npm run test && npm run build"
   },
   "devDependencies": {
     "concurrently": "^9.2.1"

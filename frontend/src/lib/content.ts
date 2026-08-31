@@ -1,10 +1,5 @@
-import { Buffer } from "buffer";
-import matter from "gray-matter";
 import { parseISO } from "date-fns";
-
-// gray-matter expects a global Buffer; provide it before any parsing happens
-(globalThis as unknown as { Buffer: typeof Buffer }).Buffer =
-  (globalThis as unknown as { Buffer?: typeof Buffer }).Buffer ?? Buffer;
+import { safeExternalUrl, safeMediaUrl } from "./urls";
 
 export type Frontmatter = Record<string, unknown>;
 
@@ -18,12 +13,53 @@ function parseCollection(
   modules: Record<string, string>,
 ): ContentEntry[] {
   return Object.entries(modules).map(([filepath, raw]) => {
-    const { data, content } = matter(raw);
+    const { data, content } = parseFrontmatter(raw);
     const slug =
       (data.slug as string) ||
       filepath.split("/").pop()!.replace(/\.md$/, "");
     return { slug, data, body: content.trim() };
   });
+}
+
+function scalar(value: string): unknown {
+  const trimmed = value.trim();
+  if ((trimmed.startsWith('"') && trimmed.endsWith('"')) || (trimmed.startsWith("'") && trimmed.endsWith("'"))) {
+    return trimmed.slice(1, -1);
+  }
+  if (trimmed === "true") return true;
+  if (trimmed === "false") return false;
+  if (/^-?\d+(\.\d+)?$/.test(trimmed)) return Number(trimmed);
+  if (trimmed.startsWith("[") && trimmed.endsWith("]")) {
+    return trimmed.slice(1, -1).split(",").map((item) => scalar(item));
+  }
+  return trimmed;
+}
+
+function parseFrontmatter(raw: string): { data: Frontmatter; content: string } {
+  if (!raw.startsWith("---\n")) return { data: {}, content: raw };
+  const end = raw.indexOf("\n---", 4);
+  if (end === -1) return { data: {}, content: raw };
+  const lines = raw.slice(4, end).split("\n");
+  const data: Frontmatter = {};
+  let listKey: string | undefined;
+  for (const line of lines) {
+    const listItem = line.match(/^\s+-\s+(.+)$/);
+    if (listItem && listKey) {
+      (data[listKey] as unknown[]).push(scalar(listItem[1]));
+      continue;
+    }
+    const field = line.match(/^([A-Za-z][\w-]*):\s*(.*)$/);
+    if (!field) continue;
+    const [, key, value] = field;
+    if (value === "") {
+      data[key] = [];
+      listKey = key;
+    } else {
+      data[key] = scalar(value);
+      listKey = undefined;
+    }
+  }
+  return { data, content: raw.slice(end + 4).trimStart() };
 }
 
 /* ---------------- Departments ---------------- */
@@ -117,6 +153,8 @@ export const eventCategories = Array.from(
 );
 
 export const getEvent = (slug: string) => events.find((e) => e.slug === slug);
+
+export { safeExternalUrl, safeMediaUrl };
 
 /* ---------------- Sponsors ---------------- */
 

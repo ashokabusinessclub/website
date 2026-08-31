@@ -1,6 +1,6 @@
 import { Link, useParams } from "react-router-dom";
 import { ArrowLeft, ArrowUpRight, Calendar, MapPin, Tag, CalendarPlus } from "lucide-react";
-import { formatDate, gcalUrl } from "@/lib/content";
+import { formatDate, gcalUrl, safeExternalUrl, safeMediaUrl } from "@/lib/content";
 import { useCmsContent } from "@/lib/cms";
 import { Markdown } from "@/components/Markdown";
 import { Button } from "@/components/ui/button";
@@ -16,6 +16,9 @@ export default function EventDetail() {
   if (!event) return <NotFound />;
 
   const related = events.filter((e) => e.slug !== event.slug).slice(0, 3);
+  const cover = safeMediaUrl(event.data.cover);
+  const applyUrl = safeExternalUrl(event.data.applyUrl);
+  const isPast = new Date(event.data.date).getTime() < Date.now();
 
   return (
     <article>
@@ -57,12 +60,12 @@ export default function EventDetail() {
         </div>
       </header>
 
-      {event.data.cover && (
+      {cover && (
         <div className="container-abc pt-10">
           <Reveal y={28}>
             <div className="aspect-video max-h-[520px] overflow-hidden rounded-lg border border-border">
               <img
-                src={event.data.cover}
+                src={cover}
                 alt={event.data.title}
                 className="aspect-video w-full object-cover"
               />
@@ -80,7 +83,7 @@ export default function EventDetail() {
           )}
           <Markdown>{event.body}</Markdown>
 
-          {event.data.applyUrl && (
+          {applyUrl && !isPast && (
             <div className="mt-12 flex justify-center">
               <Button
                 asChild
@@ -88,7 +91,7 @@ export default function EventDetail() {
                 iconRight={<ArrowUpRight className="h-4 w-4" />}
               >
                 <a
-                  href={event.data.applyUrl as string}
+                  href={applyUrl}
                   target="_blank"
                   rel="noreferrer noopener"
                 >

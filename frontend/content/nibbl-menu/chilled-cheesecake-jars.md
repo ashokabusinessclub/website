@@ -1,9 +1,9 @@
 ---
 name: Chilled Cheesecake Jars
-category: 2025 Upcoming Menu
+category: Menu archive
 note: Layered graham crust & Philadelphia cream
 tag: 14 New SKUs
-available: true
+available: false
 order: 7
 ---
 

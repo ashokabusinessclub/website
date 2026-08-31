@@ -9,6 +9,7 @@ import {
 import { AnimatePresence, motion, MotionConfig } from "motion/react";
 import { Layout } from "./components/layout/Layout";
 import { EASE } from "./components/reveal";
+import { RouteMetadata } from "./components/RouteMetadata";
 
 const Home = lazy(() => import("./pages/Home"));
 const About = lazy(() => import("./pages/About"));
@@ -74,6 +75,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <MotionConfig reducedMotion="user">
+        <RouteMetadata />
         <Layout>
           <AnimatedRoutes />
         </Layout>

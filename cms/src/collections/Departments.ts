@@ -1,4 +1,5 @@
 import type { CollectionConfig } from "payload";
+import { validateSlug } from "../fields/validation";
 
 export const Departments: CollectionConfig = {
   slug: "departments",
@@ -19,7 +20,7 @@ export const Departments: CollectionConfig = {
   defaultSort: "order",
   fields: [
     { name: "name", type: "text", required: true },
-    { name: "slug", type: "text", required: true, unique: true, index: true },
+    { name: "slug", type: "text", required: true, unique: true, index: true, validate: validateSlug },
     { name: "description", type: "textarea", required: true },
     { name: "order", type: "number", defaultValue: 99 },
     { name: "icon", type: "text" },
