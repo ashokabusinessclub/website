@@ -18,9 +18,9 @@ markdown (frontend/content/ in git)  ──seed──▶  Payload CMS (Postgres)
 ```
 
 - **Markdown is the backup data source.** The site is a static build that bundles
-  `../frontend/content/*.md`. A `prebuild` export pulls the latest CMS state into markdown,
-  so the committed markdown always tracks the CMS — and if the CMS is ever
-  unreachable during a build, the last committed markdown ships anyway.
+  `../frontend/content/*.md`. `npm run export` can explicitly pull CMS state into
+  markdown; it is not run automatically during a frontend build. If the CMS is
+  unreachable, the last committed markdown still ships as a fallback.
 - **Seed** (`npm run seed`) imports markdown into the CMS (upsert by slug).
 
 ## Collections
@@ -56,7 +56,7 @@ EOF
 # 3. Install deps (once)
 npm install
 
-# 4. Start dev server (auto-seeds on first run in dev mode)
+# 4. Start dev server
 npm run dev
 ```
 
@@ -78,7 +78,7 @@ cp .env.example .env
 npm install
 npm run dev             # http://localhost:3000
 
-# 4. Bootstrap (only needed if auto-seed didn't run)
+# 4. Bootstrap once
 npm run seed
 ```
 
@@ -136,8 +136,10 @@ pings.
 Build produces `output: 'standalone'` — deploy the `cms/.next/standalone` +
 `cms/.next/static` pair to any Node host (Render, Railway, Fly.io, a VM with
 pm2). Use a managed Postgres. Always set `NODE_ENV=production`, `PAYLOAD_SECRET`,
-`DATABASE_URI`; run `npm run seed` once after first deploy to load content.
+`DATABASE_URI`; run `npm run seed` once after first deploy to load content. Do
+not run seed on every deployment: it intentionally overwrites matching CMS
+records with the repository's markdown state.
 
-The website's live-fetch needs CORS: set `CORS_ORIGINS` to the website origin
-(comma-separated). Unset = allow all.
-
+The website's live-fetch needs CORS: set `CORS_ORIGINS` to every website origin
+(comma-separated). When unset, the app uses its built-in production website and
+local-development origins.

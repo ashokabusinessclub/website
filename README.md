@@ -14,16 +14,28 @@ repo/
 | Folder | Where it deploys | Trigger |
 | --- | --- | --- |
 | `frontend/**` | Vercel (Root Directory = `frontend`) | push to `main` |
-| `cms/**` | Hetzner VPS (`/opt/abc/repo`, systemd `abc-cms`) | push to `main` → GitHub Action SSHs in, `git pull`, `npm ci`, `npm run build`, restart |
+| `cms/**` | Hetzner VPS (`/opt/abc/cms`, systemd `abc-cms`) | push to `main` → GitHub Action SSHs in, `git pull`, `npm ci`, `npm run build`, restart |
 
 The site is a static build that bundles `frontend/content/*.md`. At runtime it
-fetches the CMS API (`CMS_URL`); if the CMS is unreachable it renders the
+fetches the CMS API (`VITE_CMS_URL`); if the CMS is unreachable it renders the
 bundled markdown — the backup data source.
 
 ## Local dev
 
 ```bash
-# frontend (http://localhost:8080)
+# Install all workspaces once
+npm install
+npm --prefix frontend install
+npm --prefix cms install
+
+# CMS (http://localhost:3000) + frontend (http://localhost:8080)
+npm run dev
+```
+
+Or run each application separately:
+
+```bash
+# frontend
 cd frontend
 npm install
 npm run dev
@@ -48,5 +60,5 @@ See `cms/README.md` and `frontend/content/README.md` for details.
 ## VPS + Vercel setup
 
 See `docs` below / `cms/README.md`. The VPS runs Postgres + the CMS behind
-Caddy; Vercel hosts the static site and needs `CMS_URL` pointing at the
+Caddy; Vercel hosts the static site and needs `VITE_CMS_URL` pointing at the
 CMS (e.g. `https://cms.yourdomain.com`).

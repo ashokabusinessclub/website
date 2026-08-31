@@ -1,0 +1,12 @@
+{
+  "name": "ashoka-business-club",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently --kill-others-on-fail --names cms,frontend --prefix-colors magenta,cyan \"npm --prefix cms run dev\" \"npm --prefix frontend run dev\"",
+    "dev:cms": "npm --prefix cms run dev",
+    "dev:frontend": "npm --prefix frontend run dev"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
+}

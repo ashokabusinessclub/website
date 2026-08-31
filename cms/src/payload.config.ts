@@ -8,12 +8,26 @@ import { NibblMenu } from "./collections/NibblMenu";
 import { Media } from "./collections/Media";
 import { Users } from "./collections/Users";
 
+function requiredProductionValue(
+  name: "PAYLOAD_SECRET" | "DATABASE_URI",
+  fallback: string,
+) {
+  const value = process.env[name];
+  if (process.env.NODE_ENV === "production" && !value) {
+    throw new Error(`${name} must be configured in production`);
+  }
+  return value ?? fallback;
+}
+
 export const config = buildConfig({
-  secret: process.env.PAYLOAD_SECRET ?? "dev-only-secret-change-me",
+  secret: requiredProductionValue("PAYLOAD_SECRET", "dev-only-secret-change-me"),
   db: postgresAdapter({
     pool: {
       connectionString:
-        process.env.DATABASE_URI ?? "postgres://localhost:5432/abc_cms",
+        requiredProductionValue(
+          "DATABASE_URI",
+          "postgres://localhost:5432/abc_cms",
+        ),
     },
     push: process.env.DB_PUSH !== "false",
   }),
@@ -27,7 +41,11 @@ export const config = buildConfig({
       .filter(Boolean);
     return origins && origins.length > 0
       ? origins
-      : ["https://ashokabusinessclub.com", "http://localhost:8080", "*"];
+      : [
+          "https://ashokabusinessclub.com",
+          "https://www.ashokabusinessclub.com",
+          "http://localhost:8080",
+        ];
   })(),
   csrf:
     process.env.CSRF_ORIGINS?.split(",")

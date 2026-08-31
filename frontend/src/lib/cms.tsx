@@ -23,14 +23,14 @@ import {
  * Runtime CMS layer.
  *
  * The site is a static build: markdown content is bundled at build time and
- * always available. When `CMS_URL` is set, this provider additionally
+ * always available. When `VITE_CMS_URL` is set, this provider additionally
  * fetches the CMS REST API on load and swaps in live content. If the CMS is
  * down, times out, or returns nothing, the bundled markdown simply stays –
  * that is the fallback data source.
  */
 
 const CMS_URL = (
-  (import.meta.env.CMS_URL as string | undefined) ||
+  import.meta.env.VITE_CMS_URL ||
   (import.meta.env.PROD ? "https://cms.ashokabusinessclub.com" : "http://localhost:3000")
 ).replace(/\/$/, "");
 
@@ -85,6 +85,7 @@ interface CmsDoc {
 async function fetchCollection(name: string): Promise<CmsDoc[]> {
   const res = await fetch(`${API_BASE}/${name}?limit=0&depth=1`, {
     signal: AbortSignal.timeout(CMS_TIMEOUT_MS),
+    cache: "no-store",
   });
   if (!res.ok) throw new Error(`CMS ${name}: HTTP ${res.status}`);
   const json = (await res.json()) as { docs?: CmsDoc[] };
@@ -128,46 +129,39 @@ function sortBy<T>(items: T[], key: (item: T) => number | string, dir: 1 | -1 = 
 
 export function CmsProvider({ children }: { children: ReactNode }) {
   const enabled = Boolean(API_BASE);
+  const liveQueryOptions = {
+    enabled,
+    staleTime: 15_000,
+    refetchInterval: 30_000,
+    refetchIntervalInBackground: false,
+    refetchOnWindowFocus: true,
+    retry: 1,
+  } as const;
 
   const departmentsQuery = useQuery({
     queryKey: ["cms", "departments"],
     queryFn: () => fetchCollection("departments"),
-    enabled,
-    staleTime: 5 * 60_000,
-    retry: 1,
-    refetchOnWindowFocus: false,
+    ...liveQueryOptions,
   });
   const eventsQuery = useQuery({
     queryKey: ["cms", "events"],
     queryFn: () => fetchCollection("events"),
-    enabled,
-    staleTime: 5 * 60_000,
-    retry: 1,
-    refetchOnWindowFocus: false,
+    ...liveQueryOptions,
   });
   const abrQuery = useQuery({
     queryKey: ["cms", "abr-items"],
     queryFn: () => fetchCollection("abr-items"),
-    enabled,
-    staleTime: 5 * 60_000,
-    retry: 1,
-    refetchOnWindowFocus: false,
+    ...liveQueryOptions,
   });
   const sponsorsQuery = useQuery({
     queryKey: ["cms", "sponsors"],
     queryFn: () => fetchCollection("sponsors"),
-    enabled,
-    staleTime: 5 * 60_000,
-    retry: 1,
-    refetchOnWindowFocus: false,
+    ...liveQueryOptions,
   });
   const nibblMenuQuery = useQuery({
     queryKey: ["cms", "nibbl-menu"],
     queryFn: () => fetchCollection("nibbl-menu"),
-    enabled,
-    staleTime: 5 * 60_000,
-    retry: 1,
-    refetchOnWindowFocus: false,
+    ...liveQueryOptions,
   });
 
   const value = useMemo<CmsContent>(() => {

@@ -22,7 +22,7 @@ npm run lint
 
 ## CMS integration
 
-- At runtime the site tries the CMS API configured by `CMS_URL`
+- At runtime the site tries the CMS API configured by `VITE_CMS_URL`
   (see `.env.example`). If it's unreachable it falls back to the bundled
   `content/**` markdown — the backup data source.
 - Sync scripts (they run the CMS in `../cms`):

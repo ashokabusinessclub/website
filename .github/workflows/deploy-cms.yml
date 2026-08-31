@@ -35,7 +35,6 @@ jobs:
             mkdir -p public/media
             npm ci
             npm run build
-            npm run seed || true
             # Copy standalone assets
             cp -r .next/static .next/standalone/.next/ 2>/dev/null || true
             # Copy public assets if needed
@@ -62,8 +61,11 @@ jobs:
             sudo systemctl enable --now abc-cms
             sudo systemctl restart abc-cms
       - name: Verify CMS health
-        if: ${{ env.VPS_CMS_DOMAIN != '' }}
         run: |
+          if [ -z "${VPS_CMS_DOMAIN}" ]; then
+            echo "VPS_CMS_DOMAIN is required for post-deploy verification" >&2
+            exit 1
+          fi
           sleep 10
           curl -fsS --retry 5 --retry-delay 5 --retry-all-errors \
-            "https://${{ env.VPS_CMS_DOMAIN }}/api/health"
+            "https://${VPS_CMS_DOMAIN}/api/health"
