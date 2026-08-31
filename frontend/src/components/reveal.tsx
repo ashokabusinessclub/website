@@ -16,32 +16,14 @@ export function MaskRise({
   delay?: number;
 }) {
   const reduce = useReducedMotion();
-  const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start end", "end start"],
-  });
-  const y = useTransform(scrollYProgress, [0, 1], ["112%", 0]);
-
-  if (reduce) {
-    return (
-      <div className={`overflow-hidden ${className}`}>
-        <div className="block will-change-transform" ref={ref} style={{ y: 0 }}>
-          {children}
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className={`overflow-hidden ${className}`}>
       <motion.div
-        ref={ref}
         className="block will-change-transform"
-        initial={{ y: "112%" }}
-        animate={{ y: 0 }}
+        initial={reduce ? false : { y: "112%" }}
+        whileInView={{ y: 0 }}
+        viewport={{ once: true, margin: "0px 0px -8% 0px" }}
         transition={{ duration: 0.85, ease: EASE_SNAP, delay }}
-        style={{ y }}
       >
         {children}
       </motion.div>
@@ -63,22 +45,13 @@ export function Reveal({
   once?: boolean;
 }) {
   const reduce = useReducedMotion();
-  const ref = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start end", "end start"],
-  });
-  const yProgress = useTransform(scrollYProgress, [0, 1], [y, 0]);
-  const opacityProgress = useTransform(scrollYProgress, [0, 1], [0, 1]);
-
   if (reduce) return <div className={className}>{children}</div>;
-
   return (
     <motion.div
-      ref={ref}
       className={className}
       initial={{ opacity: 0, y }}
-      animate={{ opacity: opacityProgress, y: yProgress }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once, amount: 0.15, margin: "0px 0px -40px 0px" }}
       transition={{ duration: 0.7, delay, ease: EASE }}
     >
       {children}
@@ -109,7 +82,7 @@ export function StaggerGroup({
       variants={container}
       initial="hidden"
       whileInView="show"
-      viewport={{ once: false, amount: 0.1, margin: "0px 0px -40px 0px" }}
+      viewport={{ once: true, amount: 0.1, margin: "0px 0px -40px 0px" }}
     >
       {children}
     </motion.div>
