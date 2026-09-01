@@ -11,7 +11,7 @@
       "headers": [
         {
           "key": "Content-Security-Policy",
-          "value": "default-src 'self'; base-uri 'self'; connect-src 'self' https://cms.ashokabusinessclub.com; font-src 'self' data:; form-action 'self' https://forms.gle https://docs.google.com; frame-ancestors 'none'; frame-src https://maps.google.com https://www.openstreetmap.org; img-src 'self' data: blob: https://cms.ashokabusinessclub.com; object-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; upgrade-insecure-requests"
+          "value": "default-src 'self'; base-uri 'self'; connect-src 'self' https://cms.ashokabusinessclub.com; font-src 'self' data:; form-action 'self' https://forms.gle https://docs.google.com; frame-ancestors 'none'; frame-src https://maps.google.com https://www.openstreetmap.org https://themonoclebyabr.substack.com; img-src 'self' data: blob: https://cms.ashokabusinessclub.com; object-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; upgrade-insecure-requests"
         },
         {
           "key": "Permissions-Policy",
