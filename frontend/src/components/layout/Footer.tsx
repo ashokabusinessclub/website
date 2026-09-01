@@ -158,9 +158,14 @@ export function Footer() {
       {/* ── Oversized wordmark strip ── */}
       <div aria-hidden="true" className="select-none overflow-hidden border-t border-border">
         <Reveal y={40}>
-          <p className="whitespace-nowrap text-center font-display font-bold leading-[0.82] tracking-[-0.04em] text-foreground/[0.07] [font-size:11.5vw]">
-            ASHOKA BUSINESS CLUB
-          </p>
+          <div className="footer-wordmark-track">
+            <span className="whitespace-nowrap pr-[0.18em] font-display font-bold leading-[0.82] tracking-[-0.04em] text-foreground/[0.07] [font-size:11.5vw]">
+              ASHOKA BUSINESS CLUB
+            </span>
+            <span className="whitespace-nowrap pr-[0.18em] font-display font-bold leading-[0.82] tracking-[-0.04em] text-foreground/[0.07] [font-size:11.5vw]">
+              ASHOKA BUSINESS CLUB
+            </span>
+          </div>
         </Reveal>
       </div>
 

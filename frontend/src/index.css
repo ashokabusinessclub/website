@@ -612,6 +612,28 @@
     will-change: transform;
   }
 
+  .footer-wordmark-track {
+    display: flex;
+    width: max-content;
+    animation: marquee-x 24s linear infinite;
+    transform: translateX(0);
+    will-change: transform;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .footer-wordmark-track {
+      animation: none;
+      transform: none;
+      width: 100%;
+      justify-content: center;
+      will-change: auto;
+    }
+
+    .footer-wordmark-track span + span {
+      display: none;
+    }
+  }
+
   /* ============================================
       EDITORIAL INDEX ROW — hover fills with art
       ============================================ */
