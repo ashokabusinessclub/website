@@ -66,6 +66,7 @@ jobs:
             trap 'rm -f "$RELEASE_ROOT/cms/.env"' EXIT
             cd cms
             npm ci
+            npm run migrate:mark-dev-schema
             printf 'y\n' | npm run migrate
             npm run build
             rm -f .env
