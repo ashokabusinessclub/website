@@ -92,7 +92,11 @@ export const config = buildConfig({
             },
             { status: 200 },
           );
-        } catch {
+        } catch (error) {
+          req.payload.logger.error({
+            err: error,
+            msg: "CMS health check failed",
+          });
           return Response.json(
             {
               status: "degraded",

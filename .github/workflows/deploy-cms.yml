@@ -101,12 +101,13 @@ jobs:
             sudo systemctl restart abc-cms
 
             HEALTHY=false
-            for attempt in 1 2 3 4 5 6; do
-              if curl -fsS http://127.0.0.1:3000/api/health > /dev/null; then
+            for attempt in 1 2 3 4 5 6 7 8 9 10 11 12; do
+              if curl --fail-with-body -sS http://127.0.0.1:3000/api/health; then
                 HEALTHY=true
                 break
               fi
-              sleep 5
+              echo "CMS health attempt $attempt failed; waiting before retry." >&2
+              sleep 10
             done
 
             if [ "$HEALTHY" != true ]; then
