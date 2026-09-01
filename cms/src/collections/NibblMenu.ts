@@ -30,6 +30,7 @@ export const NibblMenu: CollectionConfig = {
         { label: "Nostalgic Classics", value: "Nostalgic Classics" },
         { label: "Signature Pop-Up Specials", value: "Signature Pop-Up Specials" },
         { label: "2025 Upcoming Menu", value: "2025 Upcoming Menu" },
+        { label: "Menu archive", value: "Menu archive" },
       ],
     },
     { name: "note", type: "textarea", admin: { description: "Short description or flavor notes." } },
