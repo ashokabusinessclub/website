@@ -13,6 +13,7 @@ import {
   PenTool,
   TrendingUp,
   FileText,
+  ExternalLink,
 } from "lucide-react";
 
 const opportunities = [
@@ -62,6 +63,15 @@ const steps = [
   ["02", "Apply to a department", "Tell us where you want to work and why — no prior business background required."],
   ["03", "Interview & onboard", "A short conversation, then straight into live projects with your team."],
 ];
+
+const inductionForms: Record<string, string> = {
+  finance: "https://docs.google.com/forms/d/e/1FAIpQLSdjtL8iQbkeI4bvyrb3Xd3H_ZcXEXVGOu1r2LfQ-hVFpoai5g/viewform",
+  "externals-collaborations": "https://docs.google.com/forms/d/e/1FAIpQLSfzWYWZqZFdate29PkgPtqgRVZorQfq3R5dPagvu5TbvE3h8w/viewform?usp=publish-editor",
+  "industry-collaborations": "https://forms.gle/wd4QFwJgzQSBrHd56",
+  "learning-development": "https://docs.google.com/forms/d/e/1FAIpQLScGNCRU_TftLkzsSmEPwFDXEiy6byi-IEzcnJF_rRLejVya0Q/viewform?usp=sharing&ouid=113533890438767511036",
+  marketing: "https://docs.google.com/forms/d/e/1FAIpQLSeSK77B36HzlHYMx5ZOIkRpI1quI6UMSmYiGHYU80T5obd_TA/viewform?usp=header",
+  "ashoka-business-review": "https://docs.google.com/forms/d/e/1FAIpQLSdPwHZPYkCaSV_7wLKuB70S-Swpr71pGO_fkkQVUG5PWROnCA/viewform?usp=header",
+};
 
 export default function WhatAwaitsYou() {
   const { departments } = useCmsContent();
@@ -218,28 +228,41 @@ export default function WhatAwaitsYou() {
                 Ready to join?
               </h2>
               <p className="mt-4 max-w-xl text-[0.9rem] leading-relaxed text-foreground/60">
-                Applications are currently closed. Recruitment announcements and verified department forms will be published here when the next cycle opens.
+                Department applications are live. Choose the vertical you want to apply to and submit the matching induction form.
               </p>
             </div>
           </Reveal>
 
           <StaggerGroup className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {departments.map((d) => (
-              <StaggerItem key={d.slug}>
-                <div className="card-lift h-full p-6">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
-                    <FileText className="h-5 w-5" />
+            {departments.map((d) => {
+              const formUrl = inductionForms[d.slug];
+
+              return (
+                <StaggerItem key={d.slug}>
+                  <div className="card-lift flex h-full flex-col p-6">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                      <FileText className="h-5 w-5" />
+                    </div>
+                    <h3 className="mt-4 font-display text-lg font-semibold">{d.data.name}</h3>
+                    <p className="mt-2 text-[0.85rem] leading-relaxed text-foreground/45 line-clamp-2">
+                      {d.data.description}
+                    </p>
+                    {formUrl ? (
+                      <Button className="mt-5 w-fit" asChild>
+                        <a href={formUrl} target="_blank" rel="noreferrer">
+                          Apply now
+                          <ExternalLink className="h-4 w-4" />
+                        </a>
+                      </Button>
+                    ) : (
+                      <p className="mt-4 text-xs font-semibold uppercase tracking-[0.12em] text-foreground/40">
+                        Form coming soon
+                      </p>
+                    )}
                   </div>
-                  <h3 className="mt-4 font-display text-lg font-semibold">{d.data.name}</h3>
-                  <p className="mt-2 text-[0.85rem] leading-relaxed text-foreground/45 line-clamp-2">
-                    {d.data.description}
-                  </p>
-                  <p className="mt-4 text-xs font-semibold uppercase tracking-[0.12em] text-foreground/40">
-                    Applications closed
-                  </p>
-                </div>
-              </StaggerItem>
-            ))}
+                </StaggerItem>
+              );
+            })}
           </StaggerGroup>
         </div>
       </section>
