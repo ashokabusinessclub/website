@@ -1,4 +1,4 @@
-import "dotenv/config";
+import "./env";
 import pg from "pg";
 
 const BASELINE_MIGRATION_NAME = "20260831_190822";
