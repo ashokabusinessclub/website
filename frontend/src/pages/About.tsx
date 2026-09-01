@@ -37,27 +37,6 @@ const nibblFunctions = [
   { name: "Strategy", desc: "Menu roadmap, pop-up cadence & campus expansion" },
 ];
 
-const leadership = [
-  {
-    batch: "2024–25",
-    president: "Manav Agrawal",
-    members: ["Anoushka Bajaj", "Himanshi Beri", "Kavya Grover", "Suhani Goel"],
-    tenure: "Current Administration",
-  },
-  {
-    batch: "2023–24",
-    president: "Kabir Kedia",
-    members: ["Manav Agrawal", "Anoushka Bajaj", "Himanshi Beri"],
-    tenure: "Previous Administration",
-  },
-  {
-    batch: "2022–23",
-    president: "Aarush Choudhary",
-    members: ["Kabir Kedia", "Manav Agrawal"],
-    tenure: "Founding Administration",
-  },
-];
-
 export default function About() {
   const { departments } = useCmsContent();
 
@@ -256,103 +235,6 @@ export default function About() {
         </div>
       </section>
 
-      <div className="section-divider" />
-
-      {/* ═══ CHAPTER 3: OUR TEAM / PAST LEADERSHIP — STACK & TIMELINE CTA ═══ */}
-      <section id="leadership" className="scroll-mt-28 bg-background">
-        <div className="container-abc py-16 md:py-24">
-          <Reveal>
-            <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-              <div>
-                <h2 className="display-lg">
-                  The people who
-                  <br />
-                  built this.
-                </h2>
-                <p className="mt-4 max-w-xl text-base leading-relaxed text-foreground/60">
-                  ABC has been shaped by student leaders who took ownership, built teams, and set the standard for what a campus business club can be.
-                </p>
-              </div>
-
-              <Button asChild size="lg" iconRight={<ArrowRight className="h-4 w-4" />}>
-                <Link to="/team">View full team &amp; timeline</Link>
-              </Button>
-            </div>
-          </Reveal>
-
-          {/* Sticky Leadership Stack */}
-          <div className="mt-14">
-            <StaggerGroup className="relative">
-              {leadership.map((l, i) => (
-                <div
-                  key={l.batch}
-                  className="sticky mb-6 last:mb-0"
-                  style={{ top: `${96 + i * 26}px`, zIndex: i + 1 }}
-                >
-                  <StaggerItem>
-                    <div className="card-lift rounded-xl border border-border bg-card p-6 shadow-[var(--shadow-elevated)] md:p-8">
-                      <div className="flex flex-wrap items-center justify-between gap-4">
-                        <div>
-                          <div className="flex items-center gap-2.5">
-                            <span className="font-display text-xl font-bold text-foreground md:text-2xl">
-                              Batch {l.batch}
-                            </span>
-                            <span className="rounded-full border border-primary/30 bg-primary/10 px-2.5 py-0.5 text-xs font-semibold text-primary">
-                              {l.tenure}
-                            </span>
-                          </div>
-                          <h3 className="mt-2 text-lg font-semibold text-foreground">
-                            {l.president}
-                            <span className="ml-2 text-xs font-normal text-foreground/50">
-                              (President)
-                            </span>
-                          </h3>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <Users className="h-4 w-4 text-primary" />
-                          <span className="text-sm font-medium text-foreground/60">
-                            {l.members.length} core members
-                          </span>
-                        </div>
-                      </div>
-
-                      {l.members.length > 0 && (
-                        <div className="mt-5 flex flex-wrap gap-2 border-t border-border/60 pt-4">
-                          {l.members.map((m) => (
-                            <span
-                              key={m}
-                              className="rounded-md border border-border bg-secondary/40 px-3 py-1 text-xs font-medium text-foreground/70"
-                            >
-                              {m}
-                            </span>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  </StaggerItem>
-                </div>
-              ))}
-            </StaggerGroup>
-          </div>
-
-          {/* CTA Banner to Full Team Page */}
-          <Reveal y={24} className="mt-14">
-            <div className="flex flex-col items-center justify-between gap-6 rounded-2xl border border-primary/20 bg-primary/[0.04] p-8 text-center md:flex-row md:text-left">
-              <div>
-                <h3 className="font-display text-xl font-bold text-foreground md:text-2xl">
-                  Explore the full year-by-year team timeline
-                </h3>
-                <p className="mt-1 text-sm text-foreground/60">
-                  Detailed rosters, executive boards, department leads, and key milestones from 2022 to present.
-                </p>
-              </div>
-              <Button asChild size="lg" iconRight={<ArrowRight className="h-4 w-4 shrink-0" />}>
-                <Link to="/team">Explore timeline</Link>
-              </Button>
-            </div>
-          </Reveal>
-        </div>
-      </section>
     </>
   );
 }
