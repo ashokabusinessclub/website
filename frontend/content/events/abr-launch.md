@@ -5,6 +5,7 @@ category: Publication
 location: "Sports Block Auditorium"
 description: "The evening we put the first print issue of the Ashoka Business Review into readers' hands."
 featured: true
+cover: /uploads/abc-images/event-abr-launch.jpg
 ---
 
 ## About the event

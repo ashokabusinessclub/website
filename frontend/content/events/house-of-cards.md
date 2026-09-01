@@ -5,6 +5,7 @@ category: Flagship
 location: "BMW Infinity Showroom, Delhi"
 description: "High-intensity corporate crisis simulation hosted by Ashoka Business Club, in partnership with the InfoEdge Centre for Entrepreneurship."
 featured: true
+cover: /uploads/abc-images/event-house-of-cards.jpg
 ---
 
 ## About the event

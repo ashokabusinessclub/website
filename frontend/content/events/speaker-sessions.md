@@ -5,6 +5,7 @@ category: "Speaker Series"
 location: "Ashoka University, Sonipat"
 description: "Closed-door, speaker-led sessions where members learn a real skill directly from people doing the work — not from textbooks or case studies."
 featured: false
+cover: /uploads/abc-images/event-speaker-sessions.jpg
 ---
 
 ## What they are
