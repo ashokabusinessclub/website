@@ -28,7 +28,7 @@ test("export preserves uploaded media relationships", () => {
     images: [{ image: { url: "/api/media/file/chart.png" }, alt: "Chart" }],
   }, "https://cms.example/api");
   assert.equal(doc.cover, "https://cms.example/api/media/file/cover.jpg");
-  assert.match(serializeFrontmatter("abr-items", doc), /images:\n  - src: "https:\/\/cms\.example\/api\/media\/file\/chart\.png"/);
+  assert.match(serializeFrontmatter("abr-items", doc), /images:\n  - url: "https:\/\/cms\.example\/api\/media\/file\/chart\.png"/);
 });
 
 test("empty responses never erase committed Markdown", () => {

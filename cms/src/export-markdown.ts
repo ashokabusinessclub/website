@@ -77,7 +77,7 @@ export function normalizeExportDocument(collection: CollectionName, raw: Doc, ap
     doc.images = raw.images.flatMap((value) => {
       if (!value || typeof value !== "object" || Array.isArray(value)) return [];
       const row = value as Doc; const src = mediaUrl(row.image, apiUrl);
-      return src ? [{ src, caption: row.caption, alt: row.alt }] : [];
+      return src ? [{ url: src, caption: row.caption, alt: row.alt }] : [];
     });
   }
   return doc;

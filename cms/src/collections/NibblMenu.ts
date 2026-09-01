@@ -1,6 +1,13 @@
 import type { CollectionConfig } from "payload";
 import { validateSlug } from "../fields/validation";
 
+export const NIBBL_MENU_CATEGORY_OPTIONS: { label: string; value: string }[] = [
+  { label: "Nostalgic Classics", value: "Nostalgic Classics" },
+  { label: "Signature Pop-Up Specials", value: "Signature Pop-Up Specials" },
+  { label: "2025 Upcoming Menu", value: "2025 Upcoming Menu" },
+  { label: "Menu archive", value: "Menu archive" },
+] as const;
+
 export const NibblMenu: CollectionConfig = {
   slug: "nibbl-menu",
   labels: {
@@ -26,12 +33,7 @@ export const NibblMenu: CollectionConfig = {
       type: "select",
       required: true,
       defaultValue: "Nostalgic Classics",
-      options: [
-        { label: "Nostalgic Classics", value: "Nostalgic Classics" },
-        { label: "Signature Pop-Up Specials", value: "Signature Pop-Up Specials" },
-        { label: "2025 Upcoming Menu", value: "2025 Upcoming Menu" },
-        { label: "Menu archive", value: "Menu archive" },
-      ],
+      options: NIBBL_MENU_CATEGORY_OPTIONS,
     },
     { name: "note", type: "textarea", admin: { description: "Short description or flavor notes." } },
     { name: "price", type: "text", admin: { description: "Optional price (e.g. ₹120)." } },
