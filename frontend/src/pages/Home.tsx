@@ -11,14 +11,21 @@ import {
   useScroll,
   useTransform,
 } from "motion/react";
-import { ArrowRight } from "lucide-react";
+import {
+  ArrowRight,
+  ArrowUpRight,
+  Cake,
+  ExternalLink,
+  Flame,
+  PieChart,
+  ShoppingBag,
+  TrendingUp,
+} from "lucide-react";
 import { useCmsContent } from "@/lib/cms";
-import { AbrCard } from "@/components/cards";
-import { EventOrbit } from "@/components/event-orbit";
+import { DepartmentArt } from "@/components/department-art";
 import { Button } from "@/components/ui/button";
 import {
   EASE_SNAP,
-  MaskRise,
   Reveal,
   StaggerGroup,
   StaggerItem,
@@ -110,6 +117,13 @@ function StatCell({
   );
 }
 
+const nibblStats = [
+  { value: "3", label: "Campus Stalls", icon: ShoppingBag },
+  { value: "₹40K+", label: "Revenue Crossed", icon: TrendingUp },
+  { value: "100%", label: "Profit-Generating", icon: PieChart },
+  { value: "Sold Out", label: "Every Run", icon: Flame },
+];
+
 export default function Home() {
   const { departments, events, abrItems, sponsors } = useCmsContent();
   const stats = [
@@ -193,7 +207,7 @@ export default function Home() {
                   <Link to="/what-awaits-you">Join the club</Link>
                 </Button>
                 <Button variant="outline" asChild size="lg">
-                  <Link to="/about">Inside the club</Link>
+                  <Link to="/#about">Inside the club</Link>
                 </Button>
               </span>
             </HeroLine>
@@ -214,75 +228,115 @@ export default function Home() {
         )}
       </section>
 
-      {/* ═══ EVENTS — orbiting discs ═══ */}
-      <EventOrbit events={events} />
-
-      {/* Divider */}
-      <div className="section-divider" />
-
-      {/* ═══ PUBLICATIONS — sticky rail + cards ═══ */}
-      <section id="publications" className="scroll-mt-28 bg-background">
-        <div className="container-abc grid gap-12 py-16 md:py-24 lg:grid-cols-[1.15fr_0.85fr] lg:gap-20">
-          <StaggerGroup className="order-2 grid gap-5 lg:order-1">
-            {abrItems.slice(0, 2).map((a) => (
-              <StaggerItem key={a.slug}>
-                <AbrCard item={a} />
-              </StaggerItem>
-            ))}
-          </StaggerGroup>
-
-          <div className="order-1 self-start lg:order-2 lg:sticky lg:top-32">
+      {/* ═══ ABOUT — compact merged overview ═══ */}
+      <section id="about" className="scroll-mt-28 bg-background">
+        <div className="container-abc grid gap-10 py-16 md:py-24 lg:grid-cols-[0.82fr_1.18fr] lg:gap-16">
+          <div className="self-start lg:sticky lg:top-32">
             <Reveal>
-              <h2 className="display-lg">The writing desk.</h2>
+              <h2 className="display-lg">
+                Six teams,
+                <br />
+                one club.
+              </h2>
             </Reveal>
             <Reveal delay={0.1}>
-              <p className="mt-6 max-w-md text-[0.95rem] leading-relaxed text-foreground/60">
-                The Ashoka Business Review is our print-backed research vertical — long-form arguments, interviews and data stories written entirely by students.
+              <p className="mt-5 max-w-sm text-[0.95rem] leading-relaxed text-foreground/60">
+                ABC is a student-run business community at Ashoka, connecting research, industry dialogue, partnerships and venture work.
               </p>
             </Reveal>
-            <Reveal delay={0.2}>
+            <Reveal delay={0.18}>
               <Button asChild iconRight={<ArrowRight className="h-4 w-4" />} size="lg" className="mt-8">
-                <Link to="/abr">Read more</Link>
+                <Link to="/what-awaits-you#departments">Explore departments</Link>
               </Button>
             </Reveal>
           </div>
+
+          <StaggerGroup className="grid gap-3">
+            {departments.map((d) => (
+              <StaggerItem key={d.slug} y={22}>
+                <Link
+                  to={`/departments/${d.slug}`}
+                  className="index-row group min-h-[92px] outline-none"
+                  aria-label={`${d.data.name} - explore department`}
+                >
+                  <div className="index-row-art">
+                    <DepartmentArt slug={d.slug} className="h-full w-full" />
+                    <div className="absolute inset-0 bg-[#141009]/78" />
+                  </div>
+
+                  <div className="relative z-10 grid grid-cols-[1fr_auto] items-center gap-5 px-5 py-5 transition-colors duration-500 ease-[var(--ease-out)] group-hover:text-[#F2E9D6] sm:px-7 md:py-6">
+                    <span className="min-w-0">
+                      <span className="block truncate font-display text-2xl font-bold tracking-tight md:text-3xl">
+                        {d.data.name}
+                      </span>
+                      <span className="mt-1 hidden max-w-xl truncate text-[0.82rem] text-foreground/45 transition-colors duration-500 group-hover:text-[#F2E9D6]/65 sm:block">
+                        {d.data.description}
+                      </span>
+                    </span>
+
+                    <span className="flex h-11 w-11 items-center justify-center rounded-full border border-border transition-all duration-500 ease-[var(--ease-out)] group-hover:rotate-45 group-hover:border-primary group-hover:bg-primary">
+                      <ArrowUpRight className="h-4 w-4 transition-colors duration-500 group-hover:text-primary-foreground" />
+                    </span>
+                  </div>
+                </Link>
+              </StaggerItem>
+            ))}
+          </StaggerGroup>
         </div>
       </section>
 
-      {/* Divider */}
       <div className="section-divider" />
 
-      {/* ═══ JOIN — kononenko-scale statement ═══ */}
-      <section id="join" className="relative scroll-mt-28 overflow-hidden bg-background">
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute left-1/2 top-1/2 h-[420px] w-[720px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/[0.07] blur-[130px]"
-        />
-        <div className="container-abc relative py-28 text-center md:py-40">
-          <h2 className="mx-auto mt-8 max-w-4xl">
-            <MaskRise>
-              <span className="display-xl block">The most ambitious</span>
-            </MaskRise>
-            <MaskRise delay={0.08}>
-              <span className="display-xl block">
-                students on campus <span className="text-primary">build here.</span>
+      {/* ═══ NIBBL — compact venture preview ═══ */}
+      <section id="nibbl" className="scroll-mt-28 border-y border-border bg-card/60">
+        <div className="container-abc grid gap-10 py-16 md:py-20 lg:grid-cols-[0.92fr_1.08fr] lg:items-center">
+          <Reveal>
+            <div className="flex items-start gap-4">
+              <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-md border border-[#7f1069]/30 bg-[#7f1069] text-[#fccef6]">
+                <Cake className="h-5 w-5" />
               </span>
-            </MaskRise>
-          </h2>
-          <Reveal delay={0.2}>
-            <p className="mx-auto mt-8 max-w-xl text-base leading-relaxed text-foreground/60">
-              Applications open each semester. Explore what membership looks
-              like — the work, the exposure and the people.
-            </p>
-            <Button
-              asChild
-              iconRight={<ArrowRight className="h-4 w-4" />}
-              size="lg"
-              className="mt-10"
-            >
-              <Link to="/what-awaits-you">What awaits you</Link>
-            </Button>
+              <div>
+                <h2 className="font-display text-5xl font-bold tracking-tight text-foreground md:text-6xl">
+                  nibbl.
+                </h2>
+                <p className="mt-4 max-w-xl text-base leading-relaxed text-foreground/65">
+                  ABC's student-run dessert venture turns business theory into campus operations: recipe testing, costing, packaging, sales, brand drops and live customer feedback.
+                </p>
+                <div className="mt-7 flex flex-wrap gap-3">
+                  <Button asChild iconRight={<ArrowRight className="h-4 w-4" />} size="lg">
+                    <Link to="/nibbl">Explore nibbl.</Link>
+                  </Button>
+                  <a
+                    href="https://forms.gle/ArExSJ6APP6by79AA"
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    className="inline-flex items-center gap-2 rounded-full border border-border bg-secondary/60 px-5 py-3 text-sm font-semibold text-foreground transition-fast hover:bg-secondary"
+                  >
+                    Apply to join <ExternalLink className="h-4 w-4" />
+                  </a>
+                </div>
+              </div>
+            </div>
           </Reveal>
+
+          <StaggerGroup className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+            {nibblStats.map((s) => {
+              const Icon = s.icon;
+              return (
+                <StaggerItem key={s.label}>
+                  <div className="border border-border bg-background p-5">
+                    <Icon className="h-4 w-4 text-primary" aria-hidden="true" />
+                    <p className="mt-5 font-display text-3xl font-black tracking-tight text-foreground">
+                      {s.value}
+                    </p>
+                    <p className="mt-1 text-[0.68rem] font-bold uppercase tracking-[0.16em] text-foreground/45">
+                      {s.label}
+                    </p>
+                  </div>
+                </StaggerItem>
+              );
+            })}
+          </StaggerGroup>
         </div>
       </section>
 

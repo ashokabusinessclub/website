@@ -7,13 +7,16 @@ import { useTheme } from "@/hooks/use-theme";
 export interface NavItem {
   to: string;
   label: string;
+  dropdownOnly?: boolean;
   children?: { to: string; label: string }[];
 }
 
 export const navLinks: NavItem[] = [
+  { to: "/", label: "Home" },
   {
-    to: "/about",
+    to: "about-menu",
     label: "About",
+    dropdownOnly: true,
     children: [
       { to: "/nibbl", label: "Nibbl" },
       { to: "/team", label: "Our Team" },
@@ -78,33 +81,55 @@ function NavDropdown({
       onKeyDown={(event) => {
         if (event.key === "Escape") {
           setOpen(false);
-          (event.currentTarget.querySelector("a") as HTMLElement | null)?.focus();
+          (event.currentTarget.querySelector("a, button") as HTMLElement | null)?.focus();
         }
       }}
     >
-      <NavLink
-        to={item.to}
-        className={({ isActive: linkActive }) => `${linkClass({ isActive: linkActive })} flex items-center h-full`}
-        onClick={() => setOpen(false)}
-        aria-haspopup="menu"
-        aria-expanded={open}
-      >
-        {({ isActive: linkActive }) => (
-          <>
-            <span className="relative">
-              {item.label}
-              {(linkActive || isActive) && (
-                <motion.span
-                  layoutId="nav-underline"
-                  className="pointer-events-none absolute -bottom-1.5 inset-x-0 h-[2px] rounded-full bg-primary"
-                  transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                />
-              )}
-            </span>
-            <ChevronDown className={`ml-1 h-3 w-3 transition-transform duration-200 ${open ? "rotate-180" : ""}`} />
-          </>
-        )}
-      </NavLink>
+      {item.dropdownOnly ? (
+        <button
+          type="button"
+          className={`${linkClass({ isActive })} flex h-full items-center`}
+          onClick={() => setOpen((prev) => !prev)}
+          aria-haspopup="menu"
+          aria-expanded={open}
+        >
+          <span className="relative">
+            {item.label}
+            {isActive && (
+              <motion.span
+                layoutId="nav-underline"
+                className="pointer-events-none absolute -bottom-1.5 inset-x-0 h-[2px] rounded-full bg-primary"
+                transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+              />
+            )}
+          </span>
+          <ChevronDown className={`ml-1 h-3 w-3 transition-transform duration-200 ${open ? "rotate-180" : ""}`} />
+        </button>
+      ) : (
+        <NavLink
+          to={item.to}
+          className={({ isActive: linkActive }) => `${linkClass({ isActive: linkActive })} flex items-center h-full`}
+          onClick={() => setOpen(false)}
+          aria-haspopup="menu"
+          aria-expanded={open}
+        >
+          {({ isActive: linkActive }) => (
+            <>
+              <span className="relative">
+                {item.label}
+                {(linkActive || isActive) && (
+                  <motion.span
+                    layoutId="nav-underline"
+                    className="pointer-events-none absolute -bottom-1.5 inset-x-0 h-[2px] rounded-full bg-primary"
+                    transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                  />
+                )}
+              </span>
+              <ChevronDown className={`ml-1 h-3 w-3 transition-transform duration-200 ${open ? "rotate-180" : ""}`} />
+            </>
+          )}
+        </NavLink>
+      )}
 
       <AnimatePresence>
         {open && item.children && (
@@ -138,6 +163,7 @@ export function Navbar() {
   const [mobileExpanded, setMobileExpanded] = useState<string | null>(null);
   const reduceMotion = useReducedMotion();
   const { theme, toggle } = useTheme();
+  const location = useLocation();
   const dark = theme === "dark";
   const menuRef = useRef<HTMLDivElement>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
@@ -164,6 +190,14 @@ export function Navbar() {
       transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] },
     },
   };
+
+  const isDropdownActive = (item: NavItem) =>
+    item.children?.some((child) => {
+      const [path, hash] = child.to.split("#");
+      const pathMatches = path === "/" ? location.pathname === "/" : location.pathname === path;
+      const hashMatches = hash ? location.hash === `#${hash}` : true;
+      return pathMatches && hashMatches;
+    }) ?? false;
 
   useEffect(() => {
     if (!open) return;
@@ -226,7 +260,7 @@ export function Navbar() {
                 <NavDropdown
                   key={l.to}
                   item={l}
-                  isActive={false}
+                  isActive={isDropdownActive(l)}
                   linkClass={linkClass}
                 />
               ) : (

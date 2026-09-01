@@ -478,7 +478,7 @@ export default function Nibbl() {
                 variant="outline"
                 size="lg"
               >
-                <Link to="/about">Back to About ABC</Link>
+                <Link to="/#nibbl">Back to ABC</Link>
               </Button>
             </div>
           </div>

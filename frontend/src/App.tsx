@@ -1,6 +1,7 @@
 import { lazy, Suspense } from "react";
 import {
   BrowserRouter,
+  Navigate,
   Route,
   Routes,
   useLocation,
@@ -12,7 +13,6 @@ import { EASE } from "./components/reveal";
 import { RouteMetadata } from "./components/RouteMetadata";
 
 const Home = lazy(() => import("./pages/Home"));
-const About = lazy(() => import("./pages/About"));
 const Team = lazy(() => import("./pages/Team"));
 const Nibbl = lazy(() => import("./pages/Nibbl"));
 const DepartmentDetail = lazy(() => import("./pages/DepartmentDetail"));
@@ -52,7 +52,7 @@ function AnimatedRoutes() {
         <Suspense fallback={<PageFallback />}>
           <Routes location={location}>
             <Route path="/" element={<Home />} />
-            <Route path="/about" element={<About />} />
+            <Route path="/about" element={<Navigate to="/" replace />} />
             <Route path="/team" element={<Team />} />
             <Route path="/nibbl" element={<Nibbl />} />
             <Route path="/departments/:slug" element={<DepartmentDetail />} />
