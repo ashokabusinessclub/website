@@ -25,6 +25,7 @@ import { useCmsContent } from "@/lib/cms";
 import { DepartmentArt } from "@/components/department-art";
 import {
   INTRO_COMPLETE_EVENT,
+  INTRO_HERO_IMAGE,
   INTRO_SESSION_KEY,
 } from "@/components/preloader";
 import { Button } from "@/components/ui/button";
@@ -51,9 +52,9 @@ function HeroLine({
     <span className="block overflow-hidden pb-[0.08em]">
       <motion.span
         className={`block will-change-transform ${className}`}
-        initial={reduce ? false : { y: "112%" }}
-        animate={{ y: reduce || ready ? 0 : "112%" }}
-        transition={{ duration: 1, ease: EASE_SNAP, delay }}
+        initial={reduce ? false : { y: "35%", opacity: 0 }}
+        animate={reduce || ready ? { y: 0, opacity: 1 } : { y: "35%", opacity: 0 }}
+        transition={{ duration: 0.75, ease: EASE_SNAP, delay }}
       >
         {children}
       </motion.span>
@@ -201,30 +202,31 @@ export default function Home() {
           ABC
         </motion.div>
 
-        {/* Main content — anchored lower-left like cominvi's hero */}
+        {/* Main content — editorial copy and the intro's photographic destination */}
         <motion.div
-          className="container-abc relative flex flex-1 flex-col justify-end pb-14 pt-36 md:pb-20"
+          className="hero-layout container-abc"
           style={reduceMotion ? undefined : { opacity: contentOpacity, y: contentY }}
         >
-          <h1 className="display-hero mt-6 max-w-[13ch] text-foreground">
-            <HeroLine ready={introReady} delay={introReady ? 0.08 : 0}>Where business is</HeroLine>
-            <HeroLine ready={introReady} delay={introReady ? 0.2 : 0}>studied, debated</HeroLine>
-            <HeroLine ready={introReady} delay={introReady ? 0.32 : 0}>
-              <span className="text-primary">&amp; built.</span>
-            </HeroLine>
-          </h1>
+          <div className="hero-copy">
+            <h1 className="display-hero hero-heading text-foreground">
+              <HeroLine ready={introReady} delay={introReady ? 0.06 : 0}>Where business is</HeroLine>
+              <HeroLine ready={introReady} delay={introReady ? 0.14 : 0}>studied, debated</HeroLine>
+              <HeroLine ready={introReady} delay={introReady ? 0.22 : 0}>
+                <span className="text-primary">&amp; built.</span>
+              </HeroLine>
+            </h1>
 
-          <div className="mt-10 flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
             <motion.p
-              initial={reduceMotion ? false : { opacity: 0, y: 16 }}
-              animate={introReady || reduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
-              transition={{ duration: 0.8, ease: EASE_SNAP, delay: introReady ? 0.46 : 0 }}
-              className="max-w-xl text-base leading-relaxed text-foreground/60 md:text-lg"
+              initial={reduceMotion ? false : { opacity: 0, y: 12 }}
+              animate={introReady || reduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
+              transition={{ duration: 0.65, ease: EASE_SNAP, delay: introReady ? 0.26 : 0 }}
+              className="hero-description"
             >
               The Ashoka Business Club brings research, industry dialogue and hands-on experience together — one club, six verticals, a full calendar of work that ships.
             </motion.p>
-            <HeroLine ready={introReady} delay={introReady ? 0.62 : 0}>
-              <span className="flex flex-wrap gap-3">
+
+            <HeroLine ready={introReady} delay={introReady ? 0.34 : 0}>
+              <span className="hero-actions">
                 <Button asChild iconRight={<ArrowRight className="h-4 w-4" />} size="lg">
                   <Link to="/what-awaits-you">Join the club</Link>
                 </Button>
@@ -234,6 +236,21 @@ export default function Home() {
               </span>
             </HeroLine>
           </div>
+
+          <motion.div
+            data-intro-hero-media
+            className="hero-media-frame"
+            initial={false}
+            animate={{ opacity: introReady || reduceMotion ? 1 : 0 }}
+            transition={{ duration: 0.25, ease: EASE_SNAP }}
+          >
+            <img
+              src={INTRO_HERO_IMAGE}
+              alt="Ashoka Business Club members collaborating at an event"
+              className="hero-media-image"
+            />
+            <div className="hero-media-rule" aria-hidden="true" />
+          </motion.div>
         </motion.div>
 
         {/* Bottom stat strip — hairline instrument panel */}

@@ -114,6 +114,7 @@
 
   html {
     scroll-behavior: smooth;
+    scrollbar-gutter: stable;
   }
 
   body {
@@ -568,6 +569,95 @@
   }
 
   /* ============================================
+      HOMEPAGE HERO — intro image destination
+      ============================================ */
+
+  .hero-layout {
+    position: relative;
+    display: grid;
+    flex: 1;
+    grid-template-columns: minmax(0, 1.08fr) minmax(280px, 0.72fr);
+    align-items: end;
+    gap: clamp(2.5rem, 6vw, 7rem);
+    padding-top: clamp(8rem, 16vh, 10rem);
+    padding-bottom: clamp(2.5rem, 7vh, 5rem);
+  }
+
+  .hero-copy {
+    min-width: 0;
+    padding-bottom: clamp(0rem, 3vh, 2rem);
+  }
+
+  .hero-heading {
+    max-width: none;
+    margin: 0;
+    font-size: clamp(3.2rem, 5.2vw, 6.4rem);
+  }
+
+  .hero-description {
+    max-width: 34rem;
+    margin-top: clamp(1.75rem, 4vh, 2.75rem);
+    color: hsl(var(--foreground) / 0.6);
+    font-size: clamp(0.95rem, 1.35vw, 1.125rem);
+    line-height: 1.7;
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 2rem;
+  }
+
+  .hero-media-frame {
+    position: relative;
+    width: min(100%, 56vh, 30rem);
+    aspect-ratio: 4 / 5;
+    justify-self: end;
+    overflow: hidden;
+    border: 1px solid hsl(var(--foreground) / 0.16);
+    background: hsl(var(--card));
+    box-shadow: var(--shadow-ambient);
+  }
+
+  .hero-media-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .hero-media-rule {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    border: 10px solid hsl(var(--background) / 0.07);
+  }
+
+  @media (max-width: 899px) {
+    .hero-layout {
+      grid-template-columns: minmax(0, 1fr);
+      align-items: start;
+      gap: clamp(2rem, 6vw, 3rem);
+      padding-top: 8rem;
+      padding-bottom: 3rem;
+    }
+
+    .hero-copy {
+      padding-bottom: 0;
+    }
+
+    .hero-heading {
+      font-size: clamp(2.85rem, 10vw, 5.2rem);
+    }
+
+    .hero-media-frame {
+      width: min(76vw, 36svh);
+      justify-self: end;
+    }
+  }
+
+  /* ============================================
       CINEMATIC INTRO — first session load only
       ============================================ */
 
@@ -577,24 +667,30 @@
     z-index: 500;
     overflow: hidden;
     isolation: isolate;
-    background: #030403;
+    background: transparent;
     color: #f8f4e9;
   }
 
+  .intro-backdrop,
   .intro-grid,
   .intro-grain,
   .intro-scratch,
   .intro-image-stage,
   .intro-image,
-  .intro-wordmark,
-  .intro-shutters {
+  .intro-wordmark {
     position: absolute;
   }
 
+  .intro-backdrop,
   .intro-grid,
-  .intro-grain,
-  .intro-shutters {
+  .intro-grain {
     inset: 0;
+  }
+
+  .intro-backdrop {
+    z-index: 0;
+    background: #030403;
+    will-change: opacity;
   }
 
   .intro-detail {
@@ -659,7 +755,7 @@
     top: 50%;
     z-index: 3;
     width: clamp(44px, 4.2vw, 66px);
-    height: clamp(58px, 5.7vw, 90px);
+    aspect-ratio: 4 / 5;
     overflow: hidden;
     transform: translate(-50%, -50%);
     transform-origin: center;
@@ -730,18 +826,6 @@
     letter-spacing: -0.035em;
   }
 
-  .intro-shutters {
-    z-index: 8;
-    display: grid;
-    grid-template-columns: repeat(8, 1fr);
-    pointer-events: none;
-  }
-
-  .intro-shutter {
-    background: #030403;
-    will-change: transform;
-  }
-
   @media (max-width: 700px) {
     .intro-grid {
       background-image: repeating-linear-gradient(
@@ -780,13 +864,6 @@
       line-height: 0.76;
     }
 
-    .intro-shutters {
-      grid-template-columns: repeat(6, 1fr);
-    }
-
-    .intro-shutter:nth-child(n + 7) {
-      display: none;
-    }
   }
 
   /* ============================================
