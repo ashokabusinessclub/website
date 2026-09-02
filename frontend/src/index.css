@@ -963,3 +963,8 @@
     }
   }
 }
+/* Keep the animated nibbl. metric wrappers and their cards level as labels wrap. */
+.home-nibbl-stat,
+.home-nibbl-stat__card {
+  height: 100%;
+}

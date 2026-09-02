@@ -362,8 +362,8 @@ export default function Home() {
             {nibblStats.map((s) => {
               const Icon = s.icon;
               return (
-                <StaggerItem key={s.label}>
-                  <div className="border border-border bg-background p-5">
+                <StaggerItem key={s.label} className="home-nibbl-stat">
+                  <div className="home-nibbl-stat__card border border-border bg-background p-5">
                     <Icon className="h-4 w-4 text-primary" aria-hidden="true" />
                     <p className="mt-5 font-display text-3xl font-black tracking-tight text-foreground">
                       {s.value}
