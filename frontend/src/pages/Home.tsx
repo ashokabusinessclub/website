@@ -175,18 +175,8 @@ export default function Home() {
       >
         {/* Background layers */}
         <div aria-hidden="true" className="absolute inset-0">
-          <div
-            className="absolute inset-0 opacity-[0.05]"
-            style={{
-              backgroundImage:
-                "linear-gradient(hsl(40 20% 90% / 0.4) 1px, transparent 1px), linear-gradient(90deg, hsl(40 20% 90% / 0.4) 1px, transparent 1px)",
-              backgroundSize: "88px 88px",
-            }}
-          />
-          <div className="pointer-events-none absolute -top-32 right-[10%] h-[560px] w-[560px] rounded-full bg-primary/[0.09] blur-[140px]" />
-          <div className="pointer-events-none absolute bottom-[-10%] left-[-5%] h-[420px] w-[420px] rounded-full bg-crimson/[0.05] blur-[120px]" />
-          {/* bottom vignette melts the stage into the next section */}
-          <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-background to-transparent" />
+          <div className="absolute inset-y-0 right-[12%] w-px bg-border/55" />
+          <div className="absolute inset-x-0 bottom-0 h-px bg-border" />
         </div>
 
         {/* Parallax watermark */}
@@ -212,7 +202,7 @@ export default function Home() {
               <HeroLine ready={introReady} delay={introReady ? 0.06 : 0}>Where business is</HeroLine>
               <HeroLine ready={introReady} delay={introReady ? 0.14 : 0}>studied, debated</HeroLine>
               <HeroLine ready={introReady} delay={introReady ? 0.22 : 0}>
-                <span className="text-primary">&amp; built.</span>
+                <span className="text-accent">&amp; built.</span>
               </HeroLine>
             </h1>
 
@@ -313,7 +303,7 @@ export default function Home() {
                       </span>
                     </span>
 
-                    <span className="flex h-11 w-11 items-center justify-center rounded-full border border-border transition-all duration-500 ease-[var(--ease-out)] group-hover:rotate-45 group-hover:border-primary group-hover:bg-primary">
+                    <span className="flex h-11 w-11 items-center justify-center rounded-full border border-border transition-[transform,border-color,background-color] duration-500 ease-[var(--ease-out)] group-hover:rotate-45 group-hover:border-primary group-hover:bg-primary">
                       <ArrowUpRight className="h-4 w-4 transition-colors duration-500 group-hover:text-primary-foreground" />
                     </span>
                   </div>

@@ -218,14 +218,6 @@ export function PartnerDrum({
           </ul>
 
           {/* Depth fades */}
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute inset-x-0 top-0 z-10 h-[18%] bg-gradient-to-b from-background to-transparent"
-          />
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-[18%] bg-gradient-to-t from-background to-transparent"
-          />
 
           {/* Measuring-tape ruler */}
           <div

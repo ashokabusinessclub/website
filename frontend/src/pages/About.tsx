@@ -77,7 +77,7 @@ export default function About() {
                 {/* hover art fill */}
                 <div className="index-row-art">
                   <DepartmentArt slug={d.slug} className="h-full w-full" />
-                  <div className="absolute inset-0 bg-gradient-to-r from-[#141009]/92 via-[#141009]/55 to-transparent" />
+                  <div className="absolute inset-0 bg-brand-green/85" />
                 </div>
 
                 <div className="relative z-10 mx-auto grid max-w-[1400px] grid-cols-[1fr_auto] items-center gap-5 px-5 py-8 transition-colors duration-500 ease-[var(--ease-out)] group-hover:text-[#F2E9D6] sm:gap-8 sm:px-8 md:py-11 lg:px-12">
@@ -90,7 +90,7 @@ export default function About() {
                     </span>
                   </span>
 
-                  <span className="flex h-11 w-11 items-center justify-center rounded-full border border-border transition-all duration-500 ease-[var(--ease-out)] group-hover:rotate-45 group-hover:border-primary group-hover:bg-primary sm:h-14 sm:w-14">
+                  <span className="flex h-11 w-11 items-center justify-center rounded-full border border-border transition-[transform,border-color,background-color] duration-500 ease-[var(--ease-out)] group-hover:rotate-45 group-hover:border-primary group-hover:bg-primary sm:h-14 sm:w-14">
                     <ArrowUpRight className="h-4 w-4 transition-colors duration-500 group-hover:text-primary-foreground sm:h-5 sm:w-5" />
                   </span>
                 </div>
@@ -188,7 +188,7 @@ export default function About() {
               ].map((s) => (
                 <div
                   key={s.label}
-                  className="rounded-2xl bg-card p-5 text-center shadow-sm border border-border transition-all duration-300 hover:border-primary hover:-translate-y-1"
+                  className="rounded-2xl bg-card p-5 text-center shadow-sm border border-border transition-[transform,border-color] duration-300 hover:border-primary hover:-translate-y-1"
                 >
                   <p className="font-display text-3xl font-black tracking-tight text-foreground">
                     {s.value}
@@ -224,7 +224,7 @@ export default function About() {
                   href="https://forms.gle/ArExSJ6APP6by79AA"
                   target="_blank"
                   rel="noreferrer noopener"
-                  className="inline-flex items-center gap-2 rounded-full border border-border bg-secondary/60 px-6 py-3 text-sm font-bold text-foreground transition-all hover:bg-secondary"
+                  className="inline-flex items-center gap-2 rounded-full border border-border bg-secondary/60 px-6 py-3 text-sm font-bold text-foreground transition-[background-color,border-color,color] hover:bg-secondary"
                 >
                   Apply to join team
                   <ExternalLink className="h-4 w-4" />

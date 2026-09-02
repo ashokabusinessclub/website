@@ -23,10 +23,6 @@ export default function EventDetail() {
   return (
     <article>
       <header className="relative overflow-hidden border-b border-border bg-background">
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute top-0 left-1/3 h-[300px] w-[400px] rounded-full bg-primary/[0.04] blur-[120px]"
-        />
         <div className="container-abc relative py-16 md:py-20">
           <Reveal y={16}>
             <Link

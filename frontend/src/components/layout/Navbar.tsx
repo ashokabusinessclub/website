@@ -98,7 +98,7 @@ function NavDropdown({
             {isActive && (
               <motion.span
                 layoutId="nav-underline"
-                className="pointer-events-none absolute -bottom-1.5 inset-x-0 h-[2px] rounded-full bg-primary"
+                className="pointer-events-none absolute -bottom-1.5 inset-x-0 h-[2px] rounded-full bg-brand-cream"
                 transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
               />
             )}
@@ -171,8 +171,8 @@ export function Navbar() {
   const linkClass = ({ isActive }: { isActive: boolean }) =>
     `nav-tab relative whitespace-nowrap px-3 py-2 text-[0.72rem] font-semibold uppercase tracking-[0.14em] transition-fast ${
       isActive
-        ? "is-active text-foreground"
-        : "text-foreground/50 hover:text-foreground"
+        ? "is-active text-brand-cream"
+        : "text-brand-cream/65 hover:text-brand-cream"
     }`;
 
   const menuVariants: Variants = {
@@ -245,10 +245,10 @@ export function Navbar() {
           aria-label="Main navigation"
         >
           <Link to="/" className="flex items-center gap-2.5 transition-fast hover:opacity-80" aria-label="Ashoka Business Club Home">
-            <span className="flex h-9 w-9 items-center justify-center rounded-md bg-primary text-primary-foreground font-display text-sm font-bold tracking-tight">
+            <span className="flex h-9 w-9 items-center justify-center rounded-md border border-brand-cream/55 bg-brand-rust text-white font-display text-sm font-bold tracking-tight">
               ABC
             </span>
-            <span className="hidden text-[0.65rem] font-medium uppercase tracking-[0.22em] text-foreground/60 sm:block">
+            <span className="hidden text-[0.65rem] font-medium uppercase tracking-[0.22em] text-brand-cream/75 sm:block">
               Ashoka Business Club
             </span>
           </Link>
@@ -275,7 +275,7 @@ export function Navbar() {
                       {isActive && (
                         <motion.span
                           layoutId="nav-underline"
-                          className="pointer-events-none absolute -bottom-1.5 inset-x-0 h-[2px] rounded-full bg-primary"
+                          className="pointer-events-none absolute -bottom-1.5 inset-x-0 h-[2px] rounded-full bg-brand-cream"
                           transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
                         />
                       )}
@@ -293,7 +293,7 @@ export function Navbar() {
               type="button"
               onClick={toggle}
               aria-label={dark ? "Switch to light mode" : "Switch to dark mode"}
-              className="flex h-9 w-9 items-center justify-center rounded-full text-foreground/50 transition-fast hover:bg-secondary hover:text-foreground"
+              className="flex h-9 w-9 items-center justify-center rounded-full text-brand-cream/70 transition-fast hover:bg-brand-cream/10 hover:text-brand-cream"
             >
               <AnimatePresence mode="wait" initial={false}>
                 <motion.span

@@ -45,10 +45,6 @@ export default function Sponsors() {
         <div className="container-abc py-16 md:py-24">
           <Reveal y={32}>
             <div className="relative overflow-hidden rounded-lg border border-border bg-card p-8 backdrop-blur-sm md:p-12">
-              <div
-                aria-hidden="true"
-                className="pointer-events-none absolute bottom-0 left-0 h-[250px] w-[300px] rounded-full bg-primary/[0.06] blur-[100px]"
-              />
               <div className="relative flex flex-col md:flex-row md:items-center md:justify-between gap-6">
                 <div>
                   <h2 className="font-display text-2xl font-bold md:text-3xl">Partner with ABC</h2>

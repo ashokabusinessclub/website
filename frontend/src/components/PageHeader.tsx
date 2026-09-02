@@ -20,10 +20,7 @@ export function PageHeader({
   return (
     <section className={`relative overflow-hidden border-b border-border bg-background ${className}`}>
       {/* Ambient glow */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute -top-32 left-1/2 h-[500px] w-[700px] -translate-x-1/2 rounded-full bg-primary/[0.04] blur-[120px]"
-      />
+      <div aria-hidden="true" className="pointer-events-none absolute inset-y-0 right-[12%] w-px bg-border/60" />
 
       <div className="container-abc relative py-20 md:py-28 lg:py-32">
         <h1 className="max-w-4xl font-display text-4xl leading-[1.05] font-semibold md:text-5xl lg:text-6xl xl:text-7xl animate-entry">

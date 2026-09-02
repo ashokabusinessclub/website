@@ -22,10 +22,6 @@ export default function DepartmentDetail() {
     <article>
       {/* Header */}
       <header className="relative overflow-hidden border-b border-border bg-background">
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute top-0 right-0 h-[400px] w-[400px] rounded-full bg-primary/[0.04] blur-[120px]"
-        />
         <div className="container-abc relative py-12 md:py-16">
           <div className="flex flex-wrap items-center justify-between gap-4">
             <Link
