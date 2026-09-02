@@ -227,7 +227,7 @@ function RingText({ text, id }: { text: string; id: string }) {
         fontSize="8"
         letterSpacing="2.6"
         fill="currentColor"
-        style={{ fontFamily: "'Space Grotesk', sans-serif", fontWeight: 600 }}
+        style={{ fontFamily: "'League Spartan', 'Montserrat', sans-serif", fontWeight: 600 }}
       >
         <textPath href={`#${id}`}>{text}</textPath>
       </text>
