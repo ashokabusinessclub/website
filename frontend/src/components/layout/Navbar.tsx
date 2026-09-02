@@ -244,13 +244,12 @@ export function Navbar() {
           role="navigation"
           aria-label="Main navigation"
         >
-          <Link to="/" className="flex items-center gap-2.5 transition-fast hover:opacity-80" aria-label="Ashoka Business Club Home">
-            <span className="flex h-9 w-9 items-center justify-center rounded-md border border-brand-cream/55 bg-brand-rust text-white font-display text-sm font-bold tracking-tight">
-              ABC
-            </span>
-            <span className="hidden text-[0.65rem] font-medium uppercase tracking-[0.22em] text-brand-cream/75 sm:block">
-              Ashoka Business Club
-            </span>
+          <Link to="/" className="flex items-center transition-fast hover:opacity-80" aria-label="Ashoka Business Club Home">
+            <img
+              src="/brand-logo.png"
+              alt="Ashoka Business Club"
+              className="h-10 w-44 rounded-md border border-brand-cream/55 bg-brand-cream object-contain px-2 py-1"
+            />
           </Link>
 
           {/* Desktop Navigation */}

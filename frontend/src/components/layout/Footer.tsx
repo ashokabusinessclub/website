@@ -13,17 +13,12 @@ export function Footer() {
       <div className="container-abc grid gap-12 py-16 md:grid-cols-2 md:py-20 lg:grid-cols-[1.3fr_1fr_1fr_1fr]">
         <Reveal>
           <div>
-            <Link
-              to="/"
-              className="inline-flex items-baseline gap-3"
-              aria-label="Ashoka Business Club Home"
-            >
-              <span className="flex h-10 w-10 items-center justify-center border border-brand-cream/55 bg-brand-rust font-display text-sm font-bold tracking-tight text-white">
-                ABC
-              </span>
-              <span className="text-[0.65rem] font-medium uppercase tracking-[0.24em] text-brand-cream/70">
-                Ashoka Business Club
-              </span>
+            <Link to="/" className="inline-flex" aria-label="Ashoka Business Club Home">
+              <img
+                src="/brand-logo.png"
+                alt="Ashoka Business Club"
+                className="h-12 w-52 border border-brand-cream/55 bg-brand-cream object-contain px-2 py-1"
+              />
             </Link>
             <p className="mt-6 max-w-xs text-sm leading-relaxed text-brand-cream/65">
               A student-run community at Ashoka University building business
