@@ -15,6 +15,15 @@ const INTRO_IMAGES = [
   INTRO_HERO_IMAGE,
 ];
 
+function IntroWordmarkText() {
+  return (
+    <span className="intro-wordmark-lines">
+      <span>ASHOKA</span>
+      <span>BUSINESS CLUB</span>
+    </span>
+  );
+}
+
 function hasSeenIntro() {
   try {
     return sessionStorage.getItem(INTRO_SESSION_KEY) === "1";
@@ -48,7 +57,6 @@ export function Preloader() {
   const stageRef = useRef<HTMLDivElement>(null);
   const cleanWordmarkRef = useRef<HTMLDivElement>(null);
   const imageRefs = useRef<(HTMLImageElement | null)[]>([]);
-  const sliceRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [gone, setGone] = useState(false);
 
   useLayoutEffect(() => {
@@ -98,7 +106,7 @@ export function Preloader() {
 
       context = gsap.context(() => {
         const images = imageRefs.current.filter(Boolean) as HTMLImageElement[];
-        const slices = sliceRefs.current.filter(Boolean) as HTMLDivElement[];
+        const wordmarkLabels = cleanWordmark.querySelectorAll(".intro-wordmark-lines > span");
         const targetMetrics = () => {
           const target = document
             .querySelector<HTMLElement>("[data-intro-hero-media]")
@@ -113,7 +121,6 @@ export function Preloader() {
 
         gsap.set(images, { autoAlpha: 0, scale: 0.98 });
         gsap.set(images[0], { autoAlpha: 1, scale: 1 });
-        gsap.set(slices, { autoAlpha: 0 });
         gsap.set(cleanWordmark, { autoAlpha: 0 });
 
         if (reduceMotion) {
@@ -149,14 +156,14 @@ export function Preloader() {
         timeline
           .to(".intro-scratch", { autoAlpha: 0.11, duration: 0.35 }, 1.3)
           .to(".intro-scratch", { autoAlpha: 0.05, duration: 0.5 }, 1.78)
-          .to(slices, { autoAlpha: 1, duration: 0.18, stagger: 0.04 }, 2.38)
-          .fromTo(slices[0], { xPercent: -6 }, { xPercent: 0, duration: 0.72 }, 2.42)
-          .fromTo(slices[1], { xPercent: 5 }, { xPercent: 0, duration: 0.78 }, 2.42)
-          .fromTo(slices[2], { xPercent: -4 }, { xPercent: 0, duration: 0.68 }, 2.48)
-          .fromTo(slices[3], { xPercent: 4 }, { xPercent: 0, duration: 0.74 }, 2.44)
+          .set(cleanWordmark, { autoAlpha: 1 }, 2.38)
+          .fromTo(
+            wordmarkLabels,
+            { autoAlpha: 0, x: (index) => index === 0 ? -18 : 18 },
+            { autoAlpha: 1, x: 0, duration: 0.58, stagger: 0.06, ease: "power3.out" },
+            2.38,
+          )
           .to(stage, { scale: 4.2, rotation: 0.01, duration: 1, ease: "power3.inOut" }, 2.55)
-          .to(slices, { autoAlpha: 0, duration: 0.3, stagger: 0.025 }, 3.35)
-          .to(cleanWordmark, { autoAlpha: 1, duration: 0.4, ease: "power3.out" }, 3.42)
           .to(stage, {
             x: () => targetMetrics().x,
             y: () => targetMetrics().y,
@@ -212,22 +219,8 @@ export function Preloader() {
         ))}
       </div>
 
-      <div className="intro-wordmark intro-wordmark-fragmented intro-atmosphere">
-        {["inset(0 0 76% 0)", "inset(24% 0 49% 0)", "inset(51% 0 23% 0)", "inset(77% 0 0 0)"].map((clip, index) => (
-          <div
-            key={clip}
-            ref={(node) => { sliceRefs.current[index] = node; }}
-            className="intro-wordmark-slice"
-            style={{ clipPath: clip }}
-          >
-            <span>ASHOKA BUSINESS CLUB</span>
-          </div>
-        ))}
-      </div>
-
       <div ref={cleanWordmarkRef} className="intro-wordmark intro-wordmark-clean intro-atmosphere">
-        <span>ASHOKA</span>
-        <span>BUSINESS CLUB</span>
+        <IntroWordmarkText />
       </div>
     </div>
   );

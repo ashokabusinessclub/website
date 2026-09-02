@@ -789,46 +789,38 @@
     left: 50%;
     top: 50%;
     z-index: 5;
-    width: min(94vw, 1500px);
+    width: min(92vw, 1440px);
+    height: 1em;
     transform: translate(-50%, -50%);
-    font-family: "League Spartan", "Montserrat", system-ui, sans-serif;
-    font-size: clamp(4rem, 10.7vw, 11rem);
-    font-weight: 800;
-    line-height: 0.78;
-    letter-spacing: -0.065em;
-    text-align: center;
+    font-family: "Montserrat", system-ui, sans-serif;
+    font-size: clamp(1rem, 2.15vw, 2.15rem);
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: 0.09em;
     white-space: nowrap;
     pointer-events: none;
   }
 
-  .intro-wordmark-fragmented {
-    height: 1em;
+  .intro-wordmark-lines {
+    display: grid;
+    width: 100%;
+    height: 100%;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: center;
+    column-gap: clamp(9rem, 22vw, 22rem);
   }
 
-  .intro-wordmark-slice {
-    position: absolute;
-    inset: 0;
-    overflow: hidden;
-    will-change: transform, opacity;
+  .intro-wordmark-lines > span:first-child {
+    justify-self: end;
   }
 
-  .intro-wordmark-slice span {
-    display: block;
+  .intro-wordmark-lines > span:last-child {
+    justify-self: start;
   }
 
   .intro-wordmark-clean {
-    display: flex;
-    flex-direction: column;
-    gap: 0.16em;
-    align-items: center;
-    font-size: clamp(3.7rem, 9.7vw, 10rem);
     text-shadow: 0 1px 18px rgba(0, 0, 0, 0.08);
     will-change: opacity;
-  }
-
-  .intro-wordmark-clean span:last-child {
-    font-size: 0.57em;
-    letter-spacing: -0.035em;
   }
 
   @media (max-width: 700px) {
@@ -851,22 +843,12 @@
 
     .intro-wordmark {
       width: 96vw;
-      font-size: clamp(2.6rem, 11.5vw, 5rem);
-      white-space: normal;
+      font-size: clamp(0.54rem, 2.45vw, 0.72rem);
+      letter-spacing: 0.07em;
     }
 
-    .intro-wordmark-fragmented {
-      height: 1.6em;
-    }
-
-    .intro-wordmark-fragmented span {
-      display: inline-block;
-      max-width: 10ch;
-    }
-
-    .intro-wordmark-clean {
-      font-size: clamp(3.2rem, 16vw, 5.8rem);
-      line-height: 0.76;
+    .intro-wordmark-lines {
+      column-gap: clamp(9.5rem, 50vw, 13rem);
     }
 
   }
