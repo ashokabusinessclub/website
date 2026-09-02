@@ -759,7 +759,7 @@
     left: 50%;
     top: 50%;
     z-index: 3;
-    width: clamp(44px, 4.2vw, 66px);
+    width: clamp(92px, 9vw, 144px);
     aspect-ratio: 4 / 5;
     overflow: hidden;
     transform: translate(-50%, -50%);
@@ -776,15 +776,6 @@
     will-change: transform, opacity;
   }
 
-  .intro-image-stage::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: 2;
-    pointer-events: none;
-    background: rgba(0, 15, 11, 0.16);
-  }
-
   .intro-wordmark {
     left: 50%;
     top: 50%;
@@ -793,7 +784,7 @@
     height: 1em;
     transform: translate(-50%, -50%);
     font-family: "Montserrat", system-ui, sans-serif;
-    font-size: clamp(1rem, 2.15vw, 2.15rem);
+    font-size: clamp(1.2rem, 2.8vw, 2.8rem);
     font-weight: 600;
     line-height: 1;
     letter-spacing: 0.09em;
@@ -843,7 +834,7 @@
 
     .intro-wordmark {
       width: 96vw;
-      font-size: clamp(0.54rem, 2.45vw, 0.72rem);
+      font-size: clamp(0.75rem, 3.15vw, 1rem);
       letter-spacing: 0.07em;
     }
 

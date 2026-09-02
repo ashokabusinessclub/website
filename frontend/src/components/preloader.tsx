@@ -1,8 +1,8 @@
 import { useLayoutEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { useReducedMotion } from "motion/react";
+import { INTRO_SESSION_KEY, shouldPlayIntro } from "@/lib/intro";
 
-export const INTRO_SESSION_KEY = "abc-home-cinematic-intro-v2-seen";
 export const INTRO_COMPLETE_EVENT = "abc:intro-complete";
 export const INTRO_HERO_IMAGE = "/uploads/abc-images/event-house-of-cards.jpg";
 
@@ -22,14 +22,6 @@ function IntroWordmarkText() {
       <span>BUSINESS CLUB</span>
     </span>
   );
-}
-
-function hasSeenIntro() {
-  try {
-    return sessionStorage.getItem(INTRO_SESSION_KEY) === "1";
-  } catch {
-    return false;
-  }
 }
 
 function preloadImages(sources: string[]) {
@@ -65,7 +57,7 @@ export function Preloader() {
     const cleanWordmark = cleanWordmarkRef.current;
     if (!root || !stage || !cleanWordmark) return;
 
-    if (hasSeenIntro()) {
+    if (!shouldPlayIntro()) {
       setGone(true);
       document.dispatchEvent(new CustomEvent(INTRO_COMPLETE_EVENT));
       return;
@@ -111,13 +103,17 @@ export function Preloader() {
           const target = document
             .querySelector<HTMLElement>("[data-intro-hero-media]")
             ?.getBoundingClientRect();
-          if (!target) return { x: 0, y: 0, scale: 7 };
+          if (!target) return { x: 0, y: 0, scaleX: 7, scaleY: 7 };
           return {
             x: target.left + target.width / 2 - window.innerWidth / 2,
             y: target.top + target.height / 2 - window.innerHeight / 2,
-            scale: target.width / stage.offsetWidth,
+            // Match both dimensions independently. This preserves a seamless
+            // handoff if the responsive hero aspect ratio changes.
+            scaleX: target.width / stage.offsetWidth,
+            scaleY: target.height / stage.offsetHeight,
           };
         };
+        let landingMetrics = targetMetrics();
 
         gsap.set(images, { autoAlpha: 0, scale: 0.98 });
         gsap.set(images[0], { autoAlpha: 1, scale: 1 });
@@ -164,10 +160,15 @@ export function Preloader() {
             2.38,
           )
           .to(stage, { scale: 4.2, rotation: 0.01, duration: 1, ease: "power3.inOut" }, 2.55)
+          .call(() => {
+            // Capture the responsive hero bounds immediately before landing.
+            landingMetrics = targetMetrics();
+          }, [], 4.08)
           .to(stage, {
-            x: () => targetMetrics().x,
-            y: () => targetMetrics().y,
-            scale: () => targetMetrics().scale,
+            x: () => landingMetrics.x,
+            y: () => landingMetrics.y,
+            scaleX: () => landingMetrics.scaleX,
+            scaleY: () => landingMetrics.scaleY,
             duration: 1,
             ease: "power3.inOut",
           }, 4.12)
@@ -179,9 +180,9 @@ export function Preloader() {
           }, 4.2)
           .to(".intro-atmosphere", { autoAlpha: 0, duration: 0.7, ease: "power3.out" }, 4.58)
           .to(".intro-backdrop", { autoAlpha: 0, duration: 0.8, ease: "power3.out" }, 4.62)
-          .call(revealHomepage, [], 4.9)
-          .to(stage, { autoAlpha: 0, duration: 0.25, ease: "power3.out" }, 5.08)
-          .set(root, { pointerEvents: "none" }, 5.34);
+          .call(revealHomepage, [], 5.12)
+          .to(stage, { autoAlpha: 0, duration: 0.25, ease: "power3.out" }, 5.12)
+          .set(root, { pointerEvents: "none" }, 5.37);
       }, root);
     });
 

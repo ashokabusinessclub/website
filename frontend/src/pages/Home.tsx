@@ -26,8 +26,8 @@ import { DepartmentArt } from "@/components/department-art";
 import {
   INTRO_COMPLETE_EVENT,
   INTRO_HERO_IMAGE,
-  INTRO_SESSION_KEY,
 } from "@/components/preloader";
+import { shouldPlayIntro } from "@/lib/intro";
 import { Button } from "@/components/ui/button";
 import {
   EASE_SNAP,
@@ -140,13 +140,7 @@ export default function Home() {
     { k: sponsors.length, v: "Partners" },
   ].filter((s) => s.k > 0);
   const reduceMotion = useReducedMotion();
-  const [introReady, setIntroReady] = useState(() => {
-    try {
-      return sessionStorage.getItem(INTRO_SESSION_KEY) === "1";
-    } catch {
-      return false;
-    }
-  });
+  const [introReady, setIntroReady] = useState(() => !shouldPlayIntro());
   const heroRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
