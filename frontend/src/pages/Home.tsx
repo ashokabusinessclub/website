@@ -23,6 +23,10 @@ import {
 } from "lucide-react";
 import { useCmsContent } from "@/lib/cms";
 import { DepartmentArt } from "@/components/department-art";
+import {
+  INTRO_COMPLETE_EVENT,
+  INTRO_SESSION_KEY,
+} from "@/components/preloader";
 import { Button } from "@/components/ui/button";
 import {
   EASE_SNAP,
@@ -34,10 +38,12 @@ import {
 function HeroLine({
   children,
   delay,
+  ready,
   className = "",
 }: {
   children: ReactNode;
   delay: number;
+  ready: boolean;
   className?: string;
 }) {
   const reduce = useReducedMotion();
@@ -46,7 +52,7 @@ function HeroLine({
       <motion.span
         className={`block will-change-transform ${className}`}
         initial={reduce ? false : { y: "112%" }}
-        animate={{ y: 0 }}
+        animate={{ y: reduce || ready ? 0 : "112%" }}
         transition={{ duration: 1, ease: EASE_SNAP, delay }}
       >
         {children}
@@ -133,7 +139,23 @@ export default function Home() {
     { k: sponsors.length, v: "Partners" },
   ].filter((s) => s.k > 0);
   const reduceMotion = useReducedMotion();
+  const [introReady, setIntroReady] = useState(() => {
+    try {
+      return sessionStorage.getItem(INTRO_SESSION_KEY) === "1";
+    } catch {
+      return false;
+    }
+  });
   const heroRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const revealHero = () => setIntroReady(true);
+    document.addEventListener(INTRO_COMPLETE_EVENT, revealHero);
+    if (["revealing", "complete"].includes(document.documentElement.dataset.intro ?? "")) {
+      revealHero();
+    }
+    return () => document.removeEventListener(INTRO_COMPLETE_EVENT, revealHero);
+  }, []);
   const { scrollYProgress } = useScroll({
     target: heroRef,
     offset: ["start start", "end start"],
@@ -185,9 +207,9 @@ export default function Home() {
           style={reduceMotion ? undefined : { opacity: contentOpacity, y: contentY }}
         >
           <h1 className="display-hero mt-6 max-w-[13ch] text-foreground">
-            <HeroLine delay={0.25}>Where business is</HeroLine>
-            <HeroLine delay={0.37}>studied, debated</HeroLine>
-            <HeroLine delay={0.49}>
+            <HeroLine ready={introReady} delay={introReady ? 0.08 : 0}>Where business is</HeroLine>
+            <HeroLine ready={introReady} delay={introReady ? 0.2 : 0}>studied, debated</HeroLine>
+            <HeroLine ready={introReady} delay={introReady ? 0.32 : 0}>
               <span className="text-primary">&amp; built.</span>
             </HeroLine>
           </h1>
@@ -195,13 +217,13 @@ export default function Home() {
           <div className="mt-10 flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
             <motion.p
               initial={reduceMotion ? false : { opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, ease: EASE_SNAP, delay: 0.65 }}
+              animate={introReady || reduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
+              transition={{ duration: 0.8, ease: EASE_SNAP, delay: introReady ? 0.46 : 0 }}
               className="max-w-xl text-base leading-relaxed text-foreground/60 md:text-lg"
             >
               The Ashoka Business Club brings research, industry dialogue and hands-on experience together — one club, six verticals, a full calendar of work that ships.
             </motion.p>
-            <HeroLine delay={0.85}>
+            <HeroLine ready={introReady} delay={introReady ? 0.62 : 0}>
               <span className="flex flex-wrap gap-3">
                 <Button asChild iconRight={<ArrowRight className="h-4 w-4" />} size="lg">
                   <Link to="/what-awaits-you">Join the club</Link>

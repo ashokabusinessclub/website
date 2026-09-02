@@ -1,10 +1,13 @@
 import { ReactNode } from "react";
+import { useLocation } from "react-router-dom";
 import { Navbar } from "./Navbar";
 import { Footer } from "./Footer";
 import { ScrollToTop } from "./ScrollToTop";
 import { Preloader } from "@/components/preloader";
 
 export function Layout({ children }: { children: ReactNode }) {
+  const { pathname } = useLocation();
+
   return (
     <div className="flex min-h-screen flex-col bg-background">
       <a
@@ -13,7 +16,7 @@ export function Layout({ children }: { children: ReactNode }) {
       >
         Skip to content
       </a>
-      <Preloader />
+      {pathname === "/" && <Preloader />}
       <div className="grain" aria-hidden="true" />
       <ScrollToTop />
       <Navbar />
