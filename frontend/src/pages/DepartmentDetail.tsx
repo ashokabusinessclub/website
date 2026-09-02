@@ -19,7 +19,7 @@ export default function DepartmentDetail() {
   const next = departments[(index + 1) % departments.length];
 
   return (
-    <article>
+    <article className="pt-[72px]">
       {/* Header */}
       <header className="relative overflow-hidden border-b border-border bg-background">
         <div className="container-abc relative py-12 md:py-16">

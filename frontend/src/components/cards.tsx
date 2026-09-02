@@ -48,18 +48,16 @@ export function DepartmentCard({
       <div className="relative aspect-[4/3]">
         <DepartmentArt
           slug={item.slug}
-          className="absolute inset-0 transition-transform duration-[var(--dur-slower)] ease-[var(--ease-out)] group-hover:scale-[1.04]"
+          className="absolute inset-0 origin-[center_70%] object-[center_65%] scale-[1.18] transition-transform duration-[var(--dur-slower)] ease-[var(--ease-out)] group-hover:scale-[1.22]"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-ink/80 via-ink/10 to-ink/5" />
-
-        <div className="absolute inset-x-0 bottom-0 p-5">
-          <h3 className="font-display text-xl font-semibold text-background transition-fast group-hover:text-primary">
+        <div className="absolute inset-x-0 bottom-0 bg-zinc-600/70 p-5">
+          <h3 className="font-display text-xl font-semibold !text-white transition-fast group-hover:!text-white">
             {item.data.name}
           </h3>
-          <p className="mt-1.5 line-clamp-2 text-[0.8rem] leading-relaxed text-background/60">
+          <p className="mt-1.5 line-clamp-2 text-[0.8rem] leading-relaxed !text-white/90">
             {item.data.description}
           </p>
-          <span className="mt-3 inline-flex items-center gap-2 text-[0.8rem] font-medium text-primary">
+          <span className="mt-3 inline-flex items-center gap-2 text-[0.8rem] font-medium !text-white">
             Explore
             <ArrowRight className="h-3.5 w-3.5 transition-transform duration-[var(--dur-base)] ease-[var(--ease-out)] group-hover:translate-x-1" />
           </span>

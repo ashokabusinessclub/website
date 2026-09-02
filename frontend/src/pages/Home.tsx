@@ -284,15 +284,15 @@ export default function Home() {
                 >
                   <div className="index-row-art">
                     <DepartmentArt slug={d.slug} className="h-full w-full" />
-                    <div className="absolute inset-0 bg-[#141009]/78" />
+                    <div className="absolute inset-0 bg-zinc-600/85" />
                   </div>
 
-                  <div className="relative z-10 grid grid-cols-[1fr_auto] items-center gap-5 px-5 py-5 transition-colors duration-500 ease-[var(--ease-out)] group-hover:text-[#F2E9D6] sm:px-7 md:py-6">
+                  <div className="relative z-10 grid grid-cols-[1fr_auto] items-center gap-5 px-5 py-5 transition-colors duration-500 ease-[var(--ease-out)] group-hover:!text-white sm:px-7 md:py-6">
                     <span className="min-w-0">
                       <span className="block truncate font-display text-2xl font-bold tracking-tight md:text-3xl">
                         {d.data.name}
                       </span>
-                      <span className="mt-1 hidden max-w-xl truncate text-[0.82rem] text-foreground/45 transition-colors duration-500 group-hover:text-[#F2E9D6]/65 sm:block">
+                      <span className="mt-1 hidden max-w-xl truncate text-[0.82rem] text-foreground/45 transition-colors duration-500 group-hover:!text-white/90 sm:block">
                         {d.data.description}
                       </span>
                     </span>
